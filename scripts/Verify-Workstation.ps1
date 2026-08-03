@@ -230,7 +230,21 @@ using System.Runtime.InteropServices;
 public static class NativeTaskbarProbe {
     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
     public static extern IntPtr FindWindow(string className, string windowName);
-    [DllImport("us€-¢Gß≤⁄Óù∆≠y—rRectReady) { $taskbarRect.Bottom - $taskbarRect.Top } else { 0 }
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool IsWindowVisible(IntPtr window);
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool GetWindowRect(IntPtr window, out RECT rect);
+    public struct RECT { public int Left, Top, Right, Bottom; }
+}
+'@
+}
+$taskbarHandle = [NativeTaskbarProbe]::FindWindow('Shell_TrayWnd', $null)
+$taskbarRect = New-Object NativeTaskbarProbe+RECT
+$taskbarRectReady = $taskbarHandle -ne [IntPtr]::Zero -and [NativeTaskbarProbe]::GetWindowRect($taskbarHandle, [ref]$taskbarRect)
+$taskbarWidth = if ($taskbarRectReady) { $taskbarRect.Right - $taskbarRect.Left } else { 0 }
+$taskbarHeight = if ($taskbarRectReady) { $taskbarRect.Bottom - $taskbarRect.Top } else { 0 }
 $taskbarVisible = $taskbarRectReady -and [NativeTaskbarProbe]::IsWindowVisible($taskbarHandle) -and $taskbarWidth -ge 800 -and $taskbarHeight -ge 28
 Add-Check 'Native taskbar render' $(if ($taskbarVisible) { 'pass' } else { 'fail' }) $(if ($taskbarVisible) { "Visible Explorer taskbar ${taskbarWidth}x${taskbarHeight}" } else { 'Explorer taskbar is missing, hidden, or collapsed' })
 
