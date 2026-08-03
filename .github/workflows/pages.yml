@@ -40,7 +40,7 @@ jobs:
           sed -e "s|__REPO_URL__|${repository_url}|g" -e "s|__SITE_ORIGIN__|${site_origin}|g" website/index.html > _site/index.html
           cp website/styles.css website/app.js website/og.png website/.nojekyll _site/
       - name: Configure Pages
-        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
       - name: Upload website
         uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
         with:
