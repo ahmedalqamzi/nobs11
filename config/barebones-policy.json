@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "sources": [
     "https://github.com/Raphire/Win11Debloat/tree/6957ce4220960ea1473ff6b9f6d6a8a8359f4cb5",
     "https://github.com/memstechtips/Winhance/tree/f23d554eb2d6400b1827bcc46b91294ffa53fbc9"
@@ -10,6 +10,7 @@
     "PowerShell, Windows Terminal, WebView2 and shared runtimes",
     "Gaming Services, Xbox Identity Provider and Xbox TCUI",
     "GPU, audio, network, input and ASUS hardware-control components",
+    "Windows notification delivery required by NVIDIA App and other desktop applications",
     "OneDrive files and client are preserved, but sync/autostart are disabled by the low-memory startup policy"
   ],
   "removeValues": [
@@ -20,7 +21,7 @@
   ],
   "registry": [
     { "path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\AdvertisingInfo", "name": "Enabled", "value": 0, "type": "DWord" },
-    { "path": "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\PushNotifications", "name": "ToastEnabled", "value": 0, "type": "DWord" },
+    { "path": "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\PushNotifications", "name": "ToastEnabled", "value": 1, "type": "DWord" },
     { "path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Privacy", "name": "TailoredExperiencesWithDiagnosticDataEnabled", "value": 0, "type": "DWord" },
     { "path": "HKCU:\\Software\\Microsoft\\Speech_OneCore\\Settings\\OnlineSpeechPrivacy", "name": "HasAccepted", "value": 0, "type": "DWord" },
     { "path": "HKCU:\\Software\\Microsoft\\Input\\TIPC", "name": "Enabled", "value": 0, "type": "DWord" },

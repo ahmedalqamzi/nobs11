@@ -56,6 +56,17 @@ $usesExplicitBlocklists = [int]$policy.schemaVersion -ge 2 -and
 $safeStartupModel = $usesExplicitBlocklists
 Add-Result 'Safe startup policy model' $safeStartupModel $(if ($safeStartupModel) { 'Explicit blocklists preserve unlisted startup entries' } else { 'Policy must use explicit blocklists' })
 
+$barebonesPolicyPath = Join-Path $projectRoot 'config\barebones-policy.json'
+$barebonesPolicy = Get-Content -LiteralPath $barebonesPolicyPath -Raw | ConvertFrom-Json
+$toastSettings = @($barebonesPolicy.registry | Where-Object {
+    $_.path -eq 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications' -and
+    $_.name -eq 'ToastEnabled'
+})
+$toastPlatformPreserved = [int]$barebonesPolicy.schemaVersion -ge 2 -and
+    $toastSettings.Count -eq 1 -and
+    [int]$toastSettings[0].value -eq 1 -and
+    $toastSettings[0].type -eq 'DWord'
+
 $machinePolicyPath = Join-Path $projectRoot 'config\barebones-machine-policy.json'
 $machinePolicy = Get-Content -LiteralPath $machinePolicyPath -Raw | ConvertFrom-Json
 $requiredServiceSettings = @($machinePolicy.requiredServices)
@@ -84,17 +95,24 @@ $invalidRequiredServices = @(
         }
     }
 )
-$requiredServicesAreSafe = [int]$machinePolicy.schemaVersion -ge 2 -and
+$wpnUserSetting = $requiredServiceSettings | Where-Object name -eq 'WpnUserService' | Select-Object -First 1
+$perUserTemplateIsExplicit = $null -ne $wpnUserSetting -and
+    $wpnUserSetting.PSObject.Properties.Name -contains 'perUserTemplate' -and
+    [bool]$wpnUserSetting.perUserTemplate
+$requiredServicesAreSafe = [int]$machinePolicy.schemaVersion -ge 3 -and
     $missingRequiredServices.Count -eq 0 -and
     $blockedRequiredServices.Count -eq 0 -and
-    $invalidRequiredServices.Count -eq 0
+    $invalidRequiredServices.Count -eq 0 -and
+    $perUserTemplateIsExplicit
+$nvidiaAppCompatible = $toastPlatformPreserved -and $requiredServicesAreSafe
 $requiredServicesDetail = if ($requiredServicesAreSafe) {
-    'Windows notifications and NVIDIA App dependencies are automatic and excluded from service cleanup'
+    'Windows notifications and NVIDIA App dependencies are enabled, template-aware, and excluded from service cleanup'
 }
 else {
     "Missing=$($missingRequiredServices -join ', '); blocked=$($blockedRequiredServices -join ', '); invalid=$($invalidRequiredServices -join ', ')"
 }
-Add-Result 'NVIDIA App service compatibility' $requiredServicesAreSafe $requiredServicesDetail
+if (-not $toastPlatformPreserved) { $requiredServicesDetail += '; ToastEnabled must be one DWord value set to 1' }
+Add-Result 'NVIDIA App service compatibility' $nvidiaAppCompatible $requiredServicesDetail
 
 $legacyPaths = @(
     'dotfiles\zebar',
@@ -201,6 +219,7 @@ $requiredFiles = @(
     'scripts\Manage-OptionalApps.ps1',
     'scripts\Manage-UserStartup.ps1',
     'scripts\Remove-AppControl.ps1',
+    'scripts\Repair-NvidiaApp.ps1',
     'scripts\Test-Prerequisites.ps1',
     'scripts\Test-Repository.ps1',
     'scripts\Workstation-App-Control.ps1'

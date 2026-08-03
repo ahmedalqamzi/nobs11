@@ -1,4 +1,4 @@
-.PHONY: help check preflight apply-config native-windowing native-taskbar rollback-native-taskbar apps browser barebones barebones-machine rollback-barebones rollback-barebones-machine atlas rollback-atlas rollback-config low-memory audit guard remove-guard export baseline verify
+.PHONY: help check preflight apply-config native-windowing native-taskbar rollback-native-taskbar apps browser repair-nvidia barebones barebones-machine rollback-barebones rollback-barebones-machine atlas rollback-atlas rollback-config low-memory audit guard remove-guard export baseline verify
 
 PWSH_RUNNER = powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/Invoke-Pwsh.ps1 -ScriptPath
 
@@ -12,6 +12,7 @@ help:
 	@echo "make app-control                 Install and open ongoing app, startup, and process control"
 	@echo "make remove-app-control          Remove App Control launchers while retaining saved state"
 	@echo "make browser                     Reapply the Brave and Firefox low-memory browser profiles"
+	@echo "make repair-nvidia               Repair Windows notification dependencies used by NVIDIA App"
 	@echo "make apps                        Audit optional apps, startup entries, processes, and services"
 	@echo "make barebones                   Apply aggressive current-user cleanup with rollback capture"
 	@echo "make barebones-machine           Apply machine cleanup from an elevated shell"
@@ -58,6 +59,9 @@ remove-app-control:
 
 browser:
 	$(PWSH_RUNNER) scripts/Configure-Brave.ps1
+
+repair-nvidia:
+	$(PWSH_RUNNER) scripts/Repair-NvidiaApp.ps1
 
 barebones:
 	$(PWSH_RUNNER) scripts/Apply-Barebones.ps1

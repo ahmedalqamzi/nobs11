@@ -92,6 +92,16 @@ Refresh the panel without rerunning the workstation installer:
 powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\scripts\Invoke-Pwsh.ps1 -ScriptPath scripts\Install-AppControl.ps1 -Launch
 ~~~
 
+## NVIDIA App recovery
+
+Older Maximum or Lean policy runs could disable the Windows notification platform that NVIDIA App treats as mandatory. The repair command backs up the affected registry keys, restores notifications and NVIDIA's container service, and relaunches NVIDIA App when Windows can recover the current session:
+
+~~~powershell
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\scripts\Repair-NvidiaApp.ps1
+~~~
+
+If Windows created the current per-user notification service while its template was disabled, the repair reports that one restart is required. Windows recreates that service at the next sign-in.
+
 ## Native desktop behavior
 
 - Win and Ctrl+Esc open native Start; Win+S opens Windows Search.
@@ -131,6 +141,7 @@ App reinstall, capability restoration, component-store cleanup, and third-party 
 | make apps | Audit optional apps, processes, startup entries, and services |
 | make app-control | Install or refresh NoBS11 Control |
 | make browser | Apply optional Brave/Firefox low-memory preferences |
+| make repair-nvidia | Back up and repair NVIDIA App notification dependencies |
 
 Explicit high-impact commands remain available for review:
 

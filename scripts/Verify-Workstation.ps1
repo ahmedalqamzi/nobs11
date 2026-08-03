@@ -287,6 +287,23 @@ foreach ($packageName in $requiredPackages) {
     Add-Check "Preserved package: $packageName" $(if ($package) { 'pass' } else { 'fail' }) $(if ($package) { $package.Version.ToString() } else { 'Missing' })
 }
 
+$toastEnabled = Get-ItemPropertyValue -LiteralPath 'HKCU:\Software\Microsoft\Windows\CurrentVersion\PushNotifications' -Name ToastEnabled -ErrorAction SilentlyContinue
+$wpnTemplateStart = Get-ItemPropertyValue -LiteralPath 'HKLM:\SYSTEM\CurrentControlSet\Services\WpnUserService' -Name Start -ErrorAction SilentlyContinue
+$wpnSystem = Get-Service -Name 'WpnService' -ErrorAction SilentlyContinue
+$wpnUsers = @(Get-Service -Name 'WpnUserService_*' -ErrorAction SilentlyContinue)
+$nvidiaAppPath = 'C:\Program Files\NVIDIA Corporation\NVIDIA App\CEF\NVIDIA App.exe'
+$nvidiaContainer = Get-Service -Name 'NvContainerLocalSystem' -ErrorAction SilentlyContinue
+$nvidiaInstalled = Test-Path -LiteralPath $nvidiaAppPath -PathType Leaf
+$wpnSystemStatus = if ($wpnSystem) { $wpnSystem.Status.ToString() } else { 'Missing' }
+$wpnUserStatus = if ($wpnUsers.Count) { @($wpnUsers.Status) -join ',' } else { 'Missing' }
+$nvidiaContainerStatus = if ($nvidiaContainer) { $nvidiaContainer.Status.ToString() } else { 'Missing' }
+$notificationPlatformReady = $toastEnabled -eq 1 -and
+    $wpnTemplateStart -eq 2 -and
+    $wpnSystem -and $wpnSystem.Status -eq 'Running' -and
+    @($wpnUsers | Where-Object Status -eq 'Running').Count -gt 0 -and
+    (-not $nvidiaInstalled -or ($nvidiaContainer -and $nvidiaContainer.Status -eq 'Running'))
+Add-Check 'NVIDIA App notification platform' $(if ($notificationPlatformReady) { 'pass' } else { 'fail' }) "ToastEnabled=$toastEnabled, TemplateStart=$wpnTemplateStart, WpnService=$wpnSystemStatus, WpnUser=$wpnUserStatus, NvContainer=$nvidiaContainerStatus"
+
 $oneDrive = Get-Process -Name OneDrive -ErrorAction SilentlyContinue | Select-Object -First 1
 $runKey = Get-Item 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -ErrorAction SilentlyContinue
 $oneDriveRunValue = if ($runKey) { $runKey.GetValue('OneDrive') } else { $null }

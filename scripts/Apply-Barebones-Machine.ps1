@@ -51,6 +51,7 @@ $manifest = [ordered]@{
     Packages = [System.Collections.Generic.List[object]]::new()
     Results = [System.Collections.Generic.List[object]]::new()
 }
+$script:perUserServiceRestartRequired = $false
 
 function Write-Audit {
     param(
@@ -146,14 +147,56 @@ function Disable-ManagedService {
 
     # Per-user service instances (<Template>_<hex>) cannot be configured directly
     # ("The parameter is incorrect"); configure their template service instead.
-    if ($Name -match '^(.+)_([0-9a-fA-F]{5,8})$' -and (Get-Service -Name $Matches[1] -ErrorAction SilentlyContinue)) {
-        Write-Audit INFO "Per-user instance $Name redirected to template service $($Matches[1])."
-        $Name = $Matches[1]
+    $perUserTemplatePath = $null
+    if ($Name -match '^(.+)_([0-9a-fA-F]{5,8})$') {
+        $templateName = $Matches[1]
+        $templatePath = "HKLM:\SYSTEM\CurrentControlSet\Services\$templateName"
+        $template = Get-ItemProperty -LiteralPath $templatePath -ErrorAction SilentlyContinue
+        if ($template -and $template.PSObject.Properties.Name -contains 'UserServiceFlags') {
+            Write-Audit INFO "Per-user instance $Name redirected to template service $templateName."
+            $Name = $templateName
+            $perUserTemplatePath = $templatePath
+        }
     }
 
     if ($script:requiredServiceNames -contains $Name) {
         Add-Result service $Name unchanged 'Protected by the required-services policy.'
         Write-Audit INFO "Preserved required service: $Name"
+        return
+    }
+
+    if ($perUserTemplatePath) {
+        $snapshot = Get-RegistrySnapshot -Path $perUserTemplatePath -Name 'Start'
+        $manifest.RegistryValues.Add($snapshot)
+        $instances = @(Get-Service -Name "$Name`_*" -ErrorAction SilentlyContinue)
+        $record = [ordered]@{
+            Name = $Name
+            DisplayName = $Name
+            StartType = "Registry:$($snapshot.Value)"
+            Status = if ($instances.Count) { (@($instances.Status) -join ',') } else { 'No active user instance' }
+            Changed = $false
+            PerUserTemplate = $true
+        }
+        $manifest.Services.Add($record)
+        if ($snapshot.Existed -and [int]$snapshot.Value -eq 4) {
+            Add-Result service $Name unchanged 'Per-user service template is already disabled.'
+            return
+        }
+        if (-not $PSCmdlet.ShouldProcess($Name, 'Disable per-user service template')) {
+            Add-Result service $Name what-if 'No change made.'
+            return
+        }
+        try {
+            $null = New-ItemProperty -LiteralPath $perUserTemplatePath -Name Start -Value 4 -PropertyType DWord -Force
+            $record.Changed = $true
+            if ($instances.Count -gt 0) { $script:perUserServiceRestartRequired = $true }
+            Add-Result service $Name changed 'Per-user service template disabled; existing instances update at next sign-in.'
+            Write-Audit OK "Disabled per-user service template: $Name"
+        }
+        catch {
+            Add-Result service $Name failed $_.Exception.Message
+            Write-Audit ERROR "Failed to disable per-user service template $($Name): $($_.Exception.Message)"
+        }
         return
     }
 
@@ -197,8 +240,60 @@ function Set-RequiredService {
     param(
         [Parameter(Mandatory)][string]$Name,
         [Parameter(Mandatory)][ValidateSet('Automatic', 'Manual')][string]$StartupType,
-        [Parameter(Mandatory)][bool]$EnsureRunning
+        [Parameter(Mandatory)][bool]$EnsureRunning,
+        [bool]$PerUserTemplate = $false
     )
+
+    if ($PerUserTemplate) {
+        $templatePath = "HKLM:\SYSTEM\CurrentControlSet\Services\$Name"
+        $template = Get-ItemProperty -LiteralPath $templatePath -ErrorAction SilentlyContinue
+        if (-not $template -or $template.PSObject.Properties.Name -notcontains 'UserServiceFlags') {
+            Add-Result service $Name unchanged 'Required per-user service template is not installed.'
+            return
+        }
+
+        $desiredStart = if ($StartupType -eq 'Automatic') { 2 } else { 3 }
+        $snapshot = Get-RegistrySnapshot -Path $templatePath -Name 'Start'
+        $manifest.RegistryValues.Add($snapshot)
+        $instances = @(Get-Service -Name "$Name`_*" -ErrorAction SilentlyContinue)
+        $record = [ordered]@{
+            Name = $Name
+            DisplayName = $Name
+            StartType = if ([int]$snapshot.Value -eq 2) { 'Automatic' } elseif ([int]$snapshot.Value -eq 3) { 'Manual' } else { "Registry:$($snapshot.Value)" }
+            Status = if ($instances.Count) { (@($instances.Status) -join ',') } else { 'No active user instance' }
+            Changed = $false
+            PerUserTemplate = $true
+        }
+        $manifest.Services.Add($record)
+
+        if ($snapshot.Existed -and [int]$snapshot.Value -eq $desiredStart) {
+            Add-Result service $Name unchanged "Per-user template startup=$StartupType is already satisfied."
+            return
+        }
+        if (-not $PSCmdlet.ShouldProcess($Name, "Require per-user template startup=$StartupType")) {
+            Add-Result service $Name what-if 'No change made.'
+            return
+        }
+
+        try {
+            $null = New-ItemProperty -LiteralPath $templatePath -Name Start -Value $desiredStart -PropertyType DWord -Force
+            $record.Changed = $true
+            if ($instances.Count -gt 0) {
+                $script:perUserServiceRestartRequired = $true
+                $detail = "Per-user template restored to $StartupType; sign out or restart to recreate the existing instance."
+            }
+            else {
+                $detail = "Per-user template restored to $StartupType; the instance will be created at next sign-in."
+            }
+            Add-Result service $Name changed $detail
+            Write-Audit OK $detail
+        }
+        catch {
+            Add-Result service $Name failed $_.Exception.Message
+            Write-Audit ERROR "Failed to restore per-user service template $($Name): $($_.Exception.Message)"
+        }
+        return
+    }
 
     $service = Get-Service -Name $Name -ErrorAction SilentlyContinue
     if (-not $service) {
@@ -404,7 +499,7 @@ catch {
 $requiredServices = @(Get-OptionalProperty -Object $policy -Name 'requiredServices')
 $script:requiredServiceNames = @($requiredServices | ForEach-Object { [string]$_.name })
 foreach ($requiredService in $requiredServices) {
-    Set-RequiredService -Name $requiredService.name -StartupType $requiredService.startupType -EnsureRunning ([bool]$requiredService.ensureRunning)
+    Set-RequiredService -Name $requiredService.name -StartupType $requiredService.startupType -EnsureRunning ([bool]$requiredService.ensureRunning) -PerUserTemplate ([bool](Get-OptionalProperty -Object $requiredService -Name 'perUserTemplate'))
 }
 foreach ($setting in @($policy.registry)) {
     Set-ManagedRegistryValue -Path $setting.path -Name $setting.name -Value $setting.value -Type $setting.type
@@ -579,6 +674,9 @@ $manifest.Results | Export-Csv -LiteralPath (Join-Path $backupRoot 'results.csv'
 
 $changed = @($manifest.Results | Where-Object Status -eq 'changed').Count
 $failed = @($manifest.Results | Where-Object Status -eq 'failed').Count
+if ($script:perUserServiceRestartRequired) {
+    Write-Audit WARN 'A per-user service template changed; sign out or restart so Windows can recreate the current instances.'
+}
 $completion = [ordered]@{
     FinishedAt = (Get-Date).ToString('o')
     BackupPath = $backupRoot
@@ -587,6 +685,7 @@ $completion = [ordered]@{
     Changed = $changed
     Failed = $failed
     RestartRecommended = $true
+    PerUserServiceRestartRequired = $script:perUserServiceRestartRequired
 }
 $completion | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $projectRoot 'logs\barebones-machine-latest.json') -Encoding UTF8
 

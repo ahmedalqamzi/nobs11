@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "registry": [
     { "path": "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\DataCollection", "name": "AllowTelemetry", "value": 0, "type": "DWord" },
     { "path": "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\DataCollection", "name": "DoNotShowFeedbackNotifications", "value": 1, "type": "DWord" },
@@ -136,7 +136,7 @@
   ],
   "requiredServices": [
     { "name": "WpnService", "startupType": "Automatic", "ensureRunning": true },
-    { "name": "WpnUserService", "startupType": "Automatic", "ensureRunning": false },
+    { "name": "WpnUserService", "startupType": "Automatic", "ensureRunning": false, "perUserTemplate": true },
     { "name": "NvContainerLocalSystem", "startupType": "Automatic", "ensureRunning": true }
   ],
   "services": [
