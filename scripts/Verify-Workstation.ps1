@@ -230,21 +230,7 @@ using System.Runtime.InteropServices;
 public static class NativeTaskbarProbe {
     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
     public static extern IntPtr FindWindow(string className, string windowName);
-    [DllImport("user32.dll")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern bool IsWindowVisible(IntPtr window);
-    [DllImport("user32.dll")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern bool GetWindowRect(IntPtr window, out RECT rect);
-    public struct RECT { public int Left, Top, Right, Bottom; }
-}
-'@
-}
-$taskbarHandle = [NativeTaskbarProbe]::FindWindow('Shell_TrayWnd', $null)
-$taskbarRect = New-Object NativeTaskbarProbe+RECT
-$taskbarRectReady = $taskbarHandle -ne [IntPtr]::Zero -and [NativeTaskbarProbe]::GetWindowRect($taskbarHandle, [ref]$taskbarRect)
-$taskbarWidth = if ($taskbarRectReady) { $taskbarRect.Right - $taskbarRect.Left } else { 0 }
-$taskbarHeight = if ($taskbarRectReady) { $taskbarRect.Bottom - $taskbarRect.Top } else { 0 }
+    [DllImport("us€-¢Gß≤⁄Óù∆≠y—rRectReady) { $taskbarRect.Bottom - $taskbarRect.Top } else { 0 }
 $taskbarVisible = $taskbarRectReady -and [NativeTaskbarProbe]::IsWindowVisible($taskbarHandle) -and $taskbarWidth -ge 800 -and $taskbarHeight -ge 28
 Add-Check 'Native taskbar render' $(if ($taskbarVisible) { 'pass' } else { 'fail' }) $(if ($taskbarVisible) { "Visible Explorer taskbar ${taskbarWidth}x${taskbarHeight}" } else { 'Explorer taskbar is missing, hidden, or collapsed' })
 
@@ -256,15 +242,19 @@ $appControlFiles = @(
     Join-Path $appControlRoot 'scripts\Manage-UserStartup.ps1'
     Join-Path $appControlRoot 'config\optional-apps.json'
 )
-$appControlShortcuts = @(Join-Path ([Environment]::GetFolderPath('Programs')) 'Windows Linux Workstation\Workstation App Control.lnk')
-$retiredDesktopAppControl = Join-Path ([Environment]::GetFolderPath('Desktop')) 'Workstation App Control.lnk'
+$appControlShortcuts = @(Join-Path ([Environment]::GetFolderPath('Programs')) 'NoBS11\NoBS11 Control.lnk')
+$retiredDesktopAppControl = @(
+    Join-Path ([Environment]::GetFolderPath('Desktop')) 'Workstation App Control.lnk'
+    Join-Path ([Environment]::GetFolderPath('Desktop')) 'NoBS11 Control.lnk'
+)
 $missingAppControl = @($appControlFiles + $appControlShortcuts | Where-Object { -not (Test-Path -LiteralPath $_ -PathType Leaf) })
-$appControlInstalledCleanly = $missingAppControl.Count -eq 0 -and -not (Test-Path -LiteralPath $retiredDesktopAppControl)
-Add-Check 'Ongoing App Control installed' $(if ($appControlInstalledCleanly) { 'pass' } else { 'fail' }) $(if ($appControlInstalledCleanly) { 'Runtime and Start launcher are present; no Desktop shortcut' } else { "Missing=$($missingAppControl -join ', '); DesktopShortcut=$([bool](Test-Path -LiteralPath $retiredDesktopAppControl))" })
+$desktopAppControlPresent = @($retiredDesktopAppControl | Where-Object { Test-Path -LiteralPath $_ }).Count -gt 0
+$appControlInstalledCleanly = $missingAppControl.Count -eq 0 -and -not $desktopAppControlPresent
+Add-Check 'Ongoing App Control installed' $(if ($appControlInstalledCleanly) { 'pass' } else { 'fail' }) $(if ($appControlInstalledCleanly) { 'Runtime and Start launcher are present; no Desktop shortcut' } else { "Missing=$($missingAppControl -join ', '); DesktopShortcut=$desktopAppControlPresent" })
 
 $runKeyForAppControl = Get-Item -LiteralPath 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -ErrorAction SilentlyContinue
-$appControlRunValues = @(if ($runKeyForAppControl) { $runKeyForAppControl.GetValueNames() | Where-Object { $_ -like '*Workstation*App*Control*' } })
-$appControlStartupItems = @(Get-ChildItem -LiteralPath ([Environment]::GetFolderPath('Startup')) -Force -ErrorAction SilentlyContinue | Where-Object Name -like '*Workstation*App*Control*')
+$appControlRunValues = @(if ($runKeyForAppControl) { $runKeyForAppControl.GetValueNames() | Where-Object { $_ -like '*Workstation*App*Control*' -or $_ -like '*NoBS11*Control*' } })
+$appControlStartupItems = @(Get-ChildItem -LiteralPath ([Environment]::GetFolderPath('Startup')) -Force -ErrorAction SilentlyContinue | Where-Object { $_.Name -like '*Workstation*App*Control*' -or $_.Name -like '*NoBS11*Control*' })
 $appControlOnDemand = $appControlRunValues.Count -eq 0 -and $appControlStartupItems.Count -eq 0
 Add-Check 'App Control on-demand runtime' $(if ($appControlOnDemand) { 'pass' } else { 'fail' }) $(if ($appControlOnDemand) { 'No automatic startup entry; closing the panel ends its process' } else { "RunValues=$($appControlRunValues -join ','); StartupItems=$(@($appControlStartupItems | ForEach-Object Name) -join ',')" })
 

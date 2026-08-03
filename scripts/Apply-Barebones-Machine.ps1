@@ -327,7 +327,7 @@ catch {
 }
 
 try {
-    $description = "Windows Linux Workstation before barebones $stamp"
+    $description = "NoBS11 before Maximum profile $stamp"
     Enable-ComputerRestore -Drive "$env:SystemDrive\"
     Checkpoint-Computer -Description $description -RestorePointType MODIFY_SETTINGS
     $restorePoint = Get-ComputerRestorePoint | Where-Object Description -eq $description | Sort-Object SequenceNumber -Descending | Select-Object -First 1

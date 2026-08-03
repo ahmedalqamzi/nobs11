@@ -6,24 +6,24 @@
     <meta name="theme-color" content="#0a0d10" />
     <meta
       name="description"
-      content="A transparent, reversible Windows 11 workstation profile with a Unix-like shell, native taskbar and Snap, plus ongoing app and startup control."
+      content="NoBS11 is a transparent Windows 11 performance toolkit that cuts idle overhead while keeping the native taskbar, Snap, security, updates, and gaming essentials."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Windows Linux Workstation" />
+    <meta property="og:title" content="NoBS11 — Windows performance. No BS." />
     <meta
       property="og:description"
-      content="Keep Windows native where it matters. Add a better shell and explicit control over what starts, runs, and stays."
+      content="Cut idle RAM, startup junk, and background clutter with inspectable profiles and honest reference-machine results."
     />
     <meta property="og:url" content="__SITE_ORIGIN__/" />
     <meta property="og:image" content="__SITE_ORIGIN__/og.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Windows Linux Workstation" />
+    <meta name="twitter:title" content="NoBS11 — Windows performance. No BS." />
     <meta
       name="twitter:description"
-      content="Windows, on purpose. A reversible workstation profile for people who want native desktop behavior and a Unix-like command line."
+      content="A transparent, reversible-by-design Windows 11 performance toolkit."
     />
     <meta name="twitter:image" content="__SITE_ORIGIN__/og.png" />
-    <title>Windows Linux Workstation</title>
+    <title>NoBS11 — Windows performance. No BS.</title>
     <link rel="stylesheet" href="styles.css" />
     <script src="app.js" defer></script>
   </head>
@@ -31,18 +31,19 @@
     <a class="skip-link" href="#main">Skip to content</a>
 
     <header class="site-header" data-header>
-      <a class="brand" href="#top" aria-label="Windows Linux Workstation home">
-        <span class="brand-mark" aria-hidden="true">WL</span>
-        <span class="brand-copy">Windows Linux<br />Workstation</span>
+      <a class="brand" href="#top" aria-label="NoBS11 home">
+        <span class="brand-mark" aria-hidden="true">NB</span>
+        <span class="brand-copy">NoBS11</span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
         <span>Menu</span>
         <span class="nav-toggle-lines" aria-hidden="true"></span>
       </button>
       <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
-        <a href="#control">App Control</a>
-        <a href="#proof">Measured</a>
-        <a href="#safety">Safety</a>
+        <a href="#proof">Results</a>
+        <a href="#profiles">Profiles</a>
+        <a href="#control">Control</a>
+        <a href="#install">Install</a>
         <a class="nav-source" href="__REPO_URL__" data-repo-link>Source</a>
       </nav>
     </header>
@@ -50,37 +51,37 @@
     <main id="main">
       <section class="hero" id="top" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <div class="eyebrow"><span class="pulse-dot"></span> Public preview / Windows 11</div>
-          <h1 id="hero-title">Windows,<br /><em>on purpose.</em></h1>
+          <div class="eyebrow"><span class="pulse-dot"></span> Open-source preview / Windows 11</div>
+          <h1 id="hero-title">Windows performance.<br /><em>No BS.</em></h1>
           <p class="hero-lede">
-            Keep Explorer, the native taskbar, Snap, and fullscreen games. Add a Unix-like shell and one clear place to control what starts, runs, and stays installed.
+            Cut idle RAM, startup junk, background clutter, and UI hacks without replacing Windows. Keep Defender, updates, gaming essentials, the native taskbar, Snap, and proper fullscreen behavior.
           </p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#install">Preview the install</a>
-            <a class="button button-quiet" href="__REPO_URL__" data-repo-link>Read the source <span aria-hidden="true">-&gt;</span></a>
+            <a class="button button-primary" href="__REPO_URL__/releases/download/v0.2.0/NoBS11-Setup.cmd" data-download-link download>Download installer</a>
+            <a class="button button-quiet" href="#proof">See the receipts <span aria-hidden="true">-&gt;</span></a>
           </div>
-          <p class="hero-note">No replacement shell. No forced app removal. No made-up performance promise.</p>
+          <p class="hero-note">Pinned v0.2.0 source. SHA-256 verified. You choose the profile and every app removal.</p>
         </div>
 
-        <div class="terminal-shell" aria-label="Installer preview">
+        <div class="terminal-shell" aria-label="NoBS11 installer preview">
           <div class="terminal-titlebar">
             <div class="terminal-tabs">
-              <span class="terminal-tab active"><span class="terminal-icon">&gt;_</span> PowerShell</span>
-              <span class="terminal-tab muted">UCRT64</span>
+              <span class="terminal-tab active"><span class="terminal-icon">&gt;_</span> NoBS11 Setup</span>
+              <span class="terminal-tab muted">v0.2.0</span>
             </div>
             <div class="window-controls" aria-hidden="true"><span>-</span><span>[]</span><span>x</span></div>
           </div>
           <div class="terminal-body">
-            <p><span class="prompt">PS</span> <span class="path">C:\workstation&gt;</span> .\Install.ps1 -WhatIf</p>
+            <p><span class="prompt">PS</span> <span class="path">C:\NoBS11&gt;</span> .\Install.ps1 -Profile Lean -WhatIf</p>
             <div class="terminal-plan">
-              <div><span>PROFILE</span><strong>standard</strong></div>
-              <div><span>TASKBAR</span><strong>Explorer / native</strong></div>
-              <div><span>WINDOWING</span><strong>Snap / enabled</strong></div>
-              <div><span>OPTIONAL APPS</span><strong>keep all</strong></div>
-              <div><span>APP CONTROL</span><strong>Start menu only</strong></div>
+              <div><span>PROFILE</span><strong>Lean / recommended</strong></div>
+              <div><span>CLEANUP</span><strong>current user</strong></div>
+              <div><span>WINDOWS APPS</span><strong>preserved</strong></div>
+              <div><span>TASKBAR + SNAP</span><strong>native</strong></div>
+              <div><span>CONTROL PANEL</span><strong>Start menu / on demand</strong></div>
             </div>
             <p class="terminal-ok"><span>[OK]</span> Preview complete. No changes were made.</p>
-            <p class="terminal-cursor"><span class="prompt">PS</span> <span class="path">C:\workstation&gt;</span> <span class="cursor" aria-hidden="true"></span></p>
+            <p class="terminal-cursor"><span class="prompt">PS</span> <span class="path">C:\NoBS11&gt;</span> <span class="cursor" aria-hidden="true"></span></p>
           </div>
           <div class="taskbar-strip" aria-hidden="true">
             <span class="start-glyph">&#8862;</span>
@@ -93,58 +94,108 @@
         </div>
       </section>
 
-      <section class="signal-strip" aria-label="Project facts">
-        <div class="signal-item"><strong>0</strong><span>apps removed<br />by default</span></div>
-        <div class="signal-item"><strong>1</strong><span>native Windows<br />taskbar</span></div>
-        <div class="signal-item measured"><strong>270 -&gt; 186</strong><span>processes in one<br />reference capture*</span></div>
-        <div class="signal-item measured"><strong>+5.0 GiB</strong><span>available RAM in the<br />same capture*</span></div>
+      <section class="signal-strip" aria-label="Reference-machine results">
+        <div class="signal-item measured"><strong>27–28 GB</strong><span>idle RAM<br />before*</span></div>
+        <div class="signal-item measured"><strong>~7 GB</strong><span>clean idle RAM<br />after*</span></div>
+        <div class="signal-item measured"><strong>384 &rarr; 186</strong><span>processes in captured<br />snapshots*</span></div>
+        <div class="signal-item"><strong>0</strong><span>universal performance<br />promises</span></div>
       </section>
 
       <section class="section principles" aria-labelledby="principles-title">
         <div class="section-heading">
           <p class="kicker">01 / The point</p>
-          <h2 id="principles-title">Linux-like where useful.<br />Windows where essential.</h2>
+          <h2 id="principles-title">Less running.<br />More machine left for you.</h2>
         </div>
         <div class="principle-list">
           <article class="principle-row">
             <span class="row-index">01</span>
-            <h3>Native where it matters</h3>
-            <p>Explorer owns the taskbar, Start, Search, tray, clock, multi-monitor behavior, and fullscreen handoff. Snap handles exact half-screen layouts.</p>
+            <h3>Cut the idle tax</h3>
+            <p>Trim launchers, background apps, scheduled noise, visual overhead, and optional Windows extras through reviewed policy files.</p>
           </article>
           <article class="principle-row">
             <span class="row-index">02</span>
-            <h3>Unix where it helps</h3>
-            <p>Windows Terminal opens one clear UCRT64 Bash profile with Git, Neovim, Yazi, tmux, Starship, and familiar command-line tools.</p>
+            <h3>Keep Windows working</h3>
+            <p>Defender, Windows Update, Microsoft Store, WinGet, drivers, Gaming Services, Explorer, the taskbar, and native Snap stay intact.</p>
           </article>
           <article class="principle-row">
             <span class="row-index">03</span>
-            <h3>Explicit, reversible control</h3>
-            <p>Preview first. Choose optional apps yourself. Keep rollback data. Aggressive cleanup and performance policies stay separate and opt-in.</p>
+            <h3>No black box</h3>
+            <p>Preview the plan, inspect every policy, choose each third-party uninstall, and retain rollback data before supported changes.</p>
           </article>
+        </div>
+      </section>
+
+      <section class="section proof" id="proof" aria-labelledby="proof-title">
+        <div class="section-heading proof-heading">
+          <p class="kicker">02 / Results with context</p>
+          <h2 id="proof-title">A real result.<br />Not a fake guarantee.</h2>
+          <p class="section-intro">These are observational results from the owner's 64 GB Windows 11 reference laptop. They are not controlled lab benchmarks and they will vary with hardware, Windows build, drivers, workloads, and profile choices.</p>
+        </div>
+
+        <div class="proof-grid">
+          <article class="measurement-card">
+            <div class="measurement-head"><span>Idle memory used</span><strong>~74–75% lower*</strong></div>
+            <div class="bar-compare" aria-label="Owner-observed idle memory changed from 27 to 28 gigabytes to about 7 gigabytes">
+              <div class="bar-row"><span>Before</span><div><i style="width: 100%"></i></div><strong>27–28 GB</strong></div>
+              <div class="bar-row after"><span>After</span><div><i style="width: 25.5%"></i></div><strong>~7 GB</strong></div>
+            </div>
+            <p>Task Manager observation after the final clean restart. An earlier retained counter snapshot showed roughly 10 GB in use before the last idle pass.</p>
+          </article>
+          <article class="measurement-card">
+            <div class="measurement-head"><span>Running processes</span><strong>51.6% fewer*</strong></div>
+            <div class="bar-compare" aria-label="Processes changed from 384 to 186">
+              <div class="bar-row"><span>Before</span><div><i style="width: 100%"></i></div><strong>384</strong></div>
+              <div class="bar-row after"><span>Captured after</span><div><i style="width: 48.4%"></i></div><strong>186</strong></div>
+            </div>
+            <p>Five one-second Windows performance-counter samples per captured snapshot. Foreground and background workloads were not identical.</p>
+          </article>
+          <article class="battery-card">
+            <div class="measurement-head"><span>Battery and FPS</span><strong>No invented number</strong></div>
+            <p>Lower background activity can reduce idle work, but NoBS11 does not publish a battery-life or frame-rate percentage without repeated controlled A/B runs.</p>
+            <div class="warning-band">
+              <strong>What is factual today</strong>
+              <p>The reference machine used far less memory at clean idle and ran 198 fewer processes in the retained snapshots. That is the claim.</p>
+            </div>
+          </article>
+        </div>
+        <p class="proof-footnote">* One 64 GB reference machine, observed August 1–2, 2026. The ~7 GB figure is an owner-observed clean-idle reading; it is not a retained five-sample counter capture. See the measurement note for exact limitations.</p>
+      </section>
+
+      <section class="section retired" id="profiles" aria-labelledby="profiles-title">
+        <div class="section-heading compact">
+          <p class="kicker">03 / Pick your line</p>
+          <h2 id="profiles-title">Three profiles.<br />No hidden escalation.</h2>
+          <p class="section-intro">The downloaded installer explains the boundary before it changes anything. Lean is recommended for most systems; Maximum is the hardware-sensitive reference profile.</p>
+        </div>
+        <div class="retired-grid">
+          <div class="retired-item"><span class="strike">STANDARD</span><strong>Fix the experience</strong><p>Native taskbar, Start, Snap, clean terminal setup, rollback data, and NoBS11 Control. No cleanup policy.</p></div>
+          <div class="retired-item"><span class="strike">LEAN / RECOMMENDED</span><strong>Cut user-level overhead</strong><p>Adds reviewed current-user cleanup and performance settings without removing optional Windows apps or disabling machine services.</p></div>
+          <div class="retired-item"><span class="strike">MAXIMUM / REFERENCE</span><strong>Go after the full result</strong><p>Adds optional app and component removal plus elevated service, task, and performance changes. Requires explicit typed confirmation and UAC.</p></div>
+          <div class="retired-item"><span class="strike">EVERY PROFILE</span><strong>Security stays on</strong><p>Defender, VBS and mitigations, Windows Update, Store, WinGet, drivers, and gaming essentials are deliberately preserved.</p></div>
         </div>
       </section>
 
       <section class="section control-section" id="control" aria-labelledby="control-title">
         <div class="control-copy">
-          <p class="kicker">02 / Ongoing control</p>
-          <h2 id="control-title">One panel.<br />No background panel.</h2>
+          <p class="kicker">04 / Ongoing control</p>
+          <h2 id="control-title">One app.<br />Only when you open it.</h2>
           <p>
-            Workstation App Control lives in the Start menu and runs only when you open it. Search installed apps, stop known background activity, remove startup entries, launch registered uninstallers, or inspect process memory without being bounced through several Settings pages.
+            NoBS11 Control lives in the Start menu and closes when you close its window. Search installed apps, stop known background activity, remove startup entries, run registered uninstallers, or inspect live process memory without bouncing through several Settings pages.
           </p>
           <ul class="check-list">
-            <li>Installed apps and uninstall actions</li>
+            <li>Installed-app search and in-app uninstall actions</li>
             <li>Reversible startup disable and restore</li>
             <li>Live process memory and guarded process ending</li>
           </ul>
-          <p class="fine-print">The panel does not silently block an app you launch yourself. Persistent blocking is a separate, explicit policy.</p>
+          <p class="fine-print">Disabling background activity removes known automatic launch sources and stops the current process. It does not prevent you or another app from launching it later.</p>
         </div>
 
         <div class="app-window" data-demo>
           <div class="app-titlebar">
-            <div><span class="app-logo">W</span><strong>Workstation App Control</strong></div>
+            <div><span class="app-logo">NB</span><strong>NoBS11 Control</strong></div>
             <span class="demo-label">INTERACTIVE DEMO</span>
           </div>
-          <div class="app-tabs" role="tablist" aria-label="App Control demo">
+          <div class="app-tabs" role="tablist" aria-label="NoBS11 Control demo">
             <button type="button" role="tab" aria-selected="true" aria-controls="panel-apps" id="tab-apps" data-tab="apps">Installed apps</button>
             <button type="button" role="tab" aria-selected="false" aria-controls="panel-startup" id="tab-startup" data-tab="startup">Startup</button>
             <button type="button" role="tab" aria-selected="false" aria-controls="panel-processes" id="tab-processes" data-tab="processes">Processes</button>
@@ -154,14 +205,14 @@
               <label class="search-box"><span aria-hidden="true">/</span><span class="sr-only">Search installed apps</span><input value="Overwolf" readonly /></label>
               <div class="result-card">
                 <div class="result-icon">O</div>
-                <div class="result-main"><strong>Overwolf</strong><span>Desktop app · background sources detected</span></div>
+                <div class="result-main"><strong>Overwolf</strong><span>Desktop app &middot; background sources detected</span></div>
                 <span class="status-chip" data-demo-status>Running</span>
               </div>
               <div class="action-row">
                 <button class="demo-button primary" type="button" data-demo-disable>Disable background</button>
                 <button class="demo-button" type="button">Uninstall</button>
               </div>
-              <p class="demo-message" aria-live="polite" data-demo-message>Select an action. Nothing on your computer is changed by this demo.</p>
+              <p class="demo-message" aria-live="polite" data-demo-message>This website demo never changes your computer.</p>
             </div>
             <div class="demo-panel" id="panel-startup" role="tabpanel" aria-labelledby="tab-startup" data-panel="startup" hidden>
               <div class="summary-line"><span>Current-user startup entries</span><strong>3 found</strong></div>
@@ -181,101 +232,59 @@
         </div>
       </section>
 
-      <section class="section retired" aria-labelledby="retired-title">
+      <section class="section retired" aria-labelledby="kept-title">
         <div class="section-heading compact">
-          <p class="kicker">03 / Less machinery</p>
-          <h2 id="retired-title">What the standard profile retires.</h2>
-          <p class="section-intro">It removes the project hooks that caused duplicate bars, stolen shortcuts, startup popups, fullscreen conflicts, and terminal sprawl. Third-party apps are only uninstalled when you choose them.</p>
+          <p class="kicker">05 / What changes</p>
+          <h2 id="kept-title">Cut the clutter.<br />Keep the useful parts.</h2>
         </div>
         <div class="retired-grid">
-          <div class="retired-item"><span class="strike">GlazeWM + Zebar</span><strong>Windows Snap + Explorer taskbar</strong><p>No always-on tiling manager or replacement dock is required.</p></div>
-          <div class="retired-item"><span class="strike">Win-key hooks</span><strong>Native Start and Search</strong><p><kbd>Win</kbd> opens Start. <kbd>Win</kbd> + <kbd>S</kbd> opens Search.</p></div>
-          <div class="retired-item"><span class="strike">Many terminal entries</span><strong>One visible UCRT64 profile</strong><p>PowerShell 7 remains available for native administration.</p></div>
-          <div class="retired-item"><span class="strike">Global startup allowlist</span><strong>Explicit blocklists only</strong><p>Unlisted apps are preserved. Removal remains a deliberate choice.</p></div>
+          <div class="retired-item"><span class="strike">GlazeWM + custom dock</span><strong>Explorer taskbar + Snap</strong><p>No replacement bar, stolen Windows key, fullscreen collision, or gap above the taskbar.</p></div>
+          <div class="retired-item"><span class="strike">Terminal sprawl</span><strong>One clear terminal setup</strong><p>PowerShell stays available, with optional Unix-style tools lower in the stack—not the product identity.</p></div>
+          <div class="retired-item"><span class="strike">Mystery startup load</span><strong>Explicit app choices</strong><p>Keep, disable at startup, or uninstall supported third-party apps. Unlisted apps are not silently blocked.</p></div>
+          <div class="retired-item"><span class="strike">Benchmark theater</span><strong>Measurements with limits</strong><p>Reference-machine observations are published with dates, methodology, and caveats instead of universal claims.</p></div>
         </div>
-      </section>
-
-      <section class="section proof" id="proof" aria-labelledby="proof-title">
-        <div class="section-heading proof-heading">
-          <p class="kicker">04 / Numbers with receipts</p>
-          <h2 id="proof-title">Measured once.<br />Claimed carefully.</h2>
-          <p class="section-intro">The figures below are observational snapshots from one 64 GB reference machine, not a universal benchmark. Background workloads differed between captures, so they show a result worth testing, not a guaranteed uplift.</p>
-        </div>
-
-        <div class="proof-grid">
-          <article class="measurement-card">
-            <div class="measurement-head"><span>Running processes</span><strong>-31%</strong></div>
-            <div class="bar-compare" aria-label="Processes changed from 270 to 186">
-              <div class="bar-row"><span>Initial</span><div><i style="width: 100%"></i></div><strong>270</strong></div>
-              <div class="bar-row after"><span>Final</span><div><i style="width: 68.9%"></i></div><strong>186</strong></div>
-            </div>
-            <p>Five-sample Windows performance-counter average, first capture versus final capture.</p>
-          </article>
-          <article class="measurement-card">
-            <div class="measurement-head"><span>Available memory</span><strong>+5.0 GiB</strong></div>
-            <div class="bar-compare" aria-label="Available memory changed from 49.0 to 54.0 GiB">
-              <div class="bar-row"><span>Initial</span><div><i style="width: 90.7%"></i></div><strong>49.0</strong></div>
-              <div class="bar-row after"><span>Final</span><div><i style="width: 100%"></i></div><strong>54.0</strong></div>
-            </div>
-            <p>Available RAM averaged over the same five-sample captures; values rounded to 0.1 GiB.</p>
-          </article>
-          <article class="battery-card">
-            <div class="measurement-head"><span>Battery runtime</span><strong>No fixed claim</strong></div>
-            <p>No controlled, repeated A/B rundown has been completed, so publishing a battery percentage would be dishonest. Estimate from your own measured idle power instead.</p>
-            <div class="calculator" data-calculator>
-              <label>Battery capacity <span><input type="number" min="1" max="250" step="0.1" value="78" data-capacity /> Wh</span></label>
-              <label>Idle draw before <span><input type="number" min="1" max="200" step="0.1" placeholder="e.g. 15" data-before /> W</span></label>
-              <label>Idle draw after <span><input type="number" min="1" max="200" step="0.1" placeholder="e.g. 14" data-after /> W</span></label>
-              <button type="button" class="calculate-button" data-calculate>Calculate runtime estimate</button>
-              <output class="calculator-output" data-calculator-output>Enter your own before and after power readings.</output>
-            </div>
-            <p class="formula">Estimate = full-charge capacity / average draw. It excludes battery aging, changing workloads, display brightness, and conversion losses.</p>
-          </article>
-        </div>
-        <p class="proof-footnote">* Captures were taken on August 1-2, 2026. See the public measurement note for inputs, math, and limitations.</p>
       </section>
 
       <section class="section safety" id="safety" aria-labelledby="safety-title">
         <div class="section-heading compact">
-          <p class="kicker">05 / Reversible by design</p>
+          <p class="kicker">06 / Reversible by design</p>
           <h2 id="safety-title">Know the change before it happens.</h2>
         </div>
         <ol class="safety-flow">
-          <li><span>01</span><strong>Preview</strong><p>Run the installer with <code>-WhatIf</code>.</p></li>
-          <li><span>02</span><strong>Choose</strong><p>Keep, disable, or uninstall optional apps.</p></li>
-          <li><span>03</span><strong>Back up</strong><p>Capture values before supported changes.</p></li>
-          <li><span>04</span><strong>Apply</strong><p>Use the standard profile first.</p></li>
-          <li><span>05</span><strong>Verify</strong><p>Check taskbar, Snap, startup, and drift.</p></li>
-          <li><span>06</span><strong>Roll back</strong><p>Use the matching rollback command.</p></li>
+          <li><span>01</span><strong>Verify</strong><p>The launcher checks the pinned installer SHA-256.</p></li>
+          <li><span>02</span><strong>Choose</strong><p>Pick Standard, Lean, or Maximum.</p></li>
+          <li><span>03</span><strong>Preview</strong><p>Use <code>-WhatIf</code> for a no-change plan.</p></li>
+          <li><span>04</span><strong>Back up</strong><p>Capture supported values before changing them.</p></li>
+          <li><span>05</span><strong>Apply</strong><p>Elevation is scoped to machine changes.</p></li>
+          <li><span>06</span><strong>Verify again</strong><p>Restart, measure, and test hardware and games.</p></li>
         </ol>
         <div class="warning-band">
-          <strong>Aggressive profiles stay opt-in.</strong>
-          <p>Machine-wide cleanup and performance tuning are hardware-specific. They require review, elevation, and separate confirmation; some Windows servicing operations only have best-effort rollback.</p>
+          <strong>Open-source preview, not a signed commercial installer.</strong>
+          <p>Windows may show a download or script warning. The launcher and every policy are readable on GitHub, and the launcher refuses to run an installer whose published hash does not match.</p>
         </div>
       </section>
 
       <section class="section install" id="install" aria-labelledby="install-title">
         <div class="install-copy">
-          <p class="kicker light">06 / Start safely</p>
-          <h2 id="install-title">Preview first.<br />Then decide.</h2>
-          <p>The standard setup keeps every optional app unless you make an explicit selection. Start in a normal, non-administrator PowerShell window.</p>
-          <a class="button button-light" href="__REPO_URL__/releases/download/v0.1.0/windows-linux-workstation-v0.1.0.zip" data-download-link>Download v0.1.0</a>
+          <p class="kicker light">07 / Install from this site</p>
+          <h2 id="install-title">Download.<br />Choose. Done.</h2>
+          <p>Download the launcher, open it normally, and pick your profile. The source is pinned to v0.2.0 and retained locally with rollback data.</p>
+          <a class="button button-light" href="__REPO_URL__/releases/download/v0.2.0/NoBS11-Setup.cmd" data-download-link download>Download NoBS11 v0.2.0</a>
         </div>
         <div class="command-stack">
           <div class="command-card">
-            <span>1 / Clone</span>
-            <code data-clone-command>git clone __REPO_URL__.git</code>
-            <button type="button" data-copy-target="[data-clone-command]">Copy</button>
+            <span>1 / Download</span>
+            <code>NoBS11-Setup.cmd</code>
           </div>
           <div class="command-card featured">
-            <span>2 / Preview - makes no changes</span>
-            <code data-preview-command>powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1 -WhatIf</code>
+            <span>2 / Advanced preview — makes no changes</span>
+            <code data-preview-command>powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1 -Profile Lean -WhatIf</code>
             <button type="button" data-copy-target="[data-preview-command]">Copy</button>
           </div>
           <div class="command-card">
-            <span>3 / Apply standard profile</span>
-            <code data-install-command>powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1</code>
-            <button type="button" data-copy-target="[data-install-command]">Copy</button>
+            <span>3 / Source install</span>
+            <code data-clone-command>git clone __REPO_URL__.git</code>
+            <button type="button" data-copy-target="[data-clone-command]">Copy</button>
           </div>
           <p class="copy-status" aria-live="polite" data-copy-status></p>
         </div>
@@ -283,23 +292,23 @@
 
       <section class="section faq" aria-labelledby="faq-title">
         <div class="section-heading compact">
-          <p class="kicker">07 / Before you run it</p>
-          <h2 id="faq-title">Straight answers.</h2>
+          <p class="kicker">08 / Straight answers</p>
+          <h2 id="faq-title">Before you run it.</h2>
         </div>
         <div class="faq-list">
-          <details><summary>Do I launch the installer every time?</summary><p>No. The installer configures the workstation once. Workstation App Control remains available from Start for ongoing app, startup, and process management.</p></details>
-          <details><summary>Will this replace or cover the Windows taskbar?</summary><p>No. The standard profile retires the old custom-bar hooks and restores Explorer's native taskbar, including normal fullscreen behavior.</p></details>
-          <details><summary>Will the Windows key and half-screen Snap work?</summary><p>Yes. The standard profile restores native Start and enables Windows Snap. Use <kbd>Win</kbd> + <kbd>Left</kbd>/<kbd>Right</kbd> for monitor halves and <kbd>Win</kbd> + <kbd>Z</kbd> for layouts.</p></details>
-          <details><summary>Does it uninstall Overwolf or other apps automatically?</summary><p>No. The default is keep. You must explicitly choose disable-at-startup or uninstall, either in the guided installer or App Control.</p></details>
-          <details><summary>Is this Linux, WSL, or a virtual machine?</summary><p>No. Windows remains the only operating-system kernel. The project adds a Unix-like command-line environment without installing WSL or a VM.</p></details>
+          <details><summary>Do I run the installer every time Windows starts?</summary><p>No. Installation is one-time. NoBS11 Control remains in Start for ongoing app, startup, and process management, and it only runs while its window is open.</p></details>
+          <details><summary>Can everyone reach 7 GB idle RAM?</summary><p>No. The ~7 GB result came from one 64 GB reference laptop using its final configuration. Your drivers, hardware tools, Windows build, startup apps, and chosen profile determine your result.</p></details>
+          <details><summary>Will it break the taskbar, Windows key, Snap, or games?</summary><p>The project deliberately uses Explorer's native taskbar and Windows Snap, removes the old replacement-bar and key-hook machinery, and preserves normal fullscreen handoff. Maximum still requires hardware and game validation because its machine policy is aggressive.</p></details>
+          <details><summary>Does it uninstall Overwolf or other apps automatically?</summary><p>The guided app choices default to keep. You must explicitly choose disable-at-startup or uninstall. Maximum separately warns that its reviewed Windows optional-app policy is broader.</p></details>
+          <details><summary>Is NoBS11 Linux, WSL, or a replacement operating system?</summary><p>No. It is a Windows performance toolkit. Optional Unix-style command-line tools are included for people who want them, but Windows remains the only operating-system kernel.</p></details>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
-      <div class="brand footer-brand"><span class="brand-mark">WL</span><span class="brand-copy">Windows Linux<br />Workstation</span></div>
-      <p>Independent open-source project. Not endorsed by Microsoft or other upstream projects.</p>
-      <div class="footer-links"><a href="__REPO_URL__" data-repo-link>GitHub</a><a href="__REPO_URL__/blob/main/SECURITY.md" data-security-link>Security</a><a href="__REPO_URL__/blob/main/LICENSE" data-license-link>MIT License</a></div>
+      <div class="brand footer-brand"><span class="brand-mark">NB</span><span class="brand-copy">NoBS11</span></div>
+      <p>Independent MIT-licensed open-source preview. Not endorsed by Microsoft or upstream projects.</p>
+      <div class="footer-links"><a href="__REPO_URL__" data-repo-link>GitHub</a><a href="__REPO_URL__/blob/main/docs/MEASUREMENTS.md" data-measurements-link>Measurements</a><a href="__REPO_URL__/blob/main/SECURITY.md" data-security-link>Security</a><a href="__REPO_URL__/blob/main/LICENSE" data-license-link>MIT License</a></div>
     </footer>
   </body>
 </html>

@@ -1,6 +1,8 @@
 #requires -Version 5.1
 [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'Medium')]
 param(
+    [ValidateSet('Standard', 'Lean', 'Maximum')]
+    [string]$Profile = 'Standard',
     [switch]$SkipPackages,
     [switch]$IncludeBrowserTuning,
     [switch]$IncludeStartupGuard,
@@ -25,7 +27,7 @@ function Write-Stage {
         [Parameter(Mandatory)][string]$Message
     )
 
-    Write-Host "`n[$Number/5] $Message" -ForegroundColor Cyan
+    Write-Host "`n[$Number/6] $Message" -ForegroundColor Cyan
 }
 
 function Invoke-CheckedCommand {
@@ -99,7 +101,7 @@ function Read-OptionalAppSelection {
 }
 
 $optionalAppManager = Join-Path $projectRoot 'scripts\Manage-OptionalApps.ps1'
-foreach ($requiredFile in @($runner, $wingetManifest, $pacmanManifest, $optionalAppManager, $optionalCatalogPath, (Join-Path $projectRoot 'scripts\Apply-Config.ps1'), (Join-Path $projectRoot 'scripts\Install-AppControl.ps1'), (Join-Path $projectRoot 'scripts\Manage-InstalledApps.ps1'), (Join-Path $projectRoot 'scripts\Workstation-App-Control.ps1'))) {
+foreach ($requiredFile in @($runner, $wingetManifest, $pacmanManifest, $optionalAppManager, $optionalCatalogPath, (Join-Path $projectRoot 'scripts\Apply-Config.ps1'), (Join-Path $projectRoot 'scripts\Apply-Barebones.ps1'), (Join-Path $projectRoot 'scripts\Apply-AtlasPerformance.ps1'), (Join-Path $projectRoot 'scripts\Apply-MaximumMachine.ps1'), (Join-Path $projectRoot 'scripts\Install-AppControl.ps1'), (Join-Path $projectRoot 'scripts\Manage-InstalledApps.ps1'), (Join-Path $projectRoot 'scripts\Workstation-App-Control.ps1'))) {
     if (-not (Test-Path -LiteralPath $requiredFile -PathType Leaf)) {
         throw "Installer source is incomplete: $requiredFile"
     }
@@ -159,24 +161,46 @@ else {
     $steps.Add('Fully update MSYS2, then install the curated Unix command-line packages')
 }
 $steps.Add('Back up and apply the shell, terminal, native Snap, native taskbar, and ongoing App Control panel')
+switch ($Profile) {
+    'Standard' {
+        $steps.Add('Keep Windows apps, services, features, and security controls unchanged')
+    }
+    'Lean' {
+        $steps.Add('Apply reviewed current-user cleanup and performance settings without removing Windows apps')
+    }
+    'Maximum' {
+        $steps.Add('Apply the full reference profile, including optional-app removal and elevated machine cleanup')
+    }
+}
 if ($IncludeBrowserTuning) { $steps.Add('Back up and apply the optional Brave/Firefox low-memory preferences') }
 if ($IncludeStartupGuard) { $steps.Add('Install the explicit-blocklist startup guard; application removal remains disabled') }
 if ($DisableStartupApp.Count -gt 0) { $steps.Add("Stop and disable startup for: $($DisableStartupApp -join ', ')") }
 if ($UninstallApp.Count -gt 0) { $steps.Add("Explicitly uninstall: $($UninstallApp -join ', ')") }
 
 Write-Host ''
-Write-Host 'Windows Linux Workstation installer' -ForegroundColor White
+Write-Host 'NoBS11 installer' -ForegroundColor White
+Write-Host "Profile: $Profile" -ForegroundColor $(if ($Profile -eq 'Maximum') { 'Yellow' } else { 'Green' })
 Write-Host "Windows $($windows.DisplayVersion), build $($windows.CurrentBuild).$($windows.UBR)" -ForegroundColor DarkGray
 Write-Host ''
 for ($index = 0; $index -lt $steps.Count; $index++) {
     Write-Host ('  {0}. {1}' -f ($index + 1), $steps[$index])
 }
 Write-Host ''
-if ($UninstallApp.Count -eq 0) {
-    Write-Host 'Default safety boundary: no Windows apps, services, features, or security controls are removed.' -ForegroundColor Green
-}
-else {
-    Write-Host 'Only the applications explicitly named for uninstall will be removed.' -ForegroundColor Yellow
+switch ($Profile) {
+    'Standard' {
+        if ($UninstallApp.Count -eq 0) {
+            Write-Host 'Standard safety boundary: no Windows apps, services, features, or security controls are removed.' -ForegroundColor Green
+        }
+        else {
+            Write-Host 'Only the applications explicitly named for uninstall will be removed.' -ForegroundColor Yellow
+        }
+    }
+    'Lean' {
+        Write-Host 'Lean changes current-user settings but does not remove optional Windows packages or disable machine services.' -ForegroundColor Green
+    }
+    'Maximum' {
+        Write-Host 'Maximum is hardware-sensitive: it can remove optional Windows components and apps, disable reviewed services/tasks, and only offers best-effort rollback for servicing changes.' -ForegroundColor Yellow
+    }
 }
 Write-Host 'WinGet source and package agreements are accepted for the curated package import.' -ForegroundColor DarkGray
 
@@ -189,9 +213,14 @@ if ($WhatIfPreference) {
 }
 
 if (-not $Force) {
+    $confirmation = switch ($Profile) {
+        'Standard' { 'Standard changes current-user desktop configuration and restarts Explorer after creating rollback data. Continue?' }
+        'Lean' { 'Lean adds reviewed current-user cleanup and performance settings. Windows apps and machine services are preserved. Continue?' }
+        'Maximum' { 'Maximum applies aggressive current-user and elevated machine cleanup. It can remove optional components and requires a restart plus hardware and gaming validation. Continue?' }
+    }
     $continue = $PSCmdlet.ShouldContinue(
-        'The standard profile changes current-user configuration and restarts Explorer after creating rollback data. Continue?',
-        'Install Windows Linux Workstation?'
+        $confirmation,
+        "Install NoBS11 $Profile profile?"
     )
     if (-not $continue) {
         Write-Host 'Installation canceled; no changes were made.' -ForegroundColor Yellow
@@ -275,8 +304,33 @@ if ($UninstallApp.Count -gt 0) {
     Invoke-ProjectScript -ScriptPath 'scripts\Manage-OptionalApps.ps1' -ArgumentList @('-Action', 'Uninstall', '-Name', ($UninstallApp -join ','), '-Force')
 }
 
-Write-Stage 5 'Installation complete'
-Write-Host 'The Linux-style shell and native Windows desktop are ready; Windows remains the only operating-system kernel.' -ForegroundColor Green
+Write-Stage 5 "Applying the $Profile performance profile"
+switch ($Profile) {
+    'Standard' {
+        Write-Host 'Standard keeps the Windows app, service, feature, and security baseline unchanged.' -ForegroundColor Green
+    }
+    'Lean' {
+        Invoke-ProjectScript -ScriptPath 'scripts\Apply-Barebones.ps1' -ArgumentList @('-SkipAppRemoval', '-Force')
+        Invoke-ProjectScript -ScriptPath 'scripts\Apply-AtlasPerformance.ps1' -ArgumentList @('-Force')
+    }
+    'Maximum' {
+        Invoke-ProjectScript -ScriptPath 'scripts\Apply-Barebones.ps1' -ArgumentList @('-Force')
+        $maximumMachineScript = Join-Path $projectRoot 'scripts\Apply-MaximumMachine.ps1'
+        $maximumArguments = '-NoLogo -NoProfile -ExecutionPolicy Bypass -File "{0}" -Force' -f $maximumMachineScript.Replace('"', '""')
+        try {
+            $maximumProcess = Start-Process -FilePath 'powershell.exe' -ArgumentList $maximumArguments -Verb RunAs -Wait -PassThru
+        }
+        catch {
+            throw "Maximum profile could not start its reviewed machine-wide stage. NoBS11 retained the current-user changes and rollback data. $($_.Exception.Message)"
+        }
+        if ($maximumProcess.ExitCode -ne 0) {
+            throw "Maximum machine stage exited with code $($maximumProcess.ExitCode). Review the retained logs and rollback data."
+        }
+    }
+}
+
+Write-Stage 6 'Installation complete'
+Write-Host "NoBS11 $Profile is installed. The native taskbar, Snap, Start, and fullscreen handoff remain Windows-owned." -ForegroundColor Green
 Write-Host "Source and rollback data: $projectRoot"
-Write-Host 'Use Workstation App Control from the Start menu for ongoing app, startup, and process management.'
+Write-Host 'Use NoBS11 Control from the Start menu for ongoing app, startup, and process management.'
 Write-Host 'Sign out and back in once to confirm startup behavior, then run make verify from UCRT64 Bash.'

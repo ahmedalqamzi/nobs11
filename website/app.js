@@ -10,13 +10,16 @@
       link.href = configuredRepository;
     });
     document.querySelectorAll("[data-download-link]").forEach((link) => {
-      link.href = `${configuredRepository}/releases/download/v0.1.0/windows-linux-workstation-v0.1.0.zip`;
+      link.href = `${configuredRepository}/releases/download/v0.2.0/NoBS11-Setup.cmd`;
     });
     document.querySelectorAll("[data-security-link]").forEach((link) => {
       link.href = `${configuredRepository}/blob/main/SECURITY.md`;
     });
     document.querySelectorAll("[data-license-link]").forEach((link) => {
       link.href = `${configuredRepository}/blob/main/LICENSE`;
+    });
+    document.querySelectorAll("[data-measurements-link]").forEach((link) => {
+      link.href = `${configuredRepository}/blob/main/docs/MEASUREMENTS.md`;
     });
     const cloneCommand = document.querySelector("[data-clone-command]");
     if (cloneCommand) cloneCommand.textContent = `git clone ${configuredRepository}.git`;
@@ -86,35 +89,6 @@
         ? "Demo state: known automatic launch sources would be removed and the app stopped."
         : "Demo state restored. Nothing on your computer was changed."
     }
-  });
-
-  const formatRuntime = (hours) => {
-    const wholeHours = Math.floor(hours);
-    const minutes = Math.round((hours - wholeHours) * 60);
-    return `${wholeHours}h ${String(minutes).padStart(2, "0")}m`;
-  };
-
-  const calculateButton = document.querySelector("[data-calculate]");
-  calculateButton?.addEventListener("click", () => {
-    const capacity = Number(document.querySelector("[data-capacity]")?.value);
-    const before = Number(document.querySelector("[data-before]")?.value);
-    const after = Number(document.querySelector("[data-after]")?.value);
-    const output = document.querySelector("[data-calculator-output]");
-    if (!output) return;
-
-    output.classList.remove("positive", "negative");
-    if (![capacity, before, after].every((value) => Number.isFinite(value) && value > 0)) {
-      output.textContent = "Enter positive capacity, before-draw, and after-draw values.";
-      return;
-    }
-
-    const beforeHours = capacity / before;
-    const afterHours = capacity / after;
-    const difference = afterHours - beforeHours;
-    const percent = (difference / beforeHours) * 100;
-    const sign = difference >= 0 ? "+" : "";
-    output.classList.add(difference >= 0 ? "positive" : "negative");
-    output.textContent = `Before ${formatRuntime(beforeHours)} / after ${formatRuntime(afterHours)} / ${sign}${Math.round(difference * 60)} min (${sign}${percent.toFixed(1)}%).`;
   });
 
   const copyStatus = document.querySelector("[data-copy-status]");

@@ -27,9 +27,14 @@ if (-not (Test-Path -LiteralPath $pwshPath -PathType Leaf)) {
 }
 
 $programsPath = [Environment]::GetFolderPath('Programs')
-$startMenuFolder = Join-Path $programsPath 'Windows Linux Workstation'
-$shortcutPaths = @(Join-Path $startMenuFolder 'Workstation App Control.lnk')
-$legacyDesktopShortcut = Join-Path ([Environment]::GetFolderPath('Desktop')) 'Workstation App Control.lnk'
+$startMenuFolder = Join-Path $programsPath 'NoBS11'
+$shortcutPaths = @(Join-Path $startMenuFolder 'NoBS11 Control.lnk')
+$legacyStartMenuFolder = Join-Path $programsPath 'Windows Linux Workstation'
+$legacyShortcuts = @(
+    Join-Path ([Environment]::GetFolderPath('Desktop')) 'Workstation App Control.lnk'
+    Join-Path ([Environment]::GetFolderPath('Desktop')) 'NoBS11 Control.lnk'
+    Join-Path $legacyStartMenuFolder 'Workstation App Control.lnk'
+)
 $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
 $backupRoot = Join-Path $projectRoot "backups\$stamp-app-control"
 $manifest = [ordered]@{
@@ -52,7 +57,7 @@ foreach ($entry in $sourceFiles.GetEnumerator()) {
         }
     }
     $manifest.Files.Add([pscustomobject]@{ Source = $source; Destination = $destination; PreviousBackup = $backup })
-    if ($PSCmdlet.ShouldProcess($destination, 'Install Workstation App Control runtime file')) {
+    if ($PSCmdlet.ShouldProcess($destination, 'Install NoBS11 Control runtime file')) {
         New-Item -ItemType Directory -Path (Split-Path -Parent $destination) -Force | Out-Null
         Copy-Item -LiteralPath $source -Destination $destination -Force
     }
@@ -65,14 +70,20 @@ if ($PSCmdlet.ShouldProcess($runtimeRoot, 'Prepare persistent App Control state 
 $shortcutArguments = '-NoLogo -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "{0}"' -f (Join-Path $runtimeScripts 'Workstation-App-Control.ps1')
 $shell = if (-not $WhatIfPreference) { New-Object -ComObject WScript.Shell } else { $null }
 
-if (Test-Path -LiteralPath $legacyDesktopShortcut -PathType Leaf) {
-    $legacyBackup = Join-Path $backupRoot 'shortcuts\legacy-desktop-Workstation App Control.lnk'
-    $manifest.RemovedLegacyShortcuts.Add([pscustomobject]@{ Path = $legacyDesktopShortcut; Backup = $legacyBackup })
-    if ($PSCmdlet.ShouldProcess($legacyDesktopShortcut, 'Remove retired Desktop shortcut; App Control is Start-menu only')) {
-        New-Item -ItemType Directory -Path (Split-Path -Parent $legacyBackup) -Force | Out-Null
-        Copy-Item -LiteralPath $legacyDesktopShortcut -Destination $legacyBackup -Force
-        Remove-Item -LiteralPath $legacyDesktopShortcut -Force
+foreach ($legacyShortcut in $legacyShortcuts) {
+    if (Test-Path -LiteralPath $legacyShortcut -PathType Leaf) {
+        $legacyBackupName = 'legacy-{0}-{1}' -f ([Math]::Abs($legacyShortcut.GetHashCode())), [IO.Path]::GetFileName($legacyShortcut)
+        $legacyBackup = Join-Path $backupRoot "shortcuts\$legacyBackupName"
+        $manifest.RemovedLegacyShortcuts.Add([pscustomobject]@{ Path = $legacyShortcut; Backup = $legacyBackup })
+        if ($PSCmdlet.ShouldProcess($legacyShortcut, 'Remove retired launcher; NoBS11 Control is Start-menu only')) {
+            New-Item -ItemType Directory -Path (Split-Path -Parent $legacyBackup) -Force | Out-Null
+            Copy-Item -LiteralPath $legacyShortcut -Destination $legacyBackup -Force
+            Remove-Item -LiteralPath $legacyShortcut -Force
+        }
     }
+}
+if ((Test-Path -LiteralPath $legacyStartMenuFolder -PathType Container) -and -not (Get-ChildItem -LiteralPath $legacyStartMenuFolder -Force) -and $PSCmdlet.ShouldProcess($legacyStartMenuFolder, 'Remove the empty legacy Start-menu folder')) {
+    Remove-Item -LiteralPath $legacyStartMenuFolder -Force
 }
 
 foreach ($shortcutPath in $shortcutPaths) {
@@ -85,13 +96,13 @@ foreach ($shortcutPath in $shortcutPaths) {
         }
     }
     $manifest.Shortcuts.Add([pscustomobject]@{ Path = $shortcutPath; PreviousBackup = $backup })
-    if ($PSCmdlet.ShouldProcess($shortcutPath, 'Create Workstation App Control shortcut')) {
+    if ($PSCmdlet.ShouldProcess($shortcutPath, 'Create NoBS11 Control shortcut')) {
         New-Item -ItemType Directory -Path (Split-Path -Parent $shortcutPath) -Force | Out-Null
         $shortcut = $shell.CreateShortcut($shortcutPath)
         $shortcut.TargetPath = $pwshPath
         $shortcut.Arguments = $shortcutArguments
         $shortcut.WorkingDirectory = $runtimeRoot
-        $shortcut.Description = 'Ongoing app, startup, and background control for Windows Linux Workstation'
+        $shortcut.Description = 'Ongoing app, startup, and background control for NoBS11'
         $shortcut.IconLocation = "$(Join-Path $env:WINDIR 'System32\shell32.dll'),167"
         $shortcut.WindowStyle = 1
         $shortcut.Save()
@@ -108,8 +119,8 @@ if ($Launch -and -not $WhatIfPreference) {
 }
 
 if ($WhatIfPreference) {
-    Write-Host 'Workstation App Control installation preview complete; no files or shortcuts were changed.' -ForegroundColor Yellow
+    Write-Host 'NoBS11 Control installation preview complete; no files or shortcuts were changed.' -ForegroundColor Yellow
 }
 else {
-    Write-Host "Workstation App Control installed. Start shortcut: $($shortcutPaths[0])" -ForegroundColor Green
+    Write-Host "NoBS11 Control installed. Start shortcut: $($shortcutPaths[0])" -ForegroundColor Green
 }

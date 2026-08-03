@@ -16,26 +16,32 @@ $runtimeFiles = @(
     Join-Path $runtimeRoot 'scripts\Manage-UserStartup.ps1'
     Join-Path $runtimeRoot 'config\optional-apps.json'
 )
-$startMenuFolder = Join-Path ([Environment]::GetFolderPath('Programs')) 'Windows Linux Workstation'
+$startMenuFolder = Join-Path ([Environment]::GetFolderPath('Programs')) 'NoBS11'
+$legacyStartMenuFolder = Join-Path ([Environment]::GetFolderPath('Programs')) 'Windows Linux Workstation'
 $shortcutPaths = @(
     Join-Path ([Environment]::GetFolderPath('Desktop')) 'Workstation App Control.lnk'
+    Join-Path ([Environment]::GetFolderPath('Desktop')) 'NoBS11 Control.lnk'
     Join-Path $startMenuFolder 'Workstation App Control.lnk'
+    Join-Path $startMenuFolder 'NoBS11 Control.lnk'
+    Join-Path $legacyStartMenuFolder 'Workstation App Control.lnk'
 )
 
 if (-not $Force -and -not $WhatIfPreference) {
-    if (-not $PSCmdlet.ShouldContinue('Remove the App Control launchers and runtime code? Saved startup state and backups will be retained.', 'Remove Workstation App Control')) {
+    if (-not $PSCmdlet.ShouldContinue('Remove the NoBS11 Control launchers and runtime code? Saved startup state and backups will be retained.', 'Remove NoBS11 Control')) {
         Write-Host 'Removal canceled; no changes were made.' -ForegroundColor Yellow
         return
     }
 }
 
 foreach ($path in @($shortcutPaths + $runtimeFiles)) {
-    if ((Test-Path -LiteralPath $path) -and $PSCmdlet.ShouldProcess($path, 'Remove Workstation App Control managed file')) {
+    if ((Test-Path -LiteralPath $path) -and $PSCmdlet.ShouldProcess($path, 'Remove NoBS11 Control managed file')) {
         Remove-Item -LiteralPath $path -Force
     }
 }
-if ((Test-Path -LiteralPath $startMenuFolder -PathType Container) -and -not (Get-ChildItem -LiteralPath $startMenuFolder -Force) -and $PSCmdlet.ShouldProcess($startMenuFolder, 'Remove empty Start-menu folder')) {
-    Remove-Item -LiteralPath $startMenuFolder -Force
+foreach ($folder in @($startMenuFolder, $legacyStartMenuFolder)) {
+    if ((Test-Path -LiteralPath $folder -PathType Container) -and -not (Get-ChildItem -LiteralPath $folder -Force) -and $PSCmdlet.ShouldProcess($folder, 'Remove empty Start-menu folder')) {
+        Remove-Item -LiteralPath $folder -Force
+    }
 }
 
-Write-Host 'Workstation App Control removed. Saved state and backups remain under %LOCALAPPDATA%\WindowsLinuxWorkstation.' -ForegroundColor Green
+Write-Host 'NoBS11 Control removed. Saved state and backups remain under the compatibility runtime path in %LOCALAPPDATA%.' -ForegroundColor Green

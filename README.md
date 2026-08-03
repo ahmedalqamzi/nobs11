@@ -1,148 +1,158 @@
-# Windows Linux-like Workstation
+# NoBS11
 
-A transparent, reversible-by-design Windows 11 workstation profile with a Unix-like command line, native window snapping, and the native Explorer taskbar. Windows remains the only operating-system kernel: this project does not install WSL, a Linux VM, or a replacement shell.
+**Windows performance. No BS.**
 
-- **Website:** [Windows, on purpose](https://ahmedalqamzi.github.io/windows-linux-workstation/)
-- **Stable preview:** [Download v0.1.0](https://github.com/ahmedalqamzi/windows-linux-workstation/releases/download/v0.1.0/windows-linux-workstation-v0.1.0.zip)
+NoBS11 is a transparent, reversible-by-design Windows 11 performance toolkit. It cuts avoidable idle overhead, startup clutter, background activity, and unwanted optional components while preserving Defender, Windows Update, Microsoft Store, WinGet, drivers, Gaming Services, Explorer, the native taskbar, Snap, and normal fullscreen behavior.
 
-The public project website is in [`website/`](website/). Its performance section uses the aggregate, non-identifying observations and limitations recorded in [docs/MEASUREMENTS.md](docs/MEASUREMENTS.md); no universal battery or performance gain is claimed.
+- **Website:** [NoBS11](https://ahmedalqamzi.github.io/nobs11/)
+- **Guided installer:** [Download NoBS11 v0.2.0](https://github.com/ahmedalqamzi/nobs11/releases/download/v0.2.0/NoBS11-Setup.cmd)
+- **Measurements:** [Reference result and limitations](docs/MEASUREMENTS.md)
 
-The default desktop uses:
+## Reference result
 
-- Windows Terminal with one visible MSYS2 UCRT64 Bash profile
-- PowerShell 7 for native Windows administration
-- Windows Snap for half-screen layouts, Snap Assist, and multi-monitor movement
-- Explorer's native taskbar for Start, Search, tray, clock, multi-monitor behavior, and fullscreen games
-- Git, Neovim, Yazi, tmux, Starship, and modern command-line tools
+On the owner's 64 GB Windows 11 reference laptop:
 
-## Safety and support boundary
+- idle memory use was observed at approximately **27–28 GB before** and **7 GB after** the final configuration and clean restart;
+- retained performance-counter snapshots showed **384 to 186 running processes**, or 51.6% fewer.
 
-This is a personal workstation configuration and a public preview, not a universal Windows debloater. It has been tested on the hardware and Windows build in [docs/TESTED-CONFIGURATION.md](docs/TESTED-CONFIGURATION.md).
+These were observational results from one machine, not controlled universal benchmarks. Hardware, drivers, Windows builds, active workloads, and profile choices change the outcome. No battery-life, frame-rate, or latency percentage is claimed because a controlled repeated A/B test has not been completed.
 
-The shell and taskbar configuration is separated from the aggressive cleanup profiles. Do not run `barebones`, `barebones-machine`, `atlas`, or persistent startup enforcement until you have reviewed the corresponding JSON policy. Machine-wide cleanup is hardware-specific, requires elevation, and has only best-effort rollback for Windows servicing operations.
+## Install from the website
 
-Generated backups, logs, baselines, and package snapshots are intentionally ignored by Git. Never publish a ZIP of the working directory; publish tracked files with Git or `git archive`.
+Download and open NoBS11-Setup.cmd from the project website or the v0.2.0 release. The launcher:
 
-## Quick start
+1. downloads the pinned v0.2.0 PowerShell installer;
+2. verifies its SHA-256 before running it;
+3. lets you choose Standard, Lean, or Maximum;
+4. downloads the matching pinned source and retains it with rollback data.
 
-Open a normal, non-administrator PowerShell window in the cloned repository and preview the guided installer:
+Run the launcher normally, not with **Run as administrator**. NoBS11 requests UAC only when the Maximum profile reaches its machine-wide stage.
 
-```powershell
-powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1 -WhatIf
-```
+This is an open-source preview, not a signed commercial installer, so Windows may show a download or script warning. The launcher and every applied policy are readable in this repository.
 
-Then run the standard profile. It installs the curated dependencies, fully updates MSYS2, creates rollback data, and applies the native desktop configuration. The guided prompt also lets you keep, disable at startup, or uninstall cataloged optional apps; pressing Enter keeps everything:
+## Profiles
 
-```powershell
-powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1
-```
+| Profile | What it does | Boundary |
+|---|---|---|
+| **Standard** | Restores the native taskbar, Start, Snap, terminal profile, and installs NoBS11 Control | Does not apply cleanup policy or remove Windows apps and services |
+| **Lean** | Adds reviewed current-user cleanup and performance settings | Does not remove optional Windows apps or disable machine services |
+| **Maximum** | Applies the full reference profile, including reviewed optional-app/component removal and elevated machine tuning | Hardware-sensitive; explicit typed confirmation, UAC, restart, and hardware/game validation required |
 
-The default choice does not uninstall Windows applications or disable Windows services. The same controls can be scripted or run separately:
+All profiles preserve Windows security controls, Windows Update, Store/WinGet, WebView2 and shared runtimes, drivers, Gaming Services, and hardware-control components. Maximum has only best-effort rollback for Windows servicing operations.
 
-```powershell
+## Preview or install from source
+
+Open a normal, non-administrator PowerShell window in the repository:
+
+~~~powershell
+# No-change preview
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1 -Profile Lean -WhatIf
+
+# Recommended user-level profile
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1 -Profile Lean
+
+# Conservative desktop-only profile
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1 -Profile Standard
+~~~
+
+Maximum is intentionally explicit:
+
+~~~powershell
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1 -Profile Maximum
+~~~
+
+The guided prompt also lets you keep, disable at startup, or uninstall cataloged third-party apps. Pressing Enter keeps everything:
+
+~~~powershell
 # Read-only status
 powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\scripts\Invoke-Pwsh.ps1 -ScriptPath scripts\Manage-OptionalApps.ps1 -Action Audit
 
-# Stop an app and remove its startup entries, but keep it installed
+# Stop an app and remove its known automatic launch sources, but keep it installed
 powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\scripts\Invoke-Pwsh.ps1 -ScriptPath scripts\Manage-OptionalApps.ps1 -Action DisableStartup -Name overwolf
 
-# Explicit uninstall example; Mobalytics depends on Overwolf, so select both only if neither is wanted
+# Explicit uninstall example
 powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\scripts\Invoke-Pwsh.ps1 -ScriptPath scripts\Manage-OptionalApps.ps1 -Action Uninstall -Name overwolf,mobalytics
+~~~
 
-# Non-interactive installer selections use the same audited catalog
-powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1 -DisableStartupApp overwolf -UninstallApp powertoys -Force
-```
+Mobalytics depends on Overwolf, so select both only when neither application is wanted.
 
-## Ongoing app control
+## NoBS11 Control
 
-The standard setup installs **Workstation App Control** in the Start menu only. It is an on-demand native Windows panel, not another background process:
+Every profile installs **NoBS11 Control** in the Start menu only. It is an on-demand native Windows panel, not another background service:
 
-- **Installed apps** searches desktop and Store apps, runs their registered uninstallers without leaving App Control, and can stop cataloged background activity plus known automatic launch sources. This does not block an app that you or another application explicitly launches later.
+- **Installed apps** searches desktop and Store apps, stops cataloged background activity, removes known automatic launch sources, and runs registered uninstallers in the same app.
 - **Startup** reversibly disables and restores current-user Run entries and Startup-folder shortcuts.
 - **Processes** shows current-session memory use and can end a selected non-core process after confirmation.
 
-Install or refresh the panel without rerunning the workstation setup:
+Disabling background activity does not prevent an app that you or another program deliberately launches later. Persistent enforcement remains a separate explicit blocklist.
 
-```powershell
+Refresh the panel without rerunning the workstation installer:
+
+~~~powershell
 powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\scripts\Invoke-Pwsh.ps1 -ScriptPath scripts\Install-AppControl.ps1 -Launch
-```
+~~~
 
-The separate Startup Guard remains responsible for persistent explicit blocklists at logon and every six hours. Unlisted applications are not silently disabled.
+## Native desktop behavior
 
-After reopening UCRT64 Bash in this repository, the make targets remain available:
+- Win and Ctrl+Esc open native Start; Win+S opens Windows Search.
+- Win+Left and Win+Right place windows on monitor halves; Win+Z opens Snap layouts.
+- Explorer owns the taskbar, work area, Start, Search, tray, clock, multi-monitor behavior, and fullscreen handoff.
+- GlazeWM, Zebar, AutoHotkey key hooks, Command Palette, and a replacement dock are not required.
+- Windows Terminal exposes one clear UCRT64 profile while PowerShell 7 remains available for native administration.
 
-```bash
-make check
-make preflight
-make apply-config
-```
+Optional Unix-style tools include Git, Neovim, Yazi, tmux, Starship, and familiar command-line utilities. They are a convenience layer; NoBS11 is not Linux, WSL, a VM, or a replacement operating system.
 
-`apply-config` installs the tracked configuration, retires old custom bars and shortcut hooks, and configures native Snap plus the native taskbar. It creates ignored rollback data under `backups/` and restarts Explorer so shell settings take effect. `make native-taskbar` is the standalone repair/migration command if only that portion needs to be reapplied.
+## Safety and rollback
 
-On a fully configured test system, run `make verify` to validate the complete workstation profile. That verifier also covers optional browser, startup-guard, cleanup, and performance-policy state, so a new installation can report pending or failed checks for profiles that were deliberately not enabled.
+High-impact behavior lives in reviewed JSON policy files under config/. The scripts create ignored backup and audit data under backups/ and logs/.
 
-## Desktop behavior
+Available rollback commands include:
 
-- `Win` and `Ctrl+Esc` open native Start; `Win+S` opens Windows Search.
-- `Win+Left` and `Win+Right` place windows on exact monitor halves; `Win+Z` opens Snap layouts.
-- Native maximized and fullscreen applications use the normal Windows work area and fullscreen behavior.
-- Windows Terminal reuses one window and exposes one user-facing UCRT64 profile.
-- The taskbar remains editable through normal Windows controls; no custom dock or shell hook is installed.
-- GlazeWM, Zebar, AutoHotkey hooks, and Command Palette are not required by the standard profile.
+- make rollback-config
+- make rollback-native-taskbar
+- make rollback-barebones
+- make rollback-barebones-machine
+- make rollback-atlas
+- make remove-guard
 
-See [HOTKEYS.md](HOTKEYS.md) for the complete keyboard map.
+App reinstall, capability restoration, component-store cleanup, and third-party uninstallers may not recreate the exact previous state. Keep rollback data until the machine passes restart, hardware, and gaming validation.
 
-## Commands
-
-Read-only or low-risk entry points:
+## Useful commands
 
 | Command | Purpose |
 |---|---|
-| `make check` | Validate public repository files and release hygiene |
-| `make preflight` | Check required software without changing Windows |
-| `make audit` | Audit the explicit startup/background policy |
-| `make verify` | Produce a redacted workstation verification report |
-| `make apply-config` | Install tracked shell, editor, terminal, native Snap, and native-taskbar configuration with backups |
-| `make native-taskbar` | Reapply only the custom-bar retirement and native taskbar profile |
-| `make native-windowing` | Reapply native Snap and Snap-layout settings |
-| `make apps` | Audit optional apps, background processes, startup entries, and services |
-| `make app-control` | Install or refresh and open the ongoing App Control panel |
-| `make browser` | Apply the optional Brave/Firefox low-memory preferences |
+| make check | Validate public files, credentials hygiene, syntax, and release requirements |
+| make preflight | Check required software without changing Windows |
+| make audit | Audit the explicit startup/background policy |
+| make verify | Produce a redacted workstation verification report |
+| make apply-config | Apply the shell, terminal, native Snap, and native-taskbar configuration |
+| make native-taskbar | Repair only the native taskbar migration |
+| make native-windowing | Reapply native Snap settings |
+| make apps | Audit optional apps, processes, startup entries, and services |
+| make app-control | Install or refresh NoBS11 Control |
+| make browser | Apply optional Brave/Firefox low-memory preferences |
 
-Explicit opt-in commands:
+Explicit high-impact commands remain available for review:
 
 | Command | Risk |
 |---|---|
-| `make guard` | Installs persistent policy enforcement at logon and every six hours |
-| `make barebones` | Changes more than 100 current-user settings and can remove optional Appx packages |
-| `make barebones-machine` | Elevated, hardware-specific service, feature, capability, package, and servicing changes |
-| `make atlas` | Optional performance-related registry, task, event-log, and service-host changes |
-
-The high-impact entry points display a confirmation unless invoked with `-Force` directly. Use the underlying script with `-WhatIf` to inspect proposed operations first.
-
-## Rollback
-
-Rollback scripts restore captured values where Windows exposes a reversible operation:
-
-- `make rollback-config`
-- `make rollback-native-taskbar`
-- `make rollback-barebones`
-- `make rollback-barebones-machine`
-- `make rollback-atlas`
-- `make remove-guard`
-
-App reinstall, capability restoration, component-store cleanup, and third-party uninstallers may not reproduce the exact previous state. Keep the generated backups until the machine has passed restart, hardware, and gaming validation.
+| make guard | Installs recurring explicit-blocklist enforcement |
+| make barebones | Applies more than 100 current-user changes and can remove optional Appx packages |
+| make barebones-machine | Elevated hardware-specific service, feature, capability, package, and servicing changes |
+| make atlas | Optional performance-related registry, task, event-log, and service-host changes |
 
 ## Project layout
 
-```text
-config/       Reviewed policy data; aggressive profiles are opt-in
+~~~text
+config/       Reviewed policy data; aggressive profiles are explicit
 dotfiles/     Shell, editor, terminal, Firefox, and command-line configuration
+installer/    Hash-verified website launcher and pinned online installer
 manifests/    Curated public dependency manifests
-scripts/      Preflight, apply, audit, verification, and rollback entry points
+scripts/      Preflight, apply, control, audit, verification, and rollback entry points
+website/      Static project site and hosting build
 backups/      Local rollback data; ignored except for .gitkeep
 baseline/     Local measurements; ignored except for .gitkeep
 logs/         Local reports; ignored except for .gitkeep
-```
+~~~
 
-Run `make check` before every release. Remaining publication work is tracked in [docs/RELEASE-CHECKLIST.md](docs/RELEASE-CHECKLIST.md). The original project source is MIT licensed; licensing and upstream provenance are described in [LICENSE](LICENSE) and [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+Run make check before every release. Publication requirements are tracked in [docs/RELEASE-CHECKLIST.md](docs/RELEASE-CHECKLIST.md). NoBS11 is MIT licensed; upstream provenance is documented in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).

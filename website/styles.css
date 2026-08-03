@@ -848,102 +848,7 @@ summary:focus-visible {
   min-width: 0;
   border: 0;
   outline: 0;
-  background: transparent;
-  color: #111820;
-  font-size: 13px;
-}
-
-.result-card {
-  display: grid;
-  grid-template-columns: 44px 1fr auto;
-  gap: 15px;
-  align-items: center;
-  margin-top: 19px;
-  padding: 18px;
-  border: 1px solid #d4d8dc;
-  background: white;
-}
-
-.result-icon {
-  display: grid;
-  width: 44px;
-  height: 44px;
-  place-items: center;
-  background: #edf1f4;
-  color: #512476;
-  font-family: var(--display);
-  font-size: 22px;
-  font-weight: 700;
-}
-
-.result-main {
-  display: grid;
-  gap: 3px;
-}
-
-.result-main strong {
-  font-size: 14px;
-}
-
-.result-main span {
-  color: #687178;
-  font-size: 11px;
-}
-
-.status-chip {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 8px;
-  border: 1px solid #d7a69e;
-  background: #fff2ef;
-  color: #8b2a1a;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.status-chip.disabled {
-  border-color: #9bb260;
-  background: #f0f7df;
-  color: #496600;
-}
-
-.status-chip.neutral {
-  border-color: #bdc5cc;
-  background: #f3f5f7;
-  color: #566069;
-}
-
-.action-row {
-  display: flex;
-  gap: 9px;
-  margin-top: 17px;
-}
-
-.demo-button,
-.calculate-button {
-  min-height: 39px;
-  padding: 0 14px;
-  border: 1px solid #aeb5bb;
-  background: #fff;
-  color: #141b21;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.demo-button.primary {
-  border-color: #1a252e;
-  background: #1a252e;
-  color: white;
-}
-
-.demo-button:hover {
-  border-color: #516900;
-}
-
-.demo-message {
-  margin: 24px 0 0;
+  bacãÍm¢G§²ÚîÆ­yÐ margin: 24px 0 0;
   color: #697179;
   font-size: 11px;
 }
@@ -1118,6 +1023,18 @@ kbd {
   grid-row: 1 / span 2;
 }
 
+.battery-card > .warning-band {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: stretch;
+  margin: 0;
+}
+
+.battery-card > .warning-band strong,
+.battery-card > .warning-band p {
+  align-self: center;
+}
+
 .measurement-head {
   display: flex;
   align-items: baseline;
@@ -1151,7 +1068,7 @@ kbd {
 
 .bar-row {
   display: grid;
-  grid-template-columns: 48px 1fr 46px;
+  grid-template-columns: 84px 1fr minmax(72px, auto);
   gap: 13px;
   align-items: center;
   color: #848e95;
@@ -1775,6 +1692,10 @@ kbd {
   }
 
   .battery-card .calculator {
+    margin-top: 30px;
+  }
+
+  .battery-card > .warning-band {
     margin-top: 30px;
   }
 

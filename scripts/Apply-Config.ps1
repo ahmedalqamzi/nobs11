@@ -210,7 +210,7 @@ if ($PSCmdlet.ShouldProcess('Explorer taskbar', 'Apply the managed native taskba
 }
 
 $appControlInstaller = Join-Path $PSScriptRoot 'Install-AppControl.ps1'
-if ($PSCmdlet.ShouldProcess('Workstation App Control', 'Install ongoing app and startup control shortcuts')) {
+if ($PSCmdlet.ShouldProcess('NoBS11 Control', 'Install ongoing app and startup control shortcuts')) {
     & $appControlInstaller
 }
 

@@ -83,7 +83,7 @@ Add-Type -AssemblyName WindowsBase
 $xaml = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="App Control" Width="1080" Height="720" MinWidth="900" MinHeight="600"
+        Title="NoBS11 Control" Width="1080" Height="720" MinWidth="900" MinHeight="600"
         WindowStartupLocation="CenterScreen" Background="#202020" Foreground="#F3F3F3"
         FontFamily="Segoe UI" FontSize="13">
   <Window.Resources>
@@ -215,8 +215,8 @@ $xaml = @'
     <Border Grid.Column="0" Background="{StaticResource SidebarBrush}" BorderBrush="#303030" BorderThickness="0,0,1,0">
       <DockPanel>
         <StackPanel DockPanel.Dock="Top" Margin="18,22,18,18">
-          <TextBlock Text="App Control" FontSize="20" FontWeight="SemiBold"/>
-          <TextBlock Text="Workstation" Foreground="{StaticResource SecondaryBrush}" FontSize="12" Margin="0,3,0,0"/>
+          <TextBlock Text="NoBS11 Control" FontSize="20" FontWeight="SemiBold"/>
+          <TextBlock Text="Runs on demand" Foreground="{StaticResource SecondaryBrush}" FontSize="12" Margin="0,3,0,0"/>
         </StackPanel>
         <StackPanel DockPanel.Dock="Top">
           <Button x:Name="NavApps" Style="{StaticResource NavButton}" Content="Installed apps"/>
@@ -273,402 +273,4 @@ $xaml = @'
         <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Margin="0,0,0,18">
           <TextBlock Text="Startup" FontSize="28" FontWeight="Light"/>
-          <TextBlock Text="Reversible control for startup entries. Disabled items are retained locally so they can be restored." Foreground="{StaticResource SecondaryBrush}" Margin="0,6,0,0"/>
-        </StackPanel>
-        <Grid Grid.Row="1" Margin="0,0,0,12">
-          <Grid.ColumnDefinitions><ColumnDefinition Width="340"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-          <TextBox x:Name="StartupSearch" Grid.Column="0" ToolTip="Search startup items"/>
-          <TextBlock x:Name="StartupCount" Grid.Column="2" Foreground="{StaticResource SecondaryBrush}" VerticalAlignment="Center"/>
-        </Grid>
-        <DataGrid x:Name="StartupGrid" Grid.Row="2">
-          <DataGrid.Columns>
-            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="1.4*"/>
-            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="0.65*"/>
-            <DataGridTextColumn Header="Source" Binding="{Binding Source}" Width="1.2*"/>
-            <DataGridTextColumn Header="Command or path" Binding="{Binding Command}" Width="2*"/>
-          </DataGrid.Columns>
-        </DataGrid>
-        <Border Grid.Row="3" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="14" Margin="0,12,0,0">
-          <Grid>
-            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-            <StackPanel>
-              <TextBlock x:Name="StartupDetailTitle" Text="Select a startup item" FontWeight="SemiBold"/>
-              <TextBlock x:Name="StartupDetailText" Text="Nothing is changed until you confirm an action." Foreground="{StaticResource SecondaryBrush}" FontSize="12" Margin="0,4,0,0" TextTrimming="CharacterEllipsis"/>
-            </StackPanel>
-            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-              <Button x:Name="RefreshStartup" Style="{StaticResource ActionButton}" Content="Refresh"/>
-              <Button x:Name="ToggleStartup" Style="{StaticResource ActionButton}" Content="Disable" IsEnabled="False"/>
-            </StackPanel>
-          </Grid>
-        </Border>
-      </Grid>
-
-      <Grid x:Name="ProcessesPage" Grid.Row="0" Visibility="Collapsed">
-        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Margin="0,0,0,18">
-          <TextBlock Text="Processes" FontSize="28" FontWeight="Light"/>
-          <TextBlock Text="Current-session processes sorted by memory. Core Windows processes are shown but protected from termination." Foreground="{StaticResource SecondaryBrush}" Margin="0,6,0,0"/>
-        </StackPanel>
-        <Grid Grid.Row="1" Margin="0,0,0,12">
-          <Grid.ColumnDefinitions><ColumnDefinition Width="340"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-          <TextBox x:Name="ProcessSearch" Grid.Column="0" ToolTip="Search processes"/>
-          <TextBlock x:Name="ProcessCount" Grid.Column="2" Foreground="{StaticResource SecondaryBrush}" VerticalAlignment="Center"/>
-        </Grid>
-        <DataGrid x:Name="ProcessesGrid" Grid.Row="2">
-          <DataGrid.Columns>
-            <DataGridTextColumn Header="Process" Binding="{Binding Name}" Width="1.5*"/>
-            <DataGridTextColumn Header="PID" Binding="{Binding Id}" Width="0.6*"/>
-            <DataGridTextColumn Header="Memory" Binding="{Binding Memory}" Width="0.75*"/>
-            <DataGridTextColumn Header="Publisher" Binding="{Binding Publisher}" Width="1.8*"/>
-            <DataGridTextColumn Header="Control" Binding="{Binding Control}" Width="0.8*"/>
-          </DataGrid.Columns>
-        </DataGrid>
-        <Border Grid.Row="3" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="14" Margin="0,12,0,0">
-          <Grid>
-            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-            <StackPanel>
-              <TextBlock x:Name="ProcessDetailTitle" Text="Select a process" FontWeight="SemiBold"/>
-              <TextBlock x:Name="ProcessDetailText" Text="Ending a process can discard unsaved work." Foreground="{StaticResource SecondaryBrush}" FontSize="12" Margin="0,4,0,0"/>
-            </StackPanel>
-            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-              <Button x:Name="RefreshProcesses" Style="{StaticResource ActionButton}" Content="Refresh"/>
-              <Button x:Name="EndProcess" Style="{StaticResource DangerButton}" Content="End process" IsEnabled="False"/>
-            </StackPanel>
-          </Grid>
-        </Border>
-      </Grid>
-
-      <TextBlock x:Name="StatusText" Grid.Row="1" Text="Ready" Foreground="{StaticResource SecondaryBrush}" FontSize="11" VerticalAlignment="Bottom"/>
-    </Grid>
-  </Grid>
-</Window>
-'@
-
-$reader = [Xml.XmlNodeReader]::new([xml]$xaml)
-$window = [Windows.Markup.XamlReader]::Load($reader)
-$names = @(
-    'NavApps','NavStartup','NavProcesses','AppsPage','StartupPage','ProcessesPage','StatusText',
-    'AppSearch','AppCount','AppsGrid','AppDetailTitle','AppDetailText','RefreshApps','DisableApp','UninstallApp',
-    'StartupSearch','StartupCount','StartupGrid','StartupDetailTitle','StartupDetailText','RefreshStartup','ToggleStartup',
-    'ProcessSearch','ProcessCount','ProcessesGrid','ProcessDetailTitle','ProcessDetailText','RefreshProcesses','EndProcess'
-)
-$ui = @{}
-foreach ($name in $names) { $ui[$name] = $window.FindName($name) }
-
-$script:allApps = @()
-$script:allStartup = @()
-$script:allProcesses = @()
-$script:managedState = @{}
-$script:refreshErrors = @{}
-$script:currentPage = 'Apps'
-$selectedBrush = $window.Resources['SelectedBrush']
-$transparentBrush = [Windows.Media.Brushes]::Transparent
-
-function Set-Status {
-    param([Parameter(Mandatory)][string]$Text, [switch]$Busy)
-    $ui.StatusText.Text = $Text
-    [Windows.Automation.AutomationProperties]::SetHelpText($ui.StatusText, '')
-    $window.Cursor = if ($Busy) { [Windows.Input.Cursors]::Wait } else { [Windows.Input.Cursors]::Arrow }
-    [Windows.Threading.Dispatcher]::CurrentDispatcher.Invoke([Action]{}, [Windows.Threading.DispatcherPriority]::Background)
-}
-
-function Show-Error {
-    param([Parameter(Mandatory)][string]$Title, [Parameter(Mandatory)]$Result)
-    $detail = @($Result.Error, $Result.Output) | Where-Object { $_ } | Select-Object -First 1
-    if (-not $detail) { $detail = "The action exited with code $($Result.ExitCode)." }
-    [Windows.MessageBox]::Show($window, [string]$detail, $Title, 'OK', 'Error') | Out-Null
-}
-
-function Show-Page {
-    param([Parameter(Mandatory)][ValidateSet('Apps','Startup','Processes')][string]$Page)
-    $script:currentPage = $Page
-    foreach ($entry in @{
-        Apps = @{ Page = $ui.AppsPage; Nav = $ui.NavApps }
-        Startup = @{ Page = $ui.StartupPage; Nav = $ui.NavStartup }
-        Processes = @{ Page = $ui.ProcessesPage; Nav = $ui.NavProcesses }
-    }.GetEnumerator()) {
-        $active = $entry.Key -eq $Page
-        $entry.Value.Page.Visibility = if ($active) { 'Visible' } else { 'Collapsed' }
-        $entry.Value.Nav.Background = if ($active) { $selectedBrush } else { $transparentBrush }
-        $entry.Value.Nav.FontWeight = if ($active) { 'SemiBold' } else { 'Normal' }
-    }
-}
-
-function Apply-AppFilter {
-    $needle = $ui.AppSearch.Text.Trim()
-    $filtered = @(
-        if ($needle) {
-            $script:allApps | Where-Object { $_.Name -like "*$needle*" -or $_.Publisher -like "*$needle*" -or $_.Source -like "*$needle*" }
-        }
-        else { $script:allApps }
-    )
-    $ui.AppsGrid.ItemsSource = $filtered
-    $ui.AppCount.Text = "$($filtered.Count) apps"
-}
-
-function Apply-StartupFilter {
-    $needle = $ui.StartupSearch.Text.Trim()
-    $filtered = @(
-        if ($needle) {
-            $script:allStartup | Where-Object { $_.Name -like "*$needle*" -or $_.Source -like "*$needle*" -or $_.Command -like "*$needle*" }
-        }
-        else { $script:allStartup }
-    )
-    $ui.StartupGrid.ItemsSource = $filtered
-    $ui.StartupCount.Text = "$($filtered.Count) items"
-}
-
-function Apply-ProcessFilter {
-    $needle = $ui.ProcessSearch.Text.Trim()
-    $filtered = @(
-        if ($needle) {
-            $script:allProcesses | Where-Object { $_.Name -like "*$needle*" -or $_.Publisher -like "*$needle*" }
-        }
-        else { $script:allProcesses }
-    )
-    $ui.ProcessesGrid.ItemsSource = $filtered
-    $ui.ProcessCount.Text = "$($filtered.Count) processes"
-}
-
-function Refresh-Apps {
-    [void]$script:refreshErrors.Remove('Apps')
-    Set-Status 'Reading installed applicationsâ€¦' -Busy
-    try {
-        $installedResult = Invoke-ControlScript $installedManager @('-Action','Audit','-Json')
-        $managedResult = Invoke-ControlScript $optionalManager @('-Action','Audit','-Json')
-        if ($installedResult.ExitCode -ne 0) { Show-Error 'Could not read installed apps' $installedResult; return }
-        if ($managedResult.ExitCode -ne 0) { Show-Error 'Could not read managed state' $managedResult; return }
-        $installed = @(Convert-JsonArray $installedResult.Output)
-        $managed = @(Convert-JsonArray $managedResult.Output)
-        $script:managedState = @{}
-        foreach ($state in $managed) { $script:managedState[[string]$state.Name] = $state }
-        $script:allApps = @(
-            foreach ($app in $installed) {
-                $status = 'Installed'
-                $backgroundActive = $false
-                if ($app.ManagedName -and $script:managedState.ContainsKey([string]$app.ManagedName)) {
-                    $state = $script:managedState[[string]$app.ManagedName]
-                    $backgroundActive = [bool]$state.BackgroundActive
-                    if ([int]$state.Running -gt 0) { $status = 'Running' }
-                    elseif ([int]$state.StartupEntries -gt 0) { $status = 'Starts with Windows' }
-                    elseif ($backgroundActive) { $status = 'Background service active' }
-                    else { $status = 'Background disabled' }
-                }
-                [pscustomobject]@{
-                    Id = [string]$app.Id
-                    Name = [string]$app.Name
-                    Publisher = if ([string]$app.Publisher) { [string]$app.Publisher } else { 'Unknown publisher' }
-                    Version = [string]$app.Version
-                    Scope = [string]$app.Scope
-                    Source = [string]$app.Source
-                    CanUninstall = [bool]$app.CanUninstall
-                    ManagedName = [string]$app.ManagedName
-                    BackgroundActive = $backgroundActive
-                    Status = $status
-                }
-            }
-        )
-        Apply-AppFilter
-        $ui.AppsGrid.SelectedItem = $null
-        Set-Status "Installed apps refreshed at $(Get-Date -Format 'HH:mm:ss')."
-    }
-    catch {
-        $script:refreshErrors['Apps'] = $_.Exception.ToString()
-        [Windows.MessageBox]::Show($window, $_.Exception.Message, 'Could not refresh installed apps', 'OK', 'Error') | Out-Null
-        Set-Status 'Installed-app refresh failed.'
-        [Windows.Automation.AutomationProperties]::SetHelpText($ui.StatusText, $script:refreshErrors['Apps'])
-    }
-}
-
-function Refresh-Startup {
-    [void]$script:refreshErrors.Remove('Startup')
-    Set-Status 'Reading startup entriesâ€¦' -Busy
-    try {
-        $result = Invoke-ControlScript $startupManager @('-Action','Audit','-Json')
-        if ($result.ExitCode -ne 0) { Show-Error 'Could not read startup entries' $result; return }
-        $script:allStartup = @(Convert-JsonArray $result.Output)
-        Apply-StartupFilter
-        $ui.StartupGrid.SelectedItem = $null
-        Set-Status "Startup entries refreshed at $(Get-Date -Format 'HH:mm:ss')."
-    }
-    catch {
-        $script:refreshErrors['Startup'] = $_.Exception.ToString()
-        [Windows.MessageBox]::Show($window, $_.Exception.Message, 'Could not refresh startup entries', 'OK', 'Error') | Out-Null
-        Set-Status 'Startup refresh failed.'
-        [Windows.Automation.AutomationProperties]::SetHelpText($ui.StatusText, $script:refreshErrors['Startup'])
-    }
-}
-
-function Refresh-Processes {
-    [void]$script:refreshErrors.Remove('Processes')
-    Set-Status 'Reading current-session processesâ€¦' -Busy
-    try {
-        $criticalNames = @('audiodg','csrss','dwm','explorer','fontdrvhost','lsass','services','sihost','smss','StartMenuExperienceHost','System','taskhostw','wininit','winlogon')
-        $sessionId = (Get-Process -Id $PID).SessionId
-        $cimProcesses = @(Get-CimInstance Win32_Process -Filter "SessionId=$sessionId" -ErrorAction SilentlyContinue)
-        $script:allProcesses = @(
-            foreach ($cim in $cimProcesses) {
-                $process = Get-Process -Id $cim.ProcessId -ErrorAction SilentlyContinue
-                if (-not $process) { continue }
-                $rawName = $process.ProcessName
-                $publisher = ''
-                try { $publisher = [string]$process.MainModule.FileVersionInfo.CompanyName } catch {}
-                $canStop = $process.Id -ne $PID -and $rawName -notin $criticalNames
-                [pscustomobject]@{
-                    Name = $rawName
-                    Id = [int]$process.Id
-                    Memory = ('{0:N0} MB' -f ($process.WorkingSet64 / 1MB))
-                    MemoryBytes = [long]$process.WorkingSet64
-                    Publisher = if ($publisher) { $publisher } else { 'Unknown publisher' }
-                    Control = if ($canStop) { 'Available' } else { 'Protected' }
-                    CanStop = $canStop
-                }
-            }
-        ) | Sort-Object MemoryBytes -Descending
-        Apply-ProcessFilter
-        $ui.ProcessesGrid.SelectedItem = $null
-        Set-Status "Processes refreshed at $(Get-Date -Format 'HH:mm:ss')."
-    }
-    catch {
-        $script:refreshErrors['Processes'] = $_.Exception.ToString()
-        [Windows.MessageBox]::Show($window, $_.Exception.Message, 'Could not refresh processes', 'OK', 'Error') | Out-Null
-        Set-Status 'Process refresh failed.'
-        [Windows.Automation.AutomationProperties]::SetHelpText($ui.StatusText, $script:refreshErrors['Processes'])
-    }
-}
-
-$ui.AppsGrid.Add_SelectionChanged({
-    $app = $ui.AppsGrid.SelectedItem
-    if (-not $app) {
-        $ui.AppDetailTitle.Text = 'Select an app'
-        $ui.AppDetailText.Text = 'App details and available actions will appear here.'
-        $ui.DisableApp.Content = 'Disable background'
-        $ui.DisableApp.IsEnabled = $false
-        $ui.UninstallApp.IsEnabled = $false
-        return
-    }
-    $ui.AppDetailTitle.Text = $app.Name
-    $managedText = if ($app.ManagedName) { " â€¢ $($app.Status.ToLowerInvariant())" } else { '' }
-    $ui.AppDetailText.Text = "$($app.Publisher) â€¢ $($app.Version) â€¢ $($app.Scope)$managedText"
-    $ui.DisableApp.Content = if ($app.ManagedName -and -not $app.BackgroundActive) { 'Background disabled' } else { 'Disable background' }
-    $ui.DisableApp.IsEnabled = [bool]$app.ManagedName -and [bool]$app.BackgroundActive
-    $ui.UninstallApp.IsEnabled = [bool]$app.CanUninstall
-})
-
-$ui.StartupGrid.Add_SelectionChanged({
-    $item = $ui.StartupGrid.SelectedItem
-    if (-not $item) {
-        $ui.StartupDetailTitle.Text = 'Select a startup item'
-        $ui.StartupDetailText.Text = 'Nothing is changed until you confirm an action.'
-        $ui.ToggleStartup.IsEnabled = $false
-        return
-    }
-    $ui.StartupDetailTitle.Text = $item.Name
-    $ui.StartupDetailText.Text = "$($item.Source) â€¢ $($item.Command)"
-    $ui.ToggleStartup.Content = if ($item.Status -eq 'Enabled') { 'Disable' } else { 'Restore' }
-    $ui.ToggleStartup.IsEnabled = $true
-})
-
-$ui.ProcessesGrid.Add_SelectionChanged({
-    $process = $ui.ProcessesGrid.SelectedItem
-    if (-not $process) {
-        $ui.ProcessDetailTitle.Text = 'Select a process'
-        $ui.ProcessDetailText.Text = 'Ending a process can discard unsaved work.'
-        $ui.EndProcess.IsEnabled = $false
-        return
-    }
-    $ui.ProcessDetailTitle.Text = "$($process.Name)  (PID $($process.Id))"
-    $ui.ProcessDetailText.Text = "$($process.Memory) â€¢ $($process.Publisher) â€¢ $($process.Control)"
-    $ui.EndProcess.IsEnabled = [bool]$process.CanStop
-})
-
-$ui.NavApps.Add_Click({ Show-Page Apps })
-$ui.NavStartup.Add_Click({ Show-Page Startup; if ($script:allStartup.Count -eq 0) { Refresh-Startup } })
-$ui.NavProcesses.Add_Click({ Show-Page Processes; if ($script:allProcesses.Count -eq 0) { Refresh-Processes } })
-$ui.AppSearch.Add_TextChanged({ Apply-AppFilter })
-$ui.StartupSearch.Add_TextChanged({ Apply-StartupFilter })
-$ui.ProcessSearch.Add_TextChanged({ Apply-ProcessFilter })
-$ui.RefreshApps.Add_Click({ Refresh-Apps })
-$ui.RefreshStartup.Add_Click({ Refresh-Startup })
-$ui.RefreshProcesses.Add_Click({ Refresh-Processes })
-
-$ui.DisableApp.Add_Click({
-    $app = $ui.AppsGrid.SelectedItem
-    if (-not $app -or -not $app.ManagedName -or -not $app.BackgroundActive) { return }
-    $message = "Disable startup and current background activity for $($app.Name)?`n`nThe application remains installed and can still run when you open it or when another app explicitly launches it. Automatic cataloged services are set to manual and can request administrator approval."
-    if ([Windows.MessageBox]::Show($window, $message, 'Confirm background change', 'YesNo', 'Warning') -ne 'Yes') { return }
-    Set-Status "Disabling $($app.Name)â€¦" -Busy
-    $result = Invoke-ControlScript $optionalManager @('-Action','DisableStartup','-Name',$app.ManagedName,'-Force')
-    $failed = $result.ExitCode -ne 0
-    if ($failed) { Show-Error 'Background action did not complete' $result }
-    Refresh-Apps
-    Refresh-Startup
-    if ($failed) { Set-Status "Could not fully disable background activity for $($app.Name)." }
-    else { Set-Status "Background and startup activity disabled for $($app.Name)." }
-})
-
-$ui.UninstallApp.Add_Click({
-    $app = $ui.AppsGrid.SelectedItem
-    if (-not $app -or -not $app.CanUninstall) { return }
-    $warning = if ($app.ManagedName -and $catalogByName.ContainsKey([string]$app.ManagedName)) { "`n`n$($catalogByName[[string]$app.ManagedName].warning)" } else { '' }
-    $message = "Uninstall $($app.Name)?`n`nPublisher: $($app.Publisher)`nType: $($app.Source)$warning`n`nWindows may request administrator approval."
-    if ([Windows.MessageBox]::Show($window, $message, 'Confirm uninstall', 'YesNo', 'Warning') -ne 'Yes') { return }
-    Set-Status "Uninstalling $($app.Name)â€¦" -Busy
-    $result = if ($app.ManagedName) {
-        Invoke-ControlScript $optionalManager @('-Action','Uninstall','-Name',$app.ManagedName,'-Force')
-    } else {
-        Invoke-ControlScript $installedManager @('-Action','Uninstall','-Id',$app.Id,'-Force')
-    }
-    if ($result.ExitCode -ne 0) { Show-Error 'Uninstall did not complete' $result }
-    Refresh-Apps
-    Refresh-Startup
-    Refresh-Processes
-})
-
-$ui.ToggleStartup.Add_Click({
-    $item = $ui.StartupGrid.SelectedItem
-    if (-not $item) { return }
-    $action = if ($item.Status -eq 'Enabled') { 'Disable' } else { 'Enable' }
-    $verb = if ($action -eq 'Disable') { 'disable' } else { 'restore' }
-    if ([Windows.MessageBox]::Show($window, "Safely $verb $($item.Name)?", "Confirm $verb", 'YesNo', 'Question') -ne 'Yes') { return }
-    Set-Status "$($verb.Substring(0,1).ToUpperInvariant())$($verb.Substring(1))ing $($item.Name)â€¦" -Busy
-    $result = Invoke-ControlScript $startupManager @('-Action',$action,'-Id',$item.Id,'-Force')
-    if ($result.ExitCode -ne 0) { Show-Error 'Startup action did not complete' $result }
-    Refresh-Startup
-})
-
-$ui.EndProcess.Add_Click({
-    $selected = $ui.ProcessesGrid.SelectedItem
-    if (-not $selected -or -not $selected.CanStop) { return }
-    if ([Windows.MessageBox]::Show($window, "End $($selected.Name) (PID $($selected.Id))?`n`nUnsaved work in this process will be lost.", 'Confirm end process', 'YesNo', 'Warning') -ne 'Yes') { return }
-    try {
-        $current = Get-Process -Id $selected.Id -ErrorAction Stop
-        if ($current.ProcessName -ne $selected.Name) { throw 'The selected PID now belongs to a different process. Refresh and try again.' }
-        Stop-Process -Id $selected.Id -Force -ErrorAction Stop
-        Set-Status "Ended $($selected.Name)."
-    }
-    catch { [Windows.MessageBox]::Show($window, $_.Exception.Message, 'Could not end process', 'OK', 'Error') | Out-Null }
-    Refresh-Processes
-})
-
-Show-Page Apps
-if ($SmokeTest) {
-    Refresh-Apps
-    Refresh-Startup
-    Refresh-Processes
-    if ($script:refreshErrors.Count -gt 0) {
-        throw "App Control smoke test refresh failed: $($script:refreshErrors.Values -join ' | ')"
-    }
-    [ordered]@{
-        Status = 'pass'
-        InstalledRows = $ui.AppsGrid.Items.Count
-        StartupRows = $ui.StartupGrid.Items.Count
-        ProcessRows = $ui.ProcessesGrid.Items.Count
-        ExternalSettingsLinks = 0
-    } | ConvertTo-Json
-    $window.Close()
-    return
-}
-
-$window.Add_ContentRendered({ Refresh-Apps })
-[void]$window.ShowDialog()
+          <TextBlock Text="Reversible control for startup entries. Disabled items are retained locally so they can be restored." FÛMü¶‰žËkºwµç]¥¹‘½ÝÌ¹%¹ÁÕÐ¹ÕÉÍ½ÉÍtèé]…¥Ðô•±Í”ìm]¥¹‘½ÝÌ¹%¹ÁÕÐ¹ÕÉÍ½ÉÍtèéÉÉ½Üô(€€€m]¥¹‘½ÝÌ¹Q¡É•…‘¥¹œ¹¥ÍÁ…Ñ¡•ÉtèéÕÉÉ•¹Ñ¥ÍÁ…Ñ¡•È¹%¹Ù½­”¡mÑ¥½¹uíô°m]¥¹‘½ÝÌ¹Q¡É•…‘¥¹œ¹¥ÍÁ…Ñ¡•ÉAÉ¥½É¥Ñåtèé	…­É½Õ¹¤)ô()™Õ¹Ñ¥½¸M¡½ÜµÉÉ½Èì(€€€Á…É…´¡mA…É…µ•Ñ•È¡5…¹‘…Ñ½Éä¥umÍÑÉ¥¹t‘Q¥Ñ±”°mA…É…µ•Ñ•È¡5…¹‘…Ñ½Éä¥t‘I•ÍÕ±Ð¤(€€€€‘‘•Ñ…¥°€ô  ‘I•ÍÕ±Ð¹ÉÉ½È°€‘I•ÍÕ±Ð¹=ÕÑÁÕÐ¤ð]¡•É”µ=‰©•Ðì€‘|ôðM•±•Ðµ=‰©•Ð€µ¥ÉÍÐ€Ä(€€€¥˜€ µ¹½Ð€‘‘•Ñ…¥°¤ì€‘‘•Ñ…¥°€ô€‰Q¡”…Ñ¥½¸•á¥Ñ•Ý¥Ñ ½‘”€ ‘I•ÍÕ±Ð¹á¥Ñ½‘”¤¸ˆô(€€€m]¥¹‘½ÝÌ¹5•ÍÍ…•	½átèéM¡½Ü ‘Ý¥¹‘½Ü°mÍÑÉ¥¹t‘‘•Ñ…¥°°€‘Q¥Ñ±”°€=,œ°€ÉÉ½Èœ¤ð=ÕÐµ9Õ±°)ô()™Õ¹Ñ¥½¸M¡½ÜµA…”ì(€€€Á…É…´¡mA…É…µ•Ñ•È¡5…¹‘…Ñ½Éä¥umY…±¥‘…Ñ•M•Ð ÁÁÌœ°MÑ…ÉÑÕÀœ°AÉ½•ÍÍ•Ìœ¥umÍÑÉ¥¹t‘A…”¤(€€€€‘ÍÉ¥ÁÐéÕÉÉ•¹ÑA…”€ô€‘A…”(€€€™½É•… € ‘•¹ÑÉä¥¸ì(€€€€€€€ÁÁÌ€ôìA…”€ô€‘Õ¤¹ÁÁÍA…”ì9…Ø€ô€‘Õ¤¹9…ÙÁÁÌô(€€€€€€€MÑ…ÉÑÕÀ€ôìA…”€ô€‘Õ¤¹MÑ…ÉÑÕÁA…”ì9…Ø€ô€‘Õ¤¹9…ÙMÑ…ÉÑÕÀô(€€€€€€€AÉ½•ÍÍ•Ì€ôìA…”€ô€‘Õ¤¹AÉ½•ÍÍ•ÍA…”ì9…Ø€ô€‘Õ¤¹9…ÙAÉ½•ÍÍ•Ìô(€€€ô¹•Ñ¹Õµ•É…Ñ½È ¤¤ì(€€€€€€€€‘…Ñ¥Ù”€ô€‘•¹ÑÉä¹-•ä€µ•Ä€‘A…”(€€€€€€€€‘•¹ÑÉä¹Y…±Õ”¹A…”¹Y¥Í¥‰¥±¥Ñä€ô¥˜€ ‘…Ñ¥Ù”¤ì€Y¥Í¥‰±”œô•±Í”ì€½±±…ÁÍ•œô(€€€€€€€€‘•¹ÑÉä¹Y…±Õ”¹9…Ø¹	…­É½Õ¹€ô¥˜€ ‘…Ñ¥Ù”¤ì€‘Í•±•Ñ•‘	ÉÕÍ ô•±Í”ì€‘ÑÉ…¹ÍÁ…É•¹Ñ	ÉÕÍ ô(€€€€€€€€‘•¹ÑÉä¹Y…±Õ”¹9…Ø¹½¹Ñ]•¥¡Ð€ô¥˜€ ‘…Ñ¥Ù”¤ì€M•µ¥	½±œô•±Í”ì€9½Éµ…°œô(€€€ô)ô()™Õ¹Ñ¥½¸ÁÁ±äµÁÁ¥±Ñ•Èì(€€€€‘¹••‘±”€ô€‘Õ¤¹ÁÁM•…É ¹Q•áÐ¹QÉ¥´ ¤(€€€€‘™¥±Ñ•É•€ô  (€€€€€€€¥˜€ ‘¹••‘±”¤ì(€€€€€€€€€€€€‘ÍÉ¥ÁÐé…±±ÁÁÌð]¡•É”µ=‰©•Ðì€‘|¹9…µ”€µ±¥­”€ˆ¨‘¹••‘±”¨ˆ€µ½È€‘|¹AÕ‰±¥Í¡•È€µ±¥­”€ˆ¨‘¹••‘±”¨ˆ€µ½È€‘|¹M½ÕÉ”€µ±¥­”€ˆ¨‘¹••‘±”¨ˆô(€€€€€€€ô(€€€€€€€•±Í”ì€‘ÍÉ¥ÁÐé…±±ÁÁÌô(€€€€¤(€€€€‘Õ¤¹ÁÁÍÉ¥¹%Ñ•µÍM½ÕÉ”€ô€‘™¥±Ñ•É•(€€€€‘Õ¤¹ÁÁ½Õ¹Ð¹Q•áÐ€ô€ˆ ‘™¥±Ñ•É•¹½Õ¹Ð¤…ÁÁÌˆ)ô()™Õ¹Ñ¥½¸ÁÁ±äµMÑ…ÉÑÕÁ¥±Ñ•Èì(€€€€‘¹••‘±”€ô€‘Õ¤¹MÑ…ÉÑÕÁM•…É ¹Q•áÐ¹QÉ¥´ ¤(€€€€‘™¥±Ñ•É•€ô  (€€€€€€€¥˜€ ‘¹••‘±”¤ì(€€€€€€€€€€€€‘ÍÉ¥ÁÐé…±±MÑ…ÉÑÕÀð]¡•É”µ=‰©•Ðì€‘|¹9…µ”€µ±¥­”€ˆ¨‘¹••‘±”¨ˆ€µ½È€‘|¹M½ÕÉ”€µ±¥­”€ˆ¨‘¹••‘±”¨ˆ€µ½È€‘|¹½µµ…¹€µ±¥­”€ˆ¨‘¹••‘±”¨ˆô(€€€€€€€ô(€€€€€€€•±Í”ì€‘ÍÉ¥ÁÐé…±±MÑ…ÉÑÕÀô(€€€€¤(€€€€‘Õ¤¹MÑ…ÉÑÕÁÉ¥¹%Ñ•µÍM½ÕÉ”€ô€‘™¥±Ñ•É•(€€€€‘Õ¤¹MÑ…ÉÑÕÁ½Õ¹Ð¹Q•áÐ€ô€ˆ ‘™¥±Ñ•É•¹½Õ¹Ð¤¥Ñ•µÌˆ)ô()™Õ¹Ñ¥½¸ÁÁ±äµAÉ½•ÍÍ¥±Ñ•Èì(€€€€‘¹••‘±”€ô€‘Õ¤¹AÉ½•ÍÍM•…É ¹Q•áÐ¹QÉ¥´ ¤(€€€€‘™¥±Ñ•É•€ô  (€€€€€€€¥˜€ ‘¹••‘±”¤ì(€€€€€€€€€€€€‘ÍÉ¥ÁÐé…±±AÉ½•ÍÍ•Ìð]¡•É”µ=‰©•Ðì€‘|¹9…µ”€µ±¥­”€ˆ¨‘¹••‘±”¨ˆ€µ½È€‘|¹AÕ‰±¥Í¡•È€µ±¥­”€ˆ¨‘¹••‘±”¨ˆô(€€€€€€€ô(€€€€€€€•±Í”ì€‘ÍÉ¥ÁÐé…±±AÉ½•ÍÍ•Ìô(€€€€¤(€€€€‘Õ¤¹AÉ½•ÍÍ•ÍÉ¥¹%Ñ•µÍM½ÕÉ”€ô€‘™¥±Ñ•É•(€€€€‘Õ¤¹AÉ½•ÍÍ½Õ¹Ð¹Q•áÐ€ô€ˆ ‘™¥±Ñ•É•¹½Õ¹Ð¤ÁÉ½•ÍÍ•Ìˆ)ô()™Õ¹Ñ¥½¸I•™É•Í µÁÁÌì(€€€mÙ½¥‘t‘ÍÉ¥ÁÐéÉ•™É•Í¡ÉÉ½ÉÌ¹I•µ½Ù” ÁÁÌœ¤(€€€M•ÐµMÑ…ÑÕÌ€I•…‘¥¹œ¥¹ÍÑ…±±•…ÁÁ±¥…Ñ¥½¹ÏŠ˜œ€µ	ÕÍä(€€€ÑÉäì(€€€€€€€€‘¥¹ÍÑ…±±•‘I•ÍÕ±Ð€ô%¹Ù½­”µ½¹ÑÉ½±MÉ¥ÁÐ€‘¥¹ÍÑ…±±•‘5…¹…•È  œµÑ¥½¸œ°Õ‘¥Ðœ°œµ)Í½¸œ¤(€€€€€€€€‘µ…¹…•‘I•ÍÕ±Ð€ô%¹Ù½­”µ½¹ÑÉ½±MÉ¥ÁÐ€‘½ÁÑ¥½¹…±5…¹…•È  œµÑ¥½¸œ°Õ‘¥Ðœ°œµ)Í½¸œ¤(€€€€€€€¥˜€ ‘¥¹ÍÑ…±±•‘I•ÍÕ±Ð¹á¥Ñ½‘”€µ¹”€À¤ìM¡½ÜµÉÉ½È€½Õ±¹½ÐÉ•…¥¹ÍÑ…±±•…ÁÁÌœ€‘¥¹ÍÑ…±±•‘I•ÍÕ±ÐìÉ•ÑÕÉ¸ô(€€€€€€€¥˜€ ‘µ…¹…•‘I•ÍÕ±Ð¹á¥Ñ½‘”€µ¹”€À¤ìM¡½ÜµÉÉ½È€½Õ±¹½ÐÉ•…µ…¹…•ÍÑ…Ñ”œ€‘µ…¹…•‘I•ÍÕ±ÐìÉ•ÑÕÉ¸ô(€€€€€€€€‘¥¹ÍÑ…±±•€ô ¡½¹Ù•ÉÐµ)Í½¹ÉÉ…ä€‘¥¹ÍÑ…±±•‘I•ÍÕ±Ð¹=ÕÑÁÕÐ¤(€€€€€€€€‘µ…¹…•€ô ¡½¹Ù•ÉÐµ)Í½¹ÉÉ…ä€‘µ…¹…•‘I•ÍÕ±Ð¹=ÕÑÁÕÐ¤(€€€€€€€€‘ÍÉ¥ÁÐéµ…¹…•‘MÑ…Ñ”€ôíô(€€€€€€€™½É•… € ‘ÍÑ…Ñ”¥¸€‘µ…¹…•¤ì€‘ÍÉ¥ÁÐéµ…¹…•‘MÑ…Ñ•mmÍÑÉ¥¹t‘ÍÑ…Ñ”¹9…µ•t€ô€‘ÍÑ…Ñ”ô(€€€€€€€€‘ÍÉ¥ÁÐé…±±ÁÁÌ€ô  (€€€€€€€€€€€™½É•… € ‘…ÁÀ¥¸€‘¥¹ÍÑ…±±•¤ì(€€€€€€€€€€€€€€€€‘ÍÑ…ÑÕÌ€ô€%¹ÍÑ…±±•œ(€€€€€€€€€€€€€€€€‘‰…­É½Õ¹‘Ñ¥Ù”€ô€‘™…±Í”(€€€€€€€€€€€€€€€¥˜€ ‘…ÁÀ¹5…¹…•‘9…µ”€µ…¹€‘ÍÉ¥ÁÐéµ…¹…•‘MÑ…Ñ”¹½¹Ñ…¥¹Í-•ä¡mÍÑÉ¥¹t‘…ÁÀ¹5…¹…•‘9…µ”¤¤ì(€€€€€€€€€€€€€€€€€€€€‘ÍÑ…Ñ”€ô€‘ÍÉ¥ÁÐéµ…¹…•‘MÑ…Ñ•mmÍÑÉ¥¹t‘…ÁÀ¹5…¹…•‘9…µ•t(€€€€€€€€€€€€€€€€€€€€‘‰…­É½Õ¹‘Ñ¥Ù”€ôm‰½½±t‘ÍÑ…Ñ”¹	…­É½Õ¹‘Ñ¥Ù”(€€€€€€€€€€€€€€€€€€€¥˜€¡m¥¹Ñt‘ÍÑ…Ñ”¹IÕ¹¹¥¹œ€µÐ€À¤ì€‘ÍÑ…ÑÕÌ€ô€IÕ¹¹¥¹œœô(€€€€€€€€€€€€€€€€€€€•±Í•¥˜€¡m¥¹Ñt‘ÍÑ…Ñ”¹MÑ…ÉÑÕÁ¹ÑÉ¥•Ì€µÐ€À¤ì€‘ÍÑ…ÑÕÌ€ô€MÑ…ÉÑÌÝ¥Ñ ]¥¹‘½ÝÌœô(€€€€€€€€€€€€€€€€€€€•±Í•¥˜€ ‘‰…­É½Õ¹‘Ñ¥Ù”¤ì€‘ÍÑ…ÑÕÌ€ô€	…­É½Õ¹Í•ÉÙ¥”…Ñ¥Ù”œô(€€€€€€€€€€€€€€€€€€€•±Í”ì€‘ÍÑ…ÑÕÌ€ô€	…­É½Õ¹‘¥Í…‰±•œô(€€€€€€€€€€€€€€€ô(€€€€€€€€€€€€€€€mÁÍÕÍÑ½µ½‰©•Ñuì(€€€€€€€€€€€€€€€€€€€%€ômÍÑÉ¥¹t‘…ÁÀ¹%(€€€€€€€€€€€€€€€€€€€9…µ”€ômÍÑÉ¥¹t‘…ÁÀ¹9…µ”(€€€€€€€€€€€€€€€€€€€AÕ‰±¥Í¡•È€ô¥˜€¡mÍÑÉ¥¹t‘…ÁÀ¹AÕ‰±¥Í¡•È¤ìmÍÑÉ¥¹t‘…ÁÀ¹AÕ‰±¥Í¡•Èô•±Í”ì€U¹­¹½Ý¸ÁÕ‰±¥Í¡•Èœô(€€€€€€€€€€€€€€€€€€€Y•ÉÍ¥½¸€ômÍÑÉ¥¹t‘…ÁÀ¹Y•ÉÍ¥½¸(€€€€€€€€€€€€€€€€€€€M½Á”€ômÍÑÉ¥¹t‘…ÁÀ¹M½Á”(€€€€€€€€€€€€€€€€€€€M½ÕÉ”€ômÍÑÉ¥¹t‘…ÁÀ¹M½ÕÉ”(€€€€€€€€€€€€€€€€€€€…¹U¹¥¹ÍÑ…±°€ôm‰½½±t‘…ÁÀ¹…¹U¹¥¹ÍÑ…±°(€€€€€€€€€€€€€€€€€€€5…¹…•‘9…µ”€ômÍÑÉ¥¹t‘…ÁÀ¹5…¹…•‘9…µ”(€€€€€€€€€€€€€€€€€€€	…­É½Õ¹‘Ñ¥Ù”€ô€‘‰…­É½Õ¹‘Ñ¥Ù”(€€€€€€€€€€€€€€€€€€€MÑ…ÑÕÌ€ô€‘ÍÑ…ÑÕÌ(€€€€€€€€€€€€€€€ô(€€€€€€€€€€€ô(€€€€€€€€¤(€€€€€€€ÁÁ±äµÁÁ¥±Ñ•È(€€€€€€€€‘Õ¤¹ÁÁÍÉ¥¹M•±•Ñ•‘%Ñ•´€ô€‘¹Õ±°(€€€€€€€M•ÐµMÑ…ÑÕÌ€‰%¹ÍÑ…±±•…ÁÁÌÉ•™É•Í¡•…Ð€¡•Ðµ…Ñ”€µ½Éµ…Ð€! éµ´éÍÌœ¤¸ˆ(€€€ô(€€€…Ñ ì(€€€€€€€€‘ÍÉ¥ÁÐéÉ•™É•Í¡ÉÉ½ÉÍlÁÁÌt€ô€‘|¹á•ÁÑ¥½¸¹Q½MÑÉ¥¹œ ¤(€€€€€€€m]¥¹‘½ÝÌ¹5•ÍÍ…•	½átèéM¡½Ü ‘Ý¥¹‘½Ü°€‘|¹á•ÁÑ¥½¸¹5•ÍÍ…”°€½Õ±¹½ÐÉ•™É•Í ¥¹ÍÑ…±±•…ÁÁÌœ°€=,œ°€ÉÉ½Èœ¤ð=ÕÐµ9Õ±°(€€€€€€€M•ÐµMÑ…ÑÕÌ€%¹ÍÑ…±±•µ…ÁÀÉ•™É•Í ™…¥±•¸œ(€€€€€€€m]¥¹‘½ÝÌ¹ÕÑ½µ…Ñ¥½¸¹ÕÑ½µ…Ñ¥½¹AÉ½Á•ÉÑ¥•ÍtèéM•Ñ!•±ÁQ•áÐ ‘Õ¤¹MÑ…ÑÕÍQ•áÐ°€‘ÍÉ¥ÁÐéÉ•™É•Í¡ÉÉ½ÉÍlÁÁÌt¤(€€€ô)ô()™Õ¹Ñ¥½¸I•™É•Í µMÑ…ÉÑÕÀì(€€€mÙ½¥‘t‘ÍÉ¥ÁÐéÉ•™É•Í¡ÉÉ½ÉÌ¹I•µ½Ù” MÑ…ÉÑÕÀœ¤(€€€M•ÐµMÑ…ÑÕÌ€I•…‘¥¹œÍÑ…ÉÑÕÀ•¹ÑÉ¥•ÏŠ˜œ€µ	ÕÍä(€€€ÑÉäì(€€€€€€€€‘É•ÍÕ±Ð€ô%¹Ù½­”µ½¹ÑÉ½±MÉ¥ÁÐ€‘ÍÑ…ÉÑÕÁ5…¹…•È  œµÑ¥½¸œ°Õ‘¥Ðœ°œµ)Í½¸œ¤(€€€€€€€¥˜€ ‘É•ÍÕ±Ð¹á¥Ñ½‘”€µ¹”€À¤ìM¡½ÜµÉÉ½È€½Õ±¹½ÐÉ•…ÍÑ…ÉÑÕÀ•¹ÑÉ¥•Ìœ€‘É•ÍÕ±ÐìÉ•ÑÕÉ¸ô(€€€€€€€€‘ÍÉ¥ÁÐé…±±MÑ…ÉÑÕÀ€ô ¡½¹Ù•ÉÐµ)Í½¹ÉÉ…ä€‘É•ÍÕ±Ð¹=ÕÑÁÕÐ¤(€€€€€€€ÁÁ±äµMÑ…ÉÑÕÁ¥±Ñ•È(€€€€€€€€‘Õ¤¹MÑ…ÉÑÕÁÉ¥¹M•±•Ñ•‘%Ñ•´€ô€‘¹Õ±°(€€€€€€€M•ÐµMÑ…ÑÕÌ€‰MÑ…ÉÑÕÀ•¹ÑÉ¥•ÌÉ•™É•Í¡•…Ð€¡•Ðµ…Ñ”€µ½Éµ…Ð€! éµ´éÍÌœ¤¸ˆ(€€€ô(€€€…Ñ ì(€€€€€€€€‘ÍÉ¥ÁÐéÉ•™É•Í¡ÉÉ½ÉÍlMÑ…ÉÑÕÀt€ô€‘|¹á•ÁÑ¥½¸¹Q½MÑÉ¥¹œ ¤(€€€€€€€m]¥¹‘½ÝÌ¹5•ÍÍ…•	½átèéM¡½Ü ‘Ý¥¹‘½Ü°€‘|¹á•ÁÑ¥½¸¹5•ÍÍ…”°€½Õ±¹½ÐÉ•™É•Í ÍÑ…ÉÑÕÀ•¹ÑÉ¥•Ìœ°€=,œ°€ÉÉ½Èœ¤ð=ÕÐµ9Õ±°(€€€€€€€M•ÐµMÑ…ÑÕÌ€MÑ…ÉÑÕÀÉ•™É•Í ™…¥±•¸œ(€€€€€€€m]¥¹‘½ÝÌ¹ÕÑ½µ…Ñ¥½¸¹ÕÑ½µ…Ñ¥½¹AÉ½Á•ÉÑ¥•ÍtèéM•Ñ!•±ÁQ•áÐ ‘Õ¤¹MÑ…ÑÕÍQ•áÐ°€‘ÍÉ¥ÁÐéÉ•™É•Í¡ÉÉ½ÉÍlMÑ…ÉÑÕÀt¤(€€€ô)ô()™Õ¹Ñ¥½¸I•™É•Í µAÉ½•ÍÍ•Ìì(€€€mÙ½¥‘t‘ÍÉ¥ÁÐéÉ•™É•Í¡ÉÉ½ÉÌ¹I•µ½Ù” AÉ½•ÍÍ•Ìœ¤(€€€M•ÐµMÑ…ÑÕÌ€I•…‘¥¹œÕÉÉ•¹ÐµÍ•ÍÍ¥½¸ÁÉ½•ÍÍ•ÏŠ˜œ€µ	ÕÍä(€€€ÑÉäì(€€€€€€€€‘É¥Ñ¥…±9…µ•Ì€ô  …Õ‘¥½‘œœ°ÍÉÍÌœ°‘Ý´œ°•áÁ±½É•Èœ°™½¹Ñ‘ÉÙ¡½ÍÐœ°±Í…ÍÌœ°Í•ÉÙ¥•Ìœ°Í¥¡½ÍÐœ°ÍµÍÌœ°MÑ…ÉÑ5•¹ÕáÁ•É¥•¹•!½ÍÐœ°MåÍÑ•´œ°Ñ…Í­¡½ÍÑÜœ°Ý¥¹¥¹¥Ðœ°Ý¥¹±½½¸œ¤(€€€€€€€€‘Í•ÍÍ¥½¹%€ô€¡•ÐµAÉ½•ÍÌ€µ%€‘A%¤¹M•ÍÍ¥½¹%(€€€€€€€€‘¥µAÉ½•ÍÍ•Ì€ô ¡•Ðµ¥µ%¹ÍÑ…¹”]¥¸ÌÉ}AÉ½•ÍÌ€µ¥±Ñ•È€‰M•ÍÍ¥½¹%ô‘Í•ÍÍ¥½¹%ˆ€µÉÉ½ÉÑ¥½¸M¥±•¹Ñ±å½¹Ñ¥¹Õ”¤(€€€€€€€€‘ÍÉ¥ÁÐé…±±AÉ½•ÍÍ•Ì€ô  (€€€€€€€€€€€™½É•… € ‘¥´¥¸€‘¥µAÉ½•ÍÍ•Ì¤ì(€€€€€€€€€€€€€€€€‘ÁÉ½•ÍÌ€ô•ÐµAÉ½•ÍÌ€µ%€‘¥´¹AÉ½•ÍÍ%€µÉÉ½ÉÑ¥½¸M¥±•¹Ñ±å½¹Ñ¥¹Õ”(€€€€€€€€€€€€€€€¥˜€ µ¹½Ð€‘ÁÉ½•ÍÌ¤ì½¹Ñ¥¹Õ”ô(€€€€€€€€€€€€€€€€‘É…Ý9…µ”€ô€‘ÁÉ½•ÍÌ¹AÉ½•ÍÍ9…µ”(€€€€€€€€€€€€€€€€‘ÁÕ‰±¥Í¡•È€ô€œœ(€€€€€€€€€€€€€€€ÑÉäì€‘ÁÕ‰±¥Í¡•È€ômÍÑÉ¥¹t‘ÁÉ½•ÍÌ¹5…¥¹5½‘Õ±”¹¥±•Y•ÉÍ¥½¹%¹™¼¹½µÁ…¹å9…µ”ô…Ñ íô(€€€€€€€€€€€€€€€€‘…¹MÑ½À€ô€‘ÁÉ½•ÍÌ¹%€µ¹”€‘A%€µ…¹€‘É…Ý9…µ”€µ¹½Ñ¥¸€‘É¥Ñ¥…±9…µ•Ì(€€€€€€€€€€€€€€€mÁÍÕÍÑ½µ½‰©•Ñuì(€€€€€€€€€€€€€€€€€€€9…µ”€ô€‘É…Ý9…µ”(€€€€€€€€€€€€€€€€€€€%€ôm¥¹Ñt‘ÁÉ½•ÍÌ¹%(€€€€€€€€€€€€€€€€€€€5•µ½Éä€ô€ ìÀé8Áô5œ€µ˜€ ‘ÁÉ½•ÍÌ¹]½É­¥¹M•ÐØÐ€¼€Å5¤¤(€€€€€€€€€€€€€€€€€€€5•µ½Éå	åÑ•Ì€ôm±½¹t‘ÁÉ½•ÍÌ¹]½É­¥¹M•ÐØÐ(€€€€€€€€€€€€€€€€€€€AÕ‰±¥Í¡•È€ô¥˜€ ‘ÁÕ‰±¥Í¡•È¤ì€‘ÁÕ‰±¥Í¡•Èô•±Í”ì€U¹­¹½Ý¸ÁÕ‰±¥Í¡•Èœô(€€€€€€€€€€€€€€€€€€€½¹ÑÉ½°€ô¥˜€ ‘…¹MÑ½À¤ì€Ù…¥±…‰±”œô•±Í”ì€AÉ½Ñ•Ñ•œô(€€€€€€€€€€€€€€€€€€€…¹MÑ½À€ô€‘…¹MÑ½À(€€€€€€€€€€€€€€€ô(€€€€€€€€€€€ô(€€€€€€€€¤ðM½ÉÐµ=‰©•Ð5•µ½Éå	åÑ•Ì€µ•Í•¹‘¥¹œ(€€€€€€€ÁÁ±äµAÉ½•ÍÍ¥±Ñ•È(€€€€€€€€‘Õ¤¹AÉ½•ÍÍ•ÍÉ¥¹M•±•Ñ•‘%Ñ•´€ô€‘¹Õ±°(€€€€€€€M•ÐµMÑ…ÑÕÌ€‰AÉ½•ÍÍ•ÌÉ•™É•Í¡•…Ð€¡•Ðµ…Ñ”€µ½Éµ…Ð€! éµ´éÍÌœ¤¸ˆ(€€€ô(€€€…Ñ ì(€€€€€€€€‘ÍÉ¥ÁÐéÉ•™É•Í¡ÉÉ½ÉÍlAÉ½•ÍÍ•Ìt€ô€‘|¹á•ÁÑ¥½¸¹Q½MÑÉ¥¹œ ¤(€€€€€€€m]¥¹‘½ÝÌ¹5•ÍÍ…•	½átèéM¡½Ü ‘Ý¥¹‘½Ü°€‘|¹á•ÁÑ¥½¸¹5•ÍÍ…”°€½Õ±¹½ÐÉ•™É•Í ÁÉ½•ÍÍ•Ìœ°€=,œ°€ÉÉ½Èœ¤ð=ÕÐµ9Õ±°(€€€€€€€M•ÐµMÑ…ÑÕÌ€AÉ½•ÍÌÉ•™É•Í ™…¥±•¸œ(€€€€€€€m]¥¹‘½ÝÌ¹ÕÑ½µ…Ñ¥½¸¹ÕÑ½µ…Ñ¥½¹AÉ½Á•ÉÑ¥•ÍtèéM•Ñ!•±ÁQ•áÐ ‘Õ¤¹MÑ…ÑÕÍQ•áÐ°€‘ÍÉ¥ÁÐéÉ•™É•Í¡ÉÉ½ÉÍlAÉ½•ÍÍ•Ìt¤(€€€ô)ô((‘Õ¤¹ÁÁÍÉ¥¹‘‘}M•±•Ñ¥½¹¡…¹•¡ì(€€€€‘…ÁÀ€ô€‘Õ¤¹ÁÁÍÉ¥¹M•±•Ñ•‘%Ñ•´(€€€¥˜€ µ¹½Ð€‘…ÁÀ¤ì(€€€€€€€€‘Õ¤¹ÁÁ•Ñ…¥±Q¥Ñ±”¹Q•áÐ€ô€M•±•Ð…¸…ÁÀœ(€€€€€€€€‘Õ¤¹ÁÁ•Ñ…¥±Q•áÐ¹Q•áÐ€ô€ÁÀ‘•Ñ…¥±Ì…¹…Ù…¥±…‰±”…Ñ¥½¹ÌÝ¥±°…ÁÁ•…È¡•É”¸œ(€€€€€€€€‘Õ¤¹¥Í…‰±•ÁÀ¹½¹Ñ•¹Ð€ô€¥Í…‰±”‰…­É½Õ¹œ(€€€€€€€€‘Õ¤¹¥Í…‰±•ÁÀ¹%Í¹…‰±•€ô€‘™…±Í”(€€€€€€€€‘Õ¤¹U¹¥¹ÍÑ…±±ÁÀ¹%Í¹…‰±•€ô€‘™…±Í”(€€€€€€€É•ÑÕÉ¸(€€€ô(€€€€‘Õ¤¹ÁÁ•Ñ…¥±Q¥Ñ±”¹Q•áÐ€ô€‘…ÁÀ¹9…µ”(€€€€‘µ…¹…•‘Q•áÐ€ô¥˜€ ‘…ÁÀ¹5…¹…•‘9…µ”¤ì€ˆƒŠˆ€ ‘…ÁÀ¹MÑ…ÑÕÌ¹Q½1½Ý•É%¹Ù…É¥…¹Ð ¤¤ˆô•±Í”ì€œœô(€€€€‘Õ¤¹ÁÁ•Ñ…¥±Q•áÐ¹Q•áÐ€ô€ˆ ‘…ÁÀ¹AÕ‰±¥Í¡•È¤ƒŠˆ€ ‘…ÁÀ¹Y•ÉÍ¥½¸¤ƒŠˆ€ ‘…ÁÀ¹M½Á”¤‘µ…¹…•‘Q•áÐˆ(€€€€‘Õ¤¹¥Í…‰±•ÁÀ¹½¹Ñ•¹Ð€ô¥˜€ ‘…ÁÀ¹5…¹…•‘9…µ”€µ…¹€µ¹½Ð€‘…ÁÀ¹	…­É½Õ¹‘Ñ¥Ù”¤ì€	…­É½Õ¹‘¥Í…‰±•œô•±Í”ì€¥Í…‰±”‰…­É½Õ¹œô(€€€€‘Õ¤¹¥Í…‰±•ÁÀ¹%Í¹…‰±•€ôm‰½½±t‘…ÁÀ¹5…¹…•‘9…µ”€µ…¹m‰½½±t‘…ÁÀ¹	…­É½Õ¹‘Ñ¥Ù”(€€€€‘Õ¤¹U¹¥¹ÍÑ…±±ÁÀ¹%Í¹…‰±•€ôm‰½½±t‘…ÁÀ¹…¹U¹¥¹ÍÑ…±°)ô¤((‘Õ¤¹MÑ…ÉÑÕÁÉ¥¹‘‘}M•±•Ñ¥½¹¡…¹•¡ì(€€€€‘¥Ñ•´€ô€‘Õ¤¹MÑ…ÉÑÕÁÉ¥¹M•±•Ñ•‘%Ñ•´(€€€¥˜€ µ¹½Ð€‘¥Ñ•´¤ì(€€€€€€€€‘Õ¤¹MÑ…ÉÑÕÁ•Ñ…¥±Q¥Ñ±”¹Q•áÐ€ô€M•±•Ð„ÍÑ…ÉÑÕÀ¥Ñ•´œ(€€€€€€€€‘Õ¤¹MÑ…ÉÑÕÁ•Ñ…¥±Q•áÐ¹Q•áÐ€ô€9½Ñ¡¥¹œ¥Ì¡…¹•Õ¹Ñ¥°å½Ô½¹™¥É´…¸…Ñ¥½¸¸œ(€€€€€€€€‘Õ¤¹Q½±•MÑ…ÉÑÕÀ¹%Í¹…‰±•€ô€‘™…±Í”(€€€€€€€É•ÑÕÉ¸(€€€ô(€€€€‘Õ¤¹MÑ…ÉÑÕÁ•Ñ…¥±Q¥Ñ±”¹Q•áÐ€ô€‘¥Ñ•´¹9…µ”(€€€€‘Õ¤¹MÑ…ÉÑÕÁ•Ñ…¥±Q•áÐ¹Q•áÐ€ô€ˆ ‘¥Ñ•´¹M½ÕÉ”¤ƒŠˆ€ ‘¥Ñ•´¹½µµ…¹¤ˆ(€€€€‘Õ¤¹Q½±•MÑ…ÉÑÕÀ¹½¹Ñ•¹Ð€ô¥˜€ ‘¥Ñ•´¹MÑ…ÑÕÌ€µ•Ä€¹…‰±•œ¤ì€¥Í…‰±”œô•±Í”ì€I•ÍÑ½É”œô(€€€€‘Õ¤¹Q½±•MÑ…ÉÑÕÀ¹%Í¹…‰±•€ô€‘ÑÉÕ”)ô¤((‘Õ¤¹AÉ½•ÍÍ•ÍÉ¥¹‘‘}M•±•Ñ¥½¹¡…¹•¡ì(€€€€‘ÁÉ½•ÍÌ€ô€‘Õ¤¹AÉ½•ÍÍ•ÍÉ¥¹M•±•Ñ•‘%Ñ•´(€€€¥˜€ µ¹½Ð€‘ÁÉ½•ÍÌ¤ì(€€€€€€€€‘Õ¤¹AÉ½•ÍÍ•Ñ…¥±Q¥Ñ±”¹Q•áÐ€ô€M•±•Ð„ÁÉ½•ÍÌœ(€€€€€€€€‘Õ¤¹AÉ½•ÍÍ•Ñ…¥±Q•áÐ¹Q•áÐ€ô€¹‘¥¹œ„ÁÉ½•ÍÌ…¸‘¥Í…ÉÕ¹Í…Ù•Ý½É¬¸œ(€€€€€€€€‘Õ¤¹¹‘AÉ½•ÍÌ¹%Í¹…‰±•€ô€‘™…±Í”(€€€€€€€É•ÑÕÉ¸(€€€ô(€€€€‘Õ¤¹AÉ½•ÍÍ•Ñ…¥±Q¥Ñ±”¹Q•áÐ€ô€ˆ ‘ÁÉ½•ÍÌ¹9…µ”¤€€¡A%€ ‘ÁÉ½•ÍÌ¹%¤¤ˆ(€€€€‘Õ¤¹AÉ½•ÍÍ•Ñ…¥±Q•áÐ¹Q•áÐ€ô€ˆ ‘ÁÉ½•ÍÌ¹5•µ½Éä¤ƒŠˆ€ ‘ÁÉ½•ÍÌ¹AÕ‰±¥Í¡•È¤ƒŠˆ€ ‘ÁÉ½•ÍÌ¹½¹ÑÉ½°¤ˆ(€€€€‘Õ¤¹¹‘AÉ½•ÍÌ¹%Í¹…‰±•€ôm‰½½±t‘ÁÉ½•ÍÌ¹…¹MÑ½À)ô¤((‘Õ¤¹9…ÙÁÁÌ¹‘‘}±¥¬¡ìM¡½ÜµA…”ÁÁÌô¤(‘Õ¤¹9…ÙMÑ…ÉÑÕÀ¹‘‘}±¥¬¡ìM¡½ÜµA…”MÑ…ÉÑÕÀì¥˜€ ‘ÍÉ¥ÁÐé…±±MÑ…ÉÑÕÀ¹½Õ¹Ð€µ•Ä€À¤ìI•™É•Í µMÑ…ÉÑÕÀôô¤(‘Õ¤¹9…ÙAÉ½•ÍÍ•Ì¹‘‘}±¥¬¡ìM¡½ÜµA…”AÉ½•ÍÍ•Ìì¥˜€ ‘ÍÉ¥ÁÐé…±±AÉ½•ÍÍ•Ì¹½Õ¹Ð€µ•Ä€À¤ìI•™É•Í µAÉ½•ÍÍ•Ìôô¤(‘Õ¤¹ÁÁM•…É ¹‘‘}Q•áÑ¡…¹•¡ìÁÁ±äµÁÁ¥±Ñ•Èô¤(‘Õ¤¹MÑ…ÉÑÕÁM•…É ¹‘‘}Q•áÑ¡…¹•¡ìÁÁ±äµMÑ…ÉÑÕÁ¥±Ñ•Èô¤(‘Õ¤¹AÉ½•ÍÍM•…É ¹‘‘}Q•áÑ¡…¹•¡ìÁÁ±äµAÉ½•ÍÍ¥±Ñ•Èô¤(‘Õ¤¹I•™É•Í¡ÁÁÌ¹‘‘}±¥¬¡ìI•™É•Í µÁÁÌô¤(‘Õ¤¹I•™É•Í¡MÑ…ÉÑÕÀ¹‘‘}±¥¬¡ìI•™É•Í µMÑ…ÉÑÕÀô¤(‘Õ¤¹I•™É•Í¡AÉ½•ÍÍ•Ì¹‘‘}±¥¬¡ìI•™É•Í µAÉ½•ÍÍ•Ìô¤((‘Õ¤¹¥Í…‰±•ÁÀ¹‘‘}±¥¬¡ì(€€€€‘…ÁÀ€ô€‘Õ¤¹ÁÁÍÉ¥¹M•±•Ñ•‘%Ñ•´(€€€¥˜€ µ¹½Ð€‘…ÁÀ€µ½È€µ¹½Ð€‘…ÁÀ¹5…¹…•‘9…µ”€µ½È€µ¹½Ð€‘…ÁÀ¹	…­É½Õ¹‘Ñ¥Ù”¤ìÉ•ÑÕÉ¸ô(€€€€‘µ•ÍÍ…”€ô€‰¥Í…‰±”ÍÑ…ÉÑÕÀ…¹ÕÉÉ•¹Ð‰…­É½Õ¹…Ñ¥Ù¥Ñä™½È€ ‘…ÁÀ¹9…µ”¤ý¹¹Q¡”…ÁÁ±¥…Ñ¥½¸É•µ…¥¹Ì¥¹ÍÑ…±±•…¹…¸ÍÑ¥±°ÉÕ¸Ý¡•¸å½Ô½Á•¸¥Ð½ÈÝ¡•¸…¹½Ñ¡•È…ÁÀ•áÁ±¥¥Ñ±ä±…Õ¹¡•Ì¥Ð¸ÕÑ½µ…Ñ¥Œ…Ñ…±½•Í•ÉÙ¥•Ì…É”Í•ÐÑ¼µ…¹Õ…°…¹…¸É•ÅÕ•ÍÐ…‘µ¥¹¥ÍÑÉ…Ñ½È…ÁÁÉ½Ù…°¸ˆ(€€€¥˜€¡m]¥¹‘½ÝÌ¹5•ÍÍ…•	½átèéM¡½Ü ‘Ý¥¹‘½Ü°€‘µ•ÍÍ…”°€½¹™¥É´‰…­É½Õ¹¡…¹”œ°€e•Í9¼œ°€]…É¹¥¹œœ¤€µ¹”€e•Ìœ¤ìÉ•ÑÕÉ¸ô(€€€M•ÐµMÑ…ÑÕÌ€‰¥Í…‰±¥¹œ€ ‘…ÁÀ¹9…µ”§Š˜ˆ€µ	ÕÍä(€€€€‘É•ÍÕ±Ð€ô%¹Ù½­”µ½¹ÑÉ½±MÉ¥ÁÐ€‘½ÁÑ¥½¹…±5…¹…•È  œµÑ¥½¸œ°¥Í…‰±•MÑ…ÉÑÕÀœ°œµ9…µ”œ°‘…ÁÀ¹5…¹…•‘9…µ”°œµ½É”œ¤(€€€€‘™…¥±•€ô€‘É•ÍÕ±Ð¹á¥Ñ½‘”€µ¹”€À(€€€¥˜€ ‘™…¥±•¤ìM¡½ÜµÉÉ½È€	…­É½Õ¹…Ñ¥½¸‘¥¹½Ð½µÁ±•Ñ”œ€‘É•ÍÕ±Ðô(€€€I•™É•Í µÁÁÌ(€€€I•™É•Í µMÑ…ÉÑÕÀ(€€€¥˜€ ‘™…¥±•¤ìM•ÐµMÑ…ÑÕÌ€‰½Õ±¹½Ð™Õ±±ä‘¥Í…‰±”‰…­É½Õ¹…Ñ¥Ù¥Ñä™½È€ ‘…ÁÀ¹9…µ”¤¸ˆô(€€€•±Í”ìM•ÐµMÑ…ÑÕÌ€‰	…­É½Õ¹…¹ÍÑ…ÉÑÕÀ…Ñ¥Ù¥Ñä‘¥Í…‰±•™½È€ ‘…ÁÀ¹9…µ”¤¸ˆô)ô¤((‘Õ¤¹U¹¥¹ÍÑ…±±ÁÀ¹‘‘}±¥¬¡ì(€€€€‘…ÁÀ€ô€‘Õ¤¹ÁÁÍÉ¥¹M•±•Ñ•‘%Ñ•´(€€€¥˜€ µ¹½Ð€‘…ÁÀ€µ½È€µ¹½Ð€‘…ÁÀ¹…¹U¹¥¹ÍÑ…±°¤ìÉ•ÑÕÉ¸ô(€€€€‘Ý…É¹¥¹œ€ô¥˜€ ‘…ÁÀ¹5…¹…•‘9…µ”€µ…¹€‘…Ñ…±½	å9…µ”¹½¹Ñ…¥¹Í-•ä¡mÍÑÉ¥¹t‘…ÁÀ¹5…¹…•‘9…µ”¤¤ì€‰¹¸ ‘…Ñ…±½	å9…µ•mmÍÑÉ¥¹t‘…ÁÀ¹5…¹…•‘9…µ•t¹Ý…É¹¥¹œ¤ˆô•±Í”ì€œœô(€€€€‘µ•ÍÍ…”€ô€‰U¹¥¹ÍÑ…±°€ ‘…ÁÀ¹9…µ”¤ý¹¹AÕ‰±¥Í¡•Èè€ ‘…ÁÀ¹AÕ‰±¥Í¡•È¥¹QåÁ”è€ ‘…ÁÀ¹M½ÕÉ”¤‘Ý…É¹¥¹¹¹]¥¹‘½ÝÌµ…äÉ•ÅÕ•ÍÐ…‘µ¥¹¥ÍÑÉ…Ñ½È…ÁÁÉ½Ù…°¸ˆ(€€€¥˜€¡m]¥¹‘½ÝÌ¹5•ÍÍ…•	½átèéM¡½Ü ‘Ý¥¹‘½Ü°€‘µ•ÍÍ…”°€½¹™¥É´Õ¹¥¹ÍÑ…±°œ°€e•Í9¼œ°€]…É¹¥¹œœ¤€µ¹”€e•Ìœ¤ìÉ•ÑÕÉ¸ô(€€€M•ÐµMÑ…ÑÕÌ€‰U¹¥¹ÍÑ…±±¥¹œ€ ‘…ÁÀ¹9…µ”§Š˜ˆ€µ	ÕÍä(€€€€‘É•ÍÕ±Ð€ô¥˜€ ‘…ÁÀ¹5…¹…•‘9…µ”¤ì(€€€€€€€%¹Ù½­”µ½¹ÑÉ½±MÉ¥ÁÐ€‘½ÁÑ¥½¹…±5…¹…•È  œµÑ¥½¸œ°U¹¥¹ÍÑ…±°œ°œµ9…µ”œ°‘…ÁÀ¹5…¹…•‘9…µ”°œµ½É”œ¤(€€€ô•±Í”ì(€€€€€€€%¹Ù½­”µ½¹ÑÉ½±MÉ¥ÁÐ€‘¥¹ÍÑ…±±•‘5…¹…•È  œµÑ¥½¸œ°U¹¥¹ÍÑ…±°œ°œµ%œ°‘…ÁÀ¹%°œµ½É”œ¤(€€€ô(€€€¥˜€ ‘É•ÍÕ±Ð¹á¥Ñ½‘”€µ¹”€À¤ìM¡½ÜµÉÉ½È€U¹¥¹ÍÑ…±°‘¥¹½Ð½µÁ±•Ñ”œ€‘É•ÍÕ±Ðô(€€€I•™É•Í µÁÁÌ(€€€I•™É•Í µMÑ…ÉÑÕÀ(€€€I•™É•Í µAÉ½•ÍÍ•Ì)ô¤((‘Õ¤¹Q½±•MÑ…ÉÑÕÀ¹‘‘}±¥¬¡ì(€€€€‘¥Ñ•´€ô€‘Õ¤¹MÑ…ÉÑÕÁÉ¥¹M•±•Ñ•‘%Ñ•´(€€€¥˜€ µ¹½Ð€‘¥Ñ•´¤ìÉ•ÑÕÉ¸ô(€€€€‘…Ñ¥½¸€ô¥˜€ ‘¥Ñ•´¹MÑ…ÑÕÌ€µ•Ä€¹…‰±•œ¤ì€¥Í…‰±”œô•±Í”ì€¹…‰±”œô(€€€€‘Ù•Éˆ€ô¥˜€ ‘…Ñ¥½¸€µ•Ä€¥Í…‰±”œ¤ì€‘¥Í…‰±”œô•±Í”ì€É•ÍÑ½É”œô(€€€¥˜€¡m]¥¹‘½ÝÌ¹5•ÍÍ…•	½átèéM¡½Ü ‘Ý¥¹‘½Ü°€‰M…™•±ä€‘Ù•Éˆ€ ‘¥Ñ•´¹9…µ”¤üˆ°€‰½¹™¥É´€‘Ù•Éˆˆ°€e•Í9¼œ°€EÕ•ÍÑ¥½¸œ¤€µ¹”€e•Ìœ¤ìÉ•ÑÕÉ¸ô(€€€M•ÐµMÑ…ÑÕÌ€ˆ ‘Ù•Éˆ¹MÕ‰ÍÑÉ¥¹œ À°Ä¤¹Q½UÁÁ•É%¹Ù…É¥…¹Ð ¤¤ ‘Ù•Éˆ¹MÕ‰ÍÑÉ¥¹œ Ä¤¥¥¹œ€ ‘¥Ñ•´¹9…µ”§Š˜ˆ€µ	ÕÍä(€€€€‘É•ÍÕ±Ð€ô%¹Ù½­”µ½¹ÑÉ½±MÉ¥ÁÐ€‘ÍÑ…ÉÑÕÁ5…¹…•È  œµÑ¥½¸œ°‘…Ñ¥½¸°œµ%œ°‘¥Ñ•´¹%°œµ½É”œ¤(€€€¥˜€ ‘É•ÍÕ±Ð¹á¥Ñ½‘”€µ¹”€À¤ìM¡½ÜµÉÉ½È€MÑ…ÉÑÕÀ…Ñ¥½¸‘¥¹½Ð½µÁ±•Ñ”œ€‘É•ÍÕ±Ðô(€€€I•™É•Í µMÑ…ÉÑÕÀ)ô¤((‘Õ¤¹¹‘AÉ½•ÍÌ¹‘‘}±¥¬¡ì(€€€€‘Í•±•Ñ•€ô€‘Õ¤¹AÉ½•ÍÍ•ÍÉ¥¹M•±•Ñ•‘%Ñ•´(€€€¥˜€ µ¹½Ð€‘Í•±•Ñ•€µ½È€µ¹½Ð€‘Í•±•Ñ•¹…¹MÑ½À¤ìÉ•ÑÕÉ¸ô(€€€¥˜€¡m]¥¹‘½ÝÌ¹5•ÍÍ…•	½átèéM¡½Ü ‘Ý¥¹‘½Ü°€‰¹€ ‘Í•±•Ñ•¹9…µ”¤€¡A%€ ‘Í•±•Ñ•¹%¤¤ý¹¹U¹Í…Ù•Ý½É¬¥¸Ñ¡¥ÌÁÉ½•ÍÌÝ¥±°‰”±½ÍÐ¸ˆ°€½¹™¥É´•¹ÁÉ½•ÍÌœ°€e•Í9¼œ°€]…É¹¥¹œœ¤€µ¹”€e•Ìœ¤ìÉ•ÑÕÉ¸ô(€€€ÑÉäì(€€€€€€€€‘ÕÉÉ•¹Ð€ô•ÐµAÉ½•ÍÌ€µ%€‘Í•±•Ñ•¹%€µÉÉ½ÉÑ¥½¸MÑ½À(€€€€€€€¥˜€ ‘ÕÉÉ•¹Ð¹AÉ½•ÍÍ9…µ”€µ¹”€‘Í•±•Ñ•¹9…µ”¤ìÑ¡É½Ü€Q¡”Í•±•Ñ•A%¹½Ü‰•±½¹ÌÑ¼„‘¥™™•É•¹ÐÁÉ½•ÍÌ¸I•™É•Í …¹ÑÉä……¥¸¸œô(€€€€€€€MÑ½ÀµAÉ½•ÍÌ€µ%€‘Í•±•Ñ•¹%€µ½É”€µÉÉ½ÉÑ¥½¸MÑ½À(€€€€€€€M•ÐµMÑ…ÑÕÌ€‰¹‘•€ ‘Í•±•Ñ•¹9…µ”¤¸ˆ(€€€ô(€€€…Ñ ìm]¥¹‘½ÝÌ¹5•ÍÍ…•	½átèéM¡½Ü ‘Ý¥¹‘½Ü°€‘|¹á•ÁÑ¥½¸¹5•ÍÍ…”°€½Õ±¹½Ð•¹ÁÉ½•ÍÌœ°€=,œ°€ÉÉ½Èœ¤ð=ÕÐµ9Õ±°ô(€€€I•™É•Í µAÉ½•ÍÍ•Ì)ô¤()M¡½ÜµA…”ÁÁÌ)¥˜€ ‘Mµ½­•Q•ÍÐ¤ì(€€€I•™É•Í µÁÁÌ(€€€I•™É•Í µMÑ…ÉÑÕÀ(€€€I•™É•Í µAÉ½•ÍÍ•Ì(€€€¥˜€ ‘ÍÉ¥ÁÐéÉ•™É•Í¡ÉÉ½ÉÌ¹½Õ¹Ð€µÐ€À¤ì(€€€€€€€Ñ¡É½Ü€‰ÁÀ½¹ÑÉ½°Íµ½­”Ñ•ÍÐÉ•™É•Í ™…¥±•è€ ‘ÍÉ¥ÁÐéÉ•™É•Í¡ÉÉ½ÉÌ¹Y…±Õ•Ì€µ©½¥¸€œð€œ¤ˆ(€€€ô(€€€m½É‘•É•‘uì(€€€€€€€MÑ…ÑÕÌ€ô€Á…ÍÌœ(€€€€€€€%¹ÍÑ…±±•‘I½ÝÌ€ô€‘Õ¤¹ÁÁÍÉ¥¹%Ñ•µÌ¹½Õ¹Ð(€€€€€€€MÑ…ÉÑÕÁI½ÝÌ€ô€‘Õ¤¹MÑ…ÉÑÕÁÉ¥¹%Ñ•µÌ¹½Õ¹Ð(€€€€€€€AÉ½•ÍÍI½ÝÌ€ô€‘Õ¤¹AÉ½•ÍÍ•ÍÉ¥¹%Ñ•µÌ¹½Õ¹Ð(€€€€€€€áÑ•É¹…±M•ÑÑ¥¹Í1¥¹­Ì€ô€À(€€€ôð½¹Ù•ÉÑQ¼µ)Í½¸(€€€€‘Ý¥¹‘½Ü¹±½Í” ¤(€€€É•ÑÕÉ¸)ô((‘Ý¥¹‘½Ü¹‘‘}½¹Ñ•¹ÑI•¹‘•É•¡ìI•™É•Í µÁÁÌô¤)mÙ½¥‘t‘Ý¥¹‘½Ü¹M¡½Ý¥…±½œ ¤(
