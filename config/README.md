@@ -12,4 +12,6 @@ The shell configuration and native taskbar do not require the cleanup policies i
 
 `-WhatIf` previews `SupportsShouldProcess` operations. `-Force` bypasses the one-time warning on high-impact apply/install scripts and is intended for reviewed automation only.
 
+The machine policy restores entries in `requiredServices` before cleanup and protects them from the service-disable list. This keeps shared Windows infrastructure and hardware-control apps operational while retaining the Maximum profile.
+
 Rollback manifests are best-effort state captures, not system images. Windows servicing cleanup and third-party uninstallers can be only partially reversible.

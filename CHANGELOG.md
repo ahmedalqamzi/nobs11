@@ -4,6 +4,7 @@
 
 ### Changed
 
+- Preserved and repaired Windows Push Notifications and the NVIDIA LocalSystem Container so the Maximum profile does not prevent NVIDIA App from launching.
 - Renamed the project to NoBS11 and refocused the public site on transparent Windows performance instead of the optional Unix-style shell.
 - Added a website-downloadable, SHA-256-verified launcher pinned to the v0.2.0 source.
 - Added Standard, Lean, and Maximum installer profiles with explicit safety boundaries and a second confirmation for the hardware-sensitive reference profile.

@@ -151,6 +151,12 @@ function Disable-ManagedService {
         $Name = $Matches[1]
     }
 
+    if ($script:requiredServiceNames -contains $Name) {
+        Add-Result service $Name unchanged 'Protected by the required-services policy.'
+        Write-Audit INFO "Preserved required service: $Name"
+        return
+    }
+
     $service = Get-Service -Name $Name -ErrorAction SilentlyContinue
     if (-not $service) {
         Add-Result service $Name unchanged 'Service is not installed.'
@@ -184,6 +190,57 @@ function Disable-ManagedService {
     catch {
         Add-Result service $Name failed $_.Exception.Message
         Write-Audit ERROR "Failed to disable service $($Name): $($_.Exception.Message)"
+    }
+}
+
+function Set-RequiredService {
+    param(
+        [Parameter(Mandatory)][string]$Name,
+        [Parameter(Mandatory)][ValidateSet('Automatic', 'Manual')][string]$StartupType,
+        [Parameter(Mandatory)][bool]$EnsureRunning
+    )
+
+    $service = Get-Service -Name $Name -ErrorAction SilentlyContinue
+    if (-not $service) {
+        Add-Result service $Name unchanged 'Required service is not installed.'
+        return
+    }
+
+    $record = [ordered]@{
+        Name = $service.Name
+        DisplayName = $service.DisplayName
+        StartType = $service.StartType.ToString()
+        Status = $service.Status.ToString()
+        Changed = $false
+    }
+    $manifest.Services.Add($record)
+
+    $startupNeedsChange = $service.StartType.ToString() -ne $StartupType
+    $stateNeedsChange = $EnsureRunning -and $service.Status -ne 'Running'
+    if (-not $startupNeedsChange -and -not $stateNeedsChange) {
+        Add-Result service $Name unchanged "Required startup=$StartupType and running=$EnsureRunning are already satisfied."
+        return
+    }
+    if (-not $PSCmdlet.ShouldProcess($Name, "Require startup=$StartupType and running=$EnsureRunning")) {
+        Add-Result service $Name what-if 'No change made.'
+        return
+    }
+
+    try {
+        if ($startupNeedsChange) {
+            Set-Service -Name $Name -StartupType $StartupType -ErrorAction Stop
+            $record.Changed = $true
+        }
+        if ($stateNeedsChange) {
+            Start-Service -Name $Name -ErrorAction Stop
+            $record.Changed = $true
+        }
+        Add-Result service $Name changed "Required startup=$StartupType and running=$EnsureRunning; previous startup=$($record.StartType), state=$($record.Status)."
+        Write-Audit OK "Restored required service: $Name"
+    }
+    catch {
+        Add-Result service $Name failed $_.Exception.Message
+        Write-Audit ERROR "Failed to restore required service $($Name): $($_.Exception.Message)"
     }
 }
 
@@ -344,6 +401,11 @@ catch {
     Write-Audit WARN "Restore point unavailable; itemized rollback capture will be used: $($_.Exception.Message)"
 }
 
+$requiredServices = @(Get-OptionalProperty -Object $policy -Name 'requiredServices')
+$script:requiredServiceNames = @($requiredServices | ForEach-Object { [string]$_.name })
+foreach ($requiredService in $requiredServices) {
+    Set-RequiredService -Name $requiredService.name -StartupType $requiredService.startupType -EnsureRunning ([bool]$requiredService.ensureRunning)
+}
 foreach ($setting in @($policy.registry)) {
     Set-ManagedRegistryValue -Path $setting.path -Name $setting.name -Value $setting.value -Type $setting.type
 }

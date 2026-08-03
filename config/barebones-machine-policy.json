@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "registry": [
     { "path": "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\DataCollection", "name": "AllowTelemetry", "value": 0, "type": "DWord" },
     { "path": "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\DataCollection", "name": "DoNotShowFeedbackNotifications", "value": 1, "type": "DWord" },
@@ -134,6 +134,11 @@
     { "path": "HKCU:\\Software\\Policies\\Microsoft\\office\\16.0\\common\\ai\\training", "name": "optionalconnectedexperiencesenabled", "value": 0, "type": "DWord" },
     { "path": "HKCU:\\Software\\Policies\\Microsoft\\office\\16.0\\common\\ai", "name": "contentsafetyserviceenabled", "value": 0, "type": "DWord" }
   ],
+  "requiredServices": [
+    { "name": "WpnService", "startupType": "Automatic", "ensureRunning": true },
+    { "name": "WpnUserService", "startupType": "Automatic", "ensureRunning": false },
+    { "name": "NvContainerLocalSystem", "startupType": "Automatic", "ensureRunning": true }
+  ],
   "services": [
     "AJRouter",
     "CDPSvc",
@@ -156,7 +161,6 @@
     "ASUSSystemDiagnosis",
     "Aura Wallpaper Service",
     "ROG Live Service",
-    "NvContainerLocalSystem",
     "WSearch",
     "SysMain",
     "PcaSvc",
@@ -165,8 +169,6 @@
     "SSDPSRV",
     "upnphost",
     "TrkWks",
-    "WpnService",
-    "WpnUserService_*",
     "CDPUserSvc_*",
     "BcastDVRUserService_*",
     "MessagingService_*",

@@ -56,6 +56,46 @@ $usesExplicitBlocklists = [int]$policy.schemaVersion -ge 2 -and
 $safeStartupModel = $usesExplicitBlocklists
 Add-Result 'Safe startup policy model' $safeStartupModel $(if ($safeStartupModel) { 'Explicit blocklists preserve unlisted startup entries' } else { 'Policy must use explicit blocklists' })
 
+$machinePolicyPath = Join-Path $projectRoot 'config\barebones-machine-policy.json'
+$machinePolicy = Get-Content -LiteralPath $machinePolicyPath -Raw | ConvertFrom-Json
+$requiredServiceSettings = @($machinePolicy.requiredServices)
+$requiredServiceNames = @($requiredServiceSettings | ForEach-Object { [string]$_.name })
+$expectedRequiredServices = [ordered]@{
+    WpnService = $true
+    WpnUserService = $false
+    NvContainerLocalSystem = $true
+}
+$missingRequiredServices = @($expectedRequiredServices.Keys | Where-Object { $_ -notin $requiredServiceNames })
+$protectedServiceSamples = @('WpnService', 'WpnUserService_12345', 'NvContainerLocalSystem')
+$blockedRequiredServices = @(
+    foreach ($serviceName in $protectedServiceSamples) {
+        foreach ($pattern in @($machinePolicy.services)) {
+            if ($serviceName -like [string]$pattern) { "$serviceName ($pattern)" }
+        }
+    }
+)
+$invalidRequiredServices = @(
+    foreach ($serviceName in $expectedRequiredServices.Keys) {
+        $setting = $requiredServiceSettings | Where-Object name -eq $serviceName | Select-Object -First 1
+        if ($setting -and ($setting.startupType -ne 'Automatic' -or
+            -not ($setting.ensureRunning -is [bool]) -or
+            [bool]$setting.ensureRunning -ne [bool]$expectedRequiredServices[$serviceName])) {
+            $serviceName
+        }
+    }
+)
+$requiredServicesAreSafe = [int]$machinePolicy.schemaVersion -ge 2 -and
+    $missingRequiredServices.Count -eq 0 -and
+    $blockedRequiredServices.Count -eq 0 -and
+    $invalidRequiredServices.Count -eq 0
+$requiredServicesDetail = if ($requiredServicesAreSafe) {
+    'Windows notifications and NVIDIA App dependencies are automatic and excluded from service cleanup'
+}
+else {
+    "Missing=$($missingRequiredServices -join ', '); blocked=$($blockedRequiredServices -join ', '); invalid=$($invalidRequiredServices -join ', ')"
+}
+Add-Result 'NVIDIA App service compatibility' $requiredServicesAreSafe $requiredServicesDetail
+
 $legacyPaths = @(
     'dotfiles\zebar',
     'dotfiles\glazewm\Start-ZebarDetached.ps1',

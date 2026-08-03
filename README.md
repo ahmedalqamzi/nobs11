@@ -38,7 +38,7 @@ This is an open-source preview, not a signed commercial installer, so Windows ma
 | **Lean** | Adds reviewed current-user cleanup and performance settings | Does not remove optional Windows apps or disable machine services |
 | **Maximum** | Applies the full reference profile, including reviewed optional-app/component removal and elevated machine tuning | Hardware-sensitive; explicit typed confirmation, UAC, restart, and hardware/game validation required |
 
-All profiles preserve Windows security controls, Windows Update, Store/WinGet, WebView2 and shared runtimes, drivers, Gaming Services, and hardware-control components. Maximum has only best-effort rollback for Windows servicing operations.
+All profiles preserve Windows security controls, Windows Update, Store/WinGet, WebView2 and shared runtimes, drivers, Gaming Services, the Windows notification platform required by apps such as NVIDIA App, and hardware-control components. Maximum has only best-effort rollback for Windows servicing operations.
 
 ## Preview or install from source
 
