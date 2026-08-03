@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 2,
+  "description": "Explicit low-memory blocklists for optional startup entries, background processes, and scheduled tasks. Unlisted startup items are never removed. App-package removal requires the separate IncludeAppRemoval switch.",
+  "blockedCurrentUserRunValues": [
+    "OneDrive",
+    "Discord",
+    "Steam",
+    "RiotClientServices",
+    "Overwolf",
+    "MicrosoftEdgeAutoLaunch_*"
+  ],
+  "blockedStartupItems": [],
+  "blockedScheduledTasks": [
+    { "taskPath": "\\", "taskName": "OneDrive * Task-*" },
+    { "taskPath": "\\PowerToys\\", "taskName": "Autorun for *" }
+  ],
+  "blockedProcessPatterns": [
+    "OneDrive",
+    "PowerToys",
+    "PowerToys.*",
+    "NVIDIA Overlay"
+  ],
+  "enforcedRegistryValues": [
+    { "path": "HKCU:\\Software\\Microsoft\\OneDrive", "name": "AutoStartEnabled", "value": 0, "type": "DWord" },
+    { "path": "HKCU:\\Software\\NVIDIA Corporation\\Global\\ShadowPlay\\NVSPCAPS", "name": "IsShadowPlayEnabled", "value": [0, 0, 0, 0], "type": "Binary" },
+    { "path": "HKCU:\\Software\\NVIDIA Corporation\\Global\\ShadowPlay\\NVSPCAPS", "name": "IsShadowPlayEnabledUser", "value": [0, 0, 0, 0], "type": "Binary" },
+    { "path": "HKCU:\\Software\\NVIDIA Corporation\\Global\\ShadowPlay\\NVSPCAPS", "name": "HLEnabled", "value": [0, 0, 0, 0], "type": "Binary" },
+    { "path": "HKCU:\\Software\\NVIDIA Corporation\\Global\\ShadowPlay\\NVSPCAPS", "name": "RecEnabled", "value": [0, 0, 0, 0], "type": "Binary" }
+  ],
+  "blockedAppPackages": [
+    "Microsoft.Copilot",
+    "Clipchamp.Clipchamp",
+    "Microsoft.BingNews",
+    "Microsoft.BingWeather",
+    "Microsoft.WindowsFeedbackHub",
+    "Microsoft.MicrosoftSolitaireCollection",
+    "Microsoft.OutlookForWindows",
+    "MSTeams",
+    "Microsoft.PowerAutomateDesktop",
+    "Microsoft.Windows.DevHome",
+    "MicrosoftCorporationII.MicrosoftFamily",
+    "Microsoft.YourPhone",
+    "B9ECED6F.Glidex",
+    "B9ECED6F.AURACreator",
+    "aimgr",
+    "Microsoft.BingSearch",
+    "Microsoft.Edge.GameAssist",
+    "Microsoft.GetHelp",
+    "Microsoft.MicrosoftOfficeHub",
+    "Microsoft.MicrosoftStickyNotes",
+    "Microsoft.Office.ActionsServer",
+    "Microsoft.OfficePushNotificationUtility",
+    "Microsoft.StartExperiencesApp",
+    "Microsoft.Todos",
+    "Microsoft.WidgetsPlatformRuntime",
+    "Microsoft.Windows.Photos",
+    "Microsoft.WindowsAlarms",
+    "Microsoft.WindowsCamera",
+    "Microsoft.WindowsSoundRecorder",
+    "Microsoft.XboxGamingOverlay",
+    "Microsoft.XboxSpeechToTextOverlay",
+    "Microsoft.ZuneMusic",
+    "MicrosoftCorporationII.QuickAssist",
+    "MicrosoftWindows.Client.WebExperience",
+    "MicrosoftWindows.CrossDevice"
+  ]
+}

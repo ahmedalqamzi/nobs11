@@ -1,0 +1,116 @@
+# Managed interactive Bash configuration for the UCRT64 MSYS2 environment.
+# This file is sourced by ~/.bashrc; non-interactive shells return immediately.
+case $- in
+  *i*) ;;
+  *) return ;;
+esac
+
+export LANG="${LANG:-en_US.UTF-8}"
+export LC_ALL="${LC_ALL:-en_US.UTF-8}"
+export COLORTERM=truecolor
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export EDITOR=nvim
+export VISUAL=nvim
+export PAGER=less
+export LESS='-FRX'
+export INPUTRC="$HOME/.config/shell/inputrc"
+
+shopt -s histappend checkwinsize
+shopt -s cdspell dirspell globstar
+export HISTCONTROL=ignoreboth:erasedups
+export HISTSIZE=10000
+export HISTFILESIZE=20000
+PROMPT_COMMAND='history -a; history -n'
+
+# Expose only selected native Windows tools to MSYS2. Do not add MSYS2 itself
+# to the global Windows PATH.
+if command -v cygpath >/dev/null 2>&1; then
+  _win_user="$(cygpath -u "$USERPROFILE" 2>/dev/null)"
+  _win_local="$(cygpath -u "$LOCALAPPDATA" 2>/dev/null)"
+  export XDG_CONFIG_HOME="$_win_user/.config"
+  export XDG_CACHE_HOME="$_win_user/.cache"
+  export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
+  for _native_path in \
+    "$_win_local/Microsoft/WinGet/Links" \
+    "$_win_local/Programs/OpenAI/Codex/bin" \
+    "/c/Program Files/Git/cmd" \
+    "/c/Windows/System32/OpenSSH"; do
+    [[ -d "$_native_path" && ":$PATH:" != *":$_native_path:"* ]] && PATH="$PATH:$_native_path"
+  done
+  for _lazygit_candidate in "$_win_local"/Microsoft/WinGet/Packages/JesseDuffield.lazygit_*/lazygit.exe; do
+    if [[ -f "$_lazygit_candidate" ]]; then
+      export LAZYGIT_BIN="$_lazygit_candidate"
+      break
+    fi
+  done
+  export PATH
+  unset _lazygit_candidate _native_path _win_local _win_user
+fi
+
+[[ -r /usr/share/bash-completion/bash_completion ]] && source /usr/share/bash-completion/bash_completion
+
+# Modern defaults without changing script behavior in non-interactive shells.
+if command -v eza >/dev/null 2>&1; then
+  alias ls='eza --icons=auto --group-directories-first'
+  alias ll='eza -lah --icons=auto --group-directories-first --git'
+  alias la='eza -a --icons=auto --group-directories-first'
+  alias tree='eza --tree --icons=auto --group-directories-first'
+else
+  alias ll='ls -lah --color=auto'
+  alias la='ls -A --color=auto'
+fi
+
+command -v bat >/dev/null 2>&1 && alias cat='bat --paging=never --style=plain'
+command -v nvim >/dev/null 2>&1 && alias vim='nvim' && alias vi='nvim'
+command -v fastfetch >/dev/null 2>&1 && alias fetch='fastfetch'
+
+if command -v lazygit.exe >/dev/null 2>&1; then
+  alias lg='lazygit.exe'
+elif command -v lazygit >/dev/null 2>&1; then
+  alias lg='lazygit'
+elif [[ -n "${LAZYGIT_BIN:-}" ]]; then
+  lg() { "$LAZYGIT_BIN" "$@"; }
+fi
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias cls='clear'
+open() { explorer.exe "$(cygpath -w "${1:-.}")"; }
+alias pbcopy='clip.exe'
+alias pbpaste='powershell.exe -NoProfile -Command Get-Clipboard'
+alias ports='netstat.exe -ano'
+alias grep='grep --color=auto'
+alias df='df -h'
+alias free='free -h'
+alias ta='tmux new-session -A -s main'
+alias reload='source ~/.bashrc'
+
+mkcd() {
+  [[ $# -eq 1 ]] || { printf 'usage: mkcd DIRECTORY\n' >&2; return 2; }
+  mkdir -p -- "$1" && cd -- "$1"
+}
+
+winpath() {
+  cygpath -w "${1:-$PWD}"
+}
+
+if command -v fzf >/dev/null 2>&1; then
+  export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+  export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+  if fzf --bash >/dev/null 2>&1; then
+    eval "$(fzf --bash)"
+  fi
+  export FZF_DEFAULT_OPTS='--height=45% --layout=reverse --border=rounded --info=inline --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8,fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc,marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8'
+fi
+
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init bash)"
+fi
+
+if command -v starship.exe >/dev/null 2>&1; then
+  eval "$(starship.exe init bash)"
+elif command -v starship >/dev/null 2>&1; then
+  eval "$(starship init bash)"
+fi

@@ -1,0 +1,34 @@
+# Machine-specific captures and rollback copies.
+baseline/*
+!baseline/.gitkeep
+backups/*
+!backups/.gitkeep
+logs/*
+!logs/.gitkeep
+manifests/local/
+website/dist/
+website/*.tgz
+website/.openai/hosting.json
+
+# Local editor and shell state.
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Credentials and private key material must never enter the public tree.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+*.kdbx
+*.ovpn
+id_rsa*
+id_ed25519*
+credentials*.json
+secrets*.json
+.npmrc
+.pypirc

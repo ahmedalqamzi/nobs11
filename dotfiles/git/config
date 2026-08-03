@@ -1,0 +1,43 @@
+[core]
+	autocrlf = input
+	eol = lf
+	whitespace = trailing-space,space-before-tab
+	editor = nvim
+	pager = C:/msys64/ucrt64/bin/delta.exe
+[init]
+	defaultBranch = main
+[fetch]
+	prune = true
+[pull]
+	rebase = false
+[push]
+	autoSetupRemote = true
+[credential]
+	helper = manager
+[color]
+	ui = auto
+[diff]
+	colorMoved = zebra
+	algorithm = histogram
+[interactive]
+	diffFilter = C:/msys64/ucrt64/bin/delta.exe --color-only
+[delta]
+	dark = true
+	line-numbers = true
+	navigate = true
+[merge]
+	conflictStyle = zdiff3
+[rerere]
+	enabled = true
+[column]
+	ui = auto
+[branch]
+	sort = -committerdate
+[alias]
+	st = status --short --branch
+	co = checkout
+	br = branch
+	ci = commit
+	lg = log --graph --decorate --pretty=format:'%C(auto)%h%d %s %C(black)%C(bold)%cr %C(blue)%an%Creset' --all
+	last = log -1 HEAD --stat
+	undo = reset --soft HEAD^

@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "description": "Reviewed, locally tracked adaptation of AtlasOS playbook tweaks. Security-reducing and constraint-violating AtlasOS items (Defender/VBS/mitigations, disabling Windows Update, Edge removal, NetBT/UCPD, UAC secure desktop, NIC driver registry tweaks, BCD boot-menu changes, 8.3-name disabling, AutoEndTasks) are deliberately excluded.",
+  "sources": [
+    "https://atlasos.net",
+    "https://github.com/Atlas-OS/Atlas/tree/1ed9630616b29f0c7974e8bd76a94fc06f60388c"
+  ],
+  "registryUser": [
+    { "path": "HKCU:\\Control Panel\\Mouse", "name": "MouseSpeed", "value": "0", "type": "String", "rationale": "1:1 mouse pointer, no acceleration (AtlasOS gaming default)." },
+    { "path": "HKCU:\\Control Panel\\Mouse", "name": "MouseThreshold1", "value": "0", "type": "String", "rationale": "No first acceleration threshold (AtlasOS gaming default)." },
+    { "path": "HKCU:\\Control Panel\\Mouse", "name": "MouseThreshold2", "value": "0", "type": "String", "rationale": "No second acceleration threshold (AtlasOS gaming default)." },
+    { "path": "HKCU:\\Control Panel\\Desktop", "name": "FontSmoothing", "value": "2", "type": "String", "rationale": "Keep font smoothing while trimming other visual effects." },
+    { "path": "HKCU:\\Control Panel\\Desktop", "name": "DragFullWindows", "value": "1", "type": "String", "rationale": "Keep full-content window drag while trimming other visual effects." },
+    { "path": "HKCU:\\Control Panel\\Desktop", "name": "UserPreferencesMask", "value": "90,12,03,80,10,00,00,00", "type": "Binary", "rationale": "Visual-effects bitmask: keep smoothing/drag, kill window animation." },
+    { "path": "HKCU:\\Control Panel\\Desktop\\WindowMetrics", "name": "MinAnimate", "value": "0", "type": "String", "rationale": "Disable window minimize/maximize animation." },
+    { "path": "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced", "name": "TaskbarAnimations", "value": 0, "type": "DWord", "rationale": "Disable taskbar animations." },
+    { "path": "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\VisualEffects", "name": "VisualFXSetting", "value": 3, "type": "DWord", "rationale": "Custom visual-effects preset so the per-item choices above stick." },
+    { "path": "HKCU:\\SOFTWARE\\Microsoft\\Windows\\DWM", "name": "EnableAeroPeek", "value": 0, "type": "DWord", "rationale": "Disable Aero Peek desktop preview." },
+    { "path": "HKCU:\\SOFTWARE\\Microsoft\\Windows\\DWM", "name": "AlwaysHibernateThumbnails", "value": 0, "type": "DWord", "rationale": "Stop DWM thumbnail hibernation churn." },
+    { "path": "HKCU:\\Control Panel\\Desktop", "name": "HungAppTimeout", "value": "2000", "type": "String", "rationale": "Treat apps as hung after 2s at shutdown; AtlasOS AutoEndTasks=1 is deliberately excluded (force-closes apps without save prompts)." },
+    { "path": "HKCU:\\Control Panel\\Desktop", "name": "WaitToKillAppTimeOut", "value": "2000", "type": "String", "rationale": "Wait only 2s for apps to exit at shutdown/logoff." },
+    { "path": "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Serialize", "name": "StartupDelayInMSec", "value": 0, "type": "DWord", "rationale": "Remove the Explorer startup-app delay." },
+    { "path": "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\BackgroundAccessApplications", "name": "GlobalUserDisabled", "value": 1, "type": "DWord", "rationale": "No background UWP apps." },
+    { "path": "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Search", "name": "BackgroundAppGlobalToggle", "value": 0, "type": "DWord", "rationale": "No background UWP apps (search-side toggle)." }
+  ],
+  "registryMachine": [
+    { "path": "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile", "name": "SystemResponsiveness", "value": 10, "type": "DWord", "rationale": "MMCSS: reserve only 10% CPU for background multimedia tasks (gaming)." },
+    { "path": "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\PriorityControl", "name": "Win32PrioritySeparation", "value": 38, "type": "DWord", "rationale": "Short variable quantum with foreground boost (gaming/desktop)." },
+    { "path": "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management", "name": "DisablePagingExecutive", "value": 1, "type": "DWord", "rationale": "Keep drivers and kernel in RAM (safe on 64GB)." },
+    { "path": "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management", "name": "DisablePageCombining", "value": 1, "type": "DWord", "rationale": "Disable page combining to cut CPU overhead (safe on 64GB)." },
+    { "path": "HKLM:\\SOFTWARE\\Microsoft\\FTH", "name": "Enabled", "value": 0, "type": "DWord", "rationale": "Disable Fault Tolerant Heap per-app crash mitigations (perf)." },
+    { "path": "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\Task Scheduler\\Maintenance", "name": "WakeUp", "value": 0, "type": "DWord", "rationale": "Automatic maintenance never wakes the PC." },
+    { "path": "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\DNSClient", "name": "EnableMulticast", "value": 0, "type": "DWord", "rationale": "Disable LLMNR (replaced by DNS; attack surface)." },
+    { "path": "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager", "name": "DisableWpbtExecution", "value": 1, "type": "DWord", "rationale": "Block firmware WPBT-injected OEM binaries (ASUS bloat vector)." },
+    { "path": "HKLM:\\SYSTEM\\CurrentControlSet\\Control", "name": "WaitToKillServiceTimeout", "value": "2000", "type": "String", "rationale": "Faster service stop at shutdown." },
+    { "path": "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate", "name": "AUPowerManagement", "value": 0, "type": "DWord", "rationale": "Updates stay enabled but never wake the PC to install." },
+    { "path": "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU", "name": "NoAutoRebootWithLoggedOnUsers", "value": 1, "type": "DWord", "rationale": "Updates stay enabled but never force-reboot over a logged-on user (the only Windows Update change)." }
+  ],
+  "machineActions": [
+    { "kind": "svcHostSplitDisable", "excludePattern": "Xbl|Xbox", "rationale": "Group services back into shared svchost processes (AtlasOS): lower process count/RAM on a 64GB machine." },
+    { "kind": "disableEventLogs", "logs": ["Microsoft-Windows-SleepStudy/Diagnostic", "Microsoft-Windows-Kernel-Processor-Power/Diagnostic", "Microsoft-Windows-UserModePowerService/Diagnostic"], "rationale": "Stop Modern Standby SleepStudy diagnostic logging (AtlasOS)." },
+    { "kind": "disableScheduledTasks", "tasks": [{ "path": "\\Microsoft\\Windows\\Power Efficiency Diagnostics\\", "name": "AnalyzeSystem" }], "rationale": "Disable power-efficiency analysis task (AtlasOS SleepStudy)." },
+    { "kind": "fsutil", "args": "behavior set disablelastaccess 1", "rationale": "Disable NTFS last-access updates (perf/privacy)." }
+  ]
+}

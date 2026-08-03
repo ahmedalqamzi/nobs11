@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en" data-repository="__REPO_URL__">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a0d10" />
+    <meta
+      name="description"
+      content="A transparent, reversible Windows 11 workstation profile with a Unix-like shell, native taskbar and Snap, plus ongoing app and startup control."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Windows Linux Workstation" />
+    <meta
+      property="og:description"
+      content="Keep Windows native where it matters. Add a better shell and explicit control over what starts, runs, and stays."
+    />
+    <meta property="og:url" content="__SITE_ORIGIN__/" />
+    <meta property="og:image" content="__SITE_ORIGIN__/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Windows Linux Workstation" />
+    <meta
+      name="twitter:description"
+      content="Windows, on purpose. A reversible workstation profile for people who want native desktop behavior and a Unix-like command line."
+    />
+    <meta name="twitter:image" content="__SITE_ORIGIN__/og.png" />
+    <title>Windows Linux Workstation</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" data-header>
+      <a class="brand" href="#top" aria-label="Windows Linux Workstation home">
+        <span class="brand-mark" aria-hidden="true">WL</span>
+        <span class="brand-copy">Windows Linux<br />Workstation</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span>Menu</span>
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+        <a href="#control">App Control</a>
+        <a href="#proof">Measured</a>
+        <a href="#safety">Safety</a>
+        <a class="nav-source" href="__REPO_URL__" data-repo-link>Source</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="pulse-dot"></span> Public preview / Windows 11</div>
+          <h1 id="hero-title">Windows,<br /><em>on purpose.</em></h1>
+          <p class="hero-lede">
+            Keep Explorer, the native taskbar, Snap, and fullscreen games. Add a Unix-like shell and one clear place to control what starts, runs, and stays installed.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#install">Preview the install</a>
+            <a class="button button-quiet" href="__REPO_URL__" data-repo-link>Read the source <span aria-hidden="true">-&gt;</span></a>
+          </div>
+          <p class="hero-note">No replacement shell. No forced app removal. No made-up performance promise.</p>
+        </div>
+
+        <div class="terminal-shell" aria-label="Installer preview">
+          <div class="terminal-titlebar">
+            <div class="terminal-tabs">
+              <span class="terminal-tab active"><span class="terminal-icon">&gt;_</span> PowerShell</span>
+              <span class="terminal-tab muted">UCRT64</span>
+            </div>
+            <div class="window-controls" aria-hidden="true"><span>-</span><span>[]</span><span>x</span></div>
+          </div>
+          <div class="terminal-body">
+            <p><span class="prompt">PS</span> <span class="path">C:\workstation&gt;</span> .\Install.ps1 -WhatIf</p>
+            <div class="terminal-plan">
+              <div><span>PROFILE</span><strong>standard</strong></div>
+              <div><span>TASKBAR</span><strong>Explorer / native</strong></div>
+              <div><span>WINDOWING</span><strong>Snap / enabled</strong></div>
+              <div><span>OPTIONAL APPS</span><strong>keep all</strong></div>
+              <div><span>APP CONTROL</span><strong>Start menu only</strong></div>
+            </div>
+            <p class="terminal-ok"><span>[OK]</span> Preview complete. No changes were made.</p>
+            <p class="terminal-cursor"><span class="prompt">PS</span> <span class="path">C:\workstation&gt;</span> <span class="cursor" aria-hidden="true"></span></p>
+          </div>
+          <div class="taskbar-strip" aria-hidden="true">
+            <span class="start-glyph">&#8862;</span>
+            <span class="search-pill">Search</span>
+            <span class="taskbar-app active"></span>
+            <span class="taskbar-app"></span>
+            <span class="taskbar-spacer"></span>
+            <span class="tray">ENG&nbsp;&nbsp; 21:42</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="signal-strip" aria-label="Project facts">
+        <div class="signal-item"><strong>0</strong><span>apps removed<br />by default</span></div>
+        <div class="signal-item"><strong>1</strong><span>native Windows<br />taskbar</span></div>
+        <div class="signal-item measured"><strong>270 -&gt; 186</strong><span>processes in one<br />reference capture*</span></div>
+        <div class="signal-item measured"><strong>+5.0 GiB</strong><span>available RAM in the<br />same capture*</span></div>
+      </section>
+
+      <section class="section principles" aria-labelledby="principles-title">
+        <div class="section-heading">
+          <p class="kicker">01 / The point</p>
+          <h2 id="principles-title">Linux-like where useful.<br />Windows where essential.</h2>
+        </div>
+        <div class="principle-list">
+          <article class="principle-row">
+            <span class="row-index">01</span>
+            <h3>Native where it matters</h3>
+            <p>Explorer owns the taskbar, Start, Search, tray, clock, multi-monitor behavior, and fullscreen handoff. Snap handles exact half-screen layouts.</p>
+          </article>
+          <article class="principle-row">
+            <span class="row-index">02</span>
+            <h3>Unix where it helps</h3>
+            <p>Windows Terminal opens one clear UCRT64 Bash profile with Git, Neovim, Yazi, tmux, Starship, and familiar command-line tools.</p>
+          </article>
+          <article class="principle-row">
+            <span class="row-index">03</span>
+            <h3>Explicit, reversible control</h3>
+            <p>Preview first. Choose optional apps yourself. Keep rollback data. Aggressive cleanup and performance policies stay separate and opt-in.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section control-section" id="control" aria-labelledby="control-title">
+        <div class="control-copy">
+          <p class="kicker">02 / Ongoing control</p>
+          <h2 id="control-title">One panel.<br />No background panel.</h2>
+          <p>
+            Workstation App Control lives in the Start menu and runs only when you open it. Search installed apps, stop known background activity, remove startup entries, launch registered uninstallers, or inspect process memory without being bounced through several Settings pages.
+          </p>
+          <ul class="check-list">
+            <li>Installed apps and uninstall actions</li>
+            <li>Reversible startup disable and restore</li>
+            <li>Live process memory and guarded process ending</li>
+          </ul>
+          <p class="fine-print">The panel does not silently block an app you launch yourself. Persistent blocking is a separate, explicit policy.</p>
+        </div>
+
+        <div class="app-window" data-demo>
+          <div class="app-titlebar">
+            <div><span class="app-logo">W</span><strong>Workstation App Control</strong></div>
+            <span class="demo-label">INTERACTIVE DEMO</span>
+          </div>
+          <div class="app-tabs" role="tablist" aria-label="App Control demo">
+            <button type="button" role="tab" aria-selected="true" aria-controls="panel-apps" id="tab-apps" data-tab="apps">Installed apps</button>
+            <button type="button" role="tab" aria-selected="false" aria-controls="panel-startup" id="tab-startup" data-tab="startup">Startup</button>
+            <button type="button" role="tab" aria-selected="false" aria-controls="panel-processes" id="tab-processes" data-tab="processes">Processes</button>
+          </div>
+          <div class="app-content">
+            <div class="demo-panel active" id="panel-apps" role="tabpanel" aria-labelledby="tab-apps" data-panel="apps">
+              <label class="search-box"><span aria-hidden="true">/</span><span class="sr-only">Search installed apps</span><input value="Overwolf" readonly /></label>
+              <div class="result-card">
+                <div class="result-icon">O</div>
+                <div class="result-main"><strong>Overwolf</strong><span>Desktop app · background sources detected</span></div>
+                <span class="status-chip" data-demo-status>Running</span>
+              </div>
+              <div class="action-row">
+                <button class="demo-button primary" type="button" data-demo-disable>Disable background</button>
+                <button class="demo-button" type="button">Uninstall</button>
+              </div>
+              <p class="demo-message" aria-live="polite" data-demo-message>Select an action. Nothing on your computer is changed by this demo.</p>
+            </div>
+            <div class="demo-panel" id="panel-startup" role="tabpanel" aria-labelledby="tab-startup" data-panel="startup" hidden>
+              <div class="summary-line"><span>Current-user startup entries</span><strong>3 found</strong></div>
+              <div class="mini-row"><span>Cloud sync</span><span class="status-chip neutral">Enabled</span></div>
+              <div class="mini-row"><span>Game launcher</span><span class="status-chip">Disabled</span></div>
+              <div class="mini-row"><span>Audio utility</span><span class="status-chip neutral">Enabled</span></div>
+              <p class="demo-message">Entries are quarantined with enough information to restore them later.</p>
+            </div>
+            <div class="demo-panel" id="panel-processes" role="tabpanel" aria-labelledby="tab-processes" data-panel="processes" hidden>
+              <div class="summary-line"><span>Current session</span><strong>Memory sorted</strong></div>
+              <div class="process-row"><span>Browser</span><span class="meter"><i style="width: 78%"></i></span><strong>1.8 GB</strong></div>
+              <div class="process-row"><span>Game launcher</span><span class="meter"><i style="width: 42%"></i></span><strong>612 MB</strong></div>
+              <div class="process-row"><span>Chat</span><span class="meter"><i style="width: 24%"></i></span><strong>344 MB</strong></div>
+              <p class="demo-message">Core Windows processes are protected from the end-process action.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section retired" aria-labelledby="retired-title">
+        <div class="section-heading compact">
+          <p class="kicker">03 / Less machinery</p>
+          <h2 id="retired-title">What the standard profile retires.</h2>
+          <p class="section-intro">It removes the project hooks that caused duplicate bars, stolen shortcuts, startup popups, fullscreen conflicts, and terminal sprawl. Third-party apps are only uninstalled when you choose them.</p>
+        </div>
+        <div class="retired-grid">
+          <div class="retired-item"><span class="strike">GlazeWM + Zebar</span><strong>Windows Snap + Explorer taskbar</strong><p>No always-on tiling manager or replacement dock is required.</p></div>
+          <div class="retired-item"><span class="strike">Win-key hooks</span><strong>Native Start and Search</strong><p><kbd>Win</kbd> opens Start. <kbd>Win</kbd> + <kbd>S</kbd> opens Search.</p></div>
+          <div class="retired-item"><span class="strike">Many terminal entries</span><strong>One visible UCRT64 profile</strong><p>PowerShell 7 remains available for native administration.</p></div>
+          <div class="retired-item"><span class="strike">Global startup allowlist</span><strong>Explicit blocklists only</strong><p>Unlisted apps are preserved. Removal remains a deliberate choice.</p></div>
+        </div>
+      </section>
+
+      <section class="section proof" id="proof" aria-labelledby="proof-title">
+        <div class="section-heading proof-heading">
+          <p class="kicker">04 / Numbers with receipts</p>
+          <h2 id="proof-title">Measured once.<br />Claimed carefully.</h2>
+          <p class="section-intro">The figures below are observational snapshots from one 64 GB reference machine, not a universal benchmark. Background workloads differed between captures, so they show a result worth testing, not a guaranteed uplift.</p>
+        </div>
+
+        <div class="proof-grid">
+          <article class="measurement-card">
+            <div class="measurement-head"><span>Running processes</span><strong>-31%</strong></div>
+            <div class="bar-compare" aria-label="Processes changed from 270 to 186">
+              <div class="bar-row"><span>Initial</span><div><i style="width: 100%"></i></div><strong>270</strong></div>
+              <div class="bar-row after"><span>Final</span><div><i style="width: 68.9%"></i></div><strong>186</strong></div>
+            </div>
+            <p>Five-sample Windows performance-counter average, first capture versus final capture.</p>
+          </article>
+          <article class="measurement-card">
+            <div class="measurement-head"><span>Available memory</span><strong>+5.0 GiB</strong></div>
+            <div class="bar-compare" aria-label="Available memory changed from 49.0 to 54.0 GiB">
+              <div class="bar-row"><span>Initial</span><div><i style="width: 90.7%"></i></div><strong>49.0</strong></div>
+              <div class="bar-row after"><span>Final</span><div><i style="width: 100%"></i></div><strong>54.0</strong></div>
+            </div>
+            <p>Available RAM averaged over the same five-sample captures; values rounded to 0.1 GiB.</p>
+          </article>
+          <article class="battery-card">
+            <div class="measurement-head"><span>Battery runtime</span><strong>No fixed claim</strong></div>
+            <p>No controlled, repeated A/B rundown has been completed, so publishing a battery percentage would be dishonest. Estimate from your own measured idle power instead.</p>
+            <div class="calculator" data-calculator>
+              <label>Battery capacity <span><input type="number" min="1" max="250" step="0.1" value="78" data-capacity /> Wh</span></label>
+              <label>Idle draw before <span><input type="number" min="1" max="200" step="0.1" placeholder="e.g. 15" data-before /> W</span></label>
+              <label>Idle draw after <span><input type="number" min="1" max="200" step="0.1" placeholder="e.g. 14" data-after /> W</span></label>
+              <button type="button" class="calculate-button" data-calculate>Calculate runtime estimate</button>
+              <output class="calculator-output" data-calculator-output>Enter your own before and after power readings.</output>
+            </div>
+            <p class="formula">Estimate = full-charge capacity / average draw. It excludes battery aging, changing workloads, display brightness, and conversion losses.</p>
+          </article>
+        </div>
+        <p class="proof-footnote">* Captures were taken on August 1-2, 2026. See the public measurement note for inputs, math, and limitations.</p>
+      </section>
+
+      <section class="section safety" id="safety" aria-labelledby="safety-title">
+        <div class="section-heading compact">
+          <p class="kicker">05 / Reversible by design</p>
+          <h2 id="safety-title">Know the change before it happens.</h2>
+        </div>
+        <ol class="safety-flow">
+          <li><span>01</span><strong>Preview</strong><p>Run the installer with <code>-WhatIf</code>.</p></li>
+          <li><span>02</span><strong>Choose</strong><p>Keep, disable, or uninstall optional apps.</p></li>
+          <li><span>03</span><strong>Back up</strong><p>Capture values before supported changes.</p></li>
+          <li><span>04</span><strong>Apply</strong><p>Use the standard profile first.</p></li>
+          <li><span>05</span><strong>Verify</strong><p>Check taskbar, Snap, startup, and drift.</p></li>
+          <li><span>06</span><strong>Roll back</strong><p>Use the matching rollback command.</p></li>
+        </ol>
+        <div class="warning-band">
+          <strong>Aggressive profiles stay opt-in.</strong>
+          <p>Machine-wide cleanup and performance tuning are hardware-specific. They require review, elevation, and separate confirmation; some Windows servicing operations only have best-effort rollback.</p>
+        </div>
+      </section>
+
+      <section class="section install" id="install" aria-labelledby="install-title">
+        <div class="install-copy">
+          <p class="kicker light">06 / Start safely</p>
+          <h2 id="install-title">Preview first.<br />Then decide.</h2>
+          <p>The standard setup keeps every optional app unless you make an explicit selection. Start in a normal, non-administrator PowerShell window.</p>
+          <a class="button button-light" href="__REPO_URL__/archive/refs/heads/main.zip" data-download-link>Download source ZIP</a>
+        </div>
+        <div class="command-stack">
+          <div class="command-card">
+            <span>1 / Clone</span>
+            <code data-clone-command>git clone __REPO_URL__.git</code>
+            <button type="button" data-copy-target="[data-clone-command]">Copy</button>
+          </div>
+          <div class="command-card featured">
+            <span>2 / Preview - makes no changes</span>
+            <code data-preview-command>powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1 -WhatIf</code>
+            <button type="button" data-copy-target="[data-preview-command]">Copy</button>
+          </div>
+          <div class="command-card">
+            <span>3 / Apply standard profile</span>
+            <code data-install-command>powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1</code>
+            <button type="button" data-copy-target="[data-install-command]">Copy</button>
+          </div>
+          <p class="copy-status" aria-live="polite" data-copy-status></p>
+        </div>
+      </section>
+
+      <section class="section faq" aria-labelledby="faq-title">
+        <div class="section-heading compact">
+          <p class="kicker">07 / Before you run it</p>
+          <h2 id="faq-title">Straight answers.</h2>
+        </div>
+        <div class="faq-list">
+          <details><summary>Do I launch the installer every time?</summary><p>No. The installer configures the workstation once. Workstation App Control remains available from Start for ongoing app, startup, and process management.</p></details>
+          <details><summary>Will this replace or cover the Windows taskbar?</summary><p>No. The standard profile retires the old custom-bar hooks and restores Explorer's native taskbar, including normal fullscreen behavior.</p></details>
+          <details><summary>Will the Windows key and half-screen Snap work?</summary><p>Yes. The standard profile restores native Start and enables Windows Snap. Use <kbd>Win</kbd> + <kbd>Left</kbd>/<kbd>Right</kbd> for monitor halves and <kbd>Win</kbd> + <kbd>Z</kbd> for layouts.</p></details>
+          <details><summary>Does it uninstall Overwolf or other apps automatically?</summary><p>No. The default is keep. You must explicitly choose disable-at-startup or uninstall, either in the guided installer or App Control.</p></details>
+          <details><summary>Is this Linux, WSL, or a virtual machine?</summary><p>No. Windows remains the only operating-system kernel. The project adds a Unix-like command-line environment without installing WSL or a VM.</p></details>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="brand footer-brand"><span class="brand-mark">WL</span><span class="brand-copy">Windows Linux<br />Workstation</span></div>
+      <p>Independent open-source project. Not endorsed by Microsoft or other upstream projects.</p>
+      <div class="footer-links"><a href="__REPO_URL__" data-repo-link>GitHub</a><a href="__REPO_URL__/blob/main/SECURITY.md" data-security-link>Security</a><a href="__REPO_URL__/blob/main/LICENSE" data-license-link>MIT License</a></div>
+    </footer>
+  </body>
+</html>

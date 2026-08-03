@@ -1,0 +1,65 @@
+name: Bug report
+description: Report a reproducible workstation configuration problem
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not attach unreviewed backups, logs, or verification reports. Remove account names, hostnames, local paths, and other private data first.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Native taskbar or Explorer
+        - Native Snap or fullscreen
+        - Optional app/startup manager
+        - Windows Terminal or MSYS2
+        - Startup guard
+        - Optional cleanup or performance policy
+        - Documentation or installation
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version and build
+      placeholder: Windows 11 25H2, build 26200.x
+    validations:
+      required: true
+  - type: input
+    id: hardware
+    attributes:
+      label: Relevant hardware
+      description: Include the computer model, GPU, and display arrangement when relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      placeholder: Describe the smallest repeatable sequence.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Safety checks
+      options:
+        - label: I ran `make check` and reviewed its output.
+          required: true
+        - label: I removed private identity and machine data from anything attached here.
+          required: true

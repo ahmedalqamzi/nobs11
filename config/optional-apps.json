@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "description": "Optional desktop applications that can be audited, prevented from launching automatically, or explicitly uninstalled.",
+  "apps": [
+    {
+      "name": "glazewm",
+      "displayName": "GlazeWM",
+      "description": "Third-party tiling window manager. Native Windows Snap remains available without it.",
+      "installedDisplayNames": ["GlazeWM"],
+      "processes": [
+        { "name": "glazewm", "commandLineContains": "" },
+        { "name": "glazewm-watcher", "commandLineContains": "" }
+      ],
+      "startupShortcutNames": ["GlazeWM.lnk"],
+      "runValuePatterns": ["GlazeWM"],
+      "scheduledTasks": [],
+      "services": [],
+      "uninstall": { "kind": "wingetName", "value": "GlazeWM" },
+      "warning": "Custom Alt-based tiling shortcuts will be removed; use Win+Arrow or Snap layouts instead."
+    },
+    {
+      "name": "zebar",
+      "displayName": "Zebar",
+      "description": "Retired custom-bar runtime. The project uses the native Explorer taskbar.",
+      "installedDisplayNames": ["Zebar"],
+      "processes": [
+        { "name": "zebar", "commandLineContains": "" }
+      ],
+      "startupShortcutNames": [],
+      "runValuePatterns": ["Zebar"],
+      "scheduledTasks": [],
+      "services": [],
+      "uninstall": { "kind": "wingetName", "value": "Zebar" },
+      "warning": "Only the retired custom bar is removed; Explorer remains the taskbar and shell."
+    },
+    {
+      "name": "workstation-hotkeys",
+      "displayName": "Workstation AutoHotkey helper",
+      "description": "Custom Win/Alt shortcuts formerly used with GlazeWM. Native Windows shortcuts work without it.",
+      "installedDisplayNames": ["AutoHotkey (user)", "AutoHotkey"],
+      "processes": [
+        { "name": "AutoHotkey64", "commandLineContains": "command-palette-win-key.ahk" }
+      ],
+      "startupShortcutNames": ["WindowsLinuxWorkstationHotkeys.lnk", "CommandPaletteWinKey.lnk"],
+      "runValuePatterns": ["WindowsLinuxWorkstationHotkeys", "CommandPaletteWinKey"],
+      "scheduledTasks": [],
+      "services": [],
+      "uninstall": { "kind": "wingetId", "value": "AutoHotkey.AutoHotkey" },
+      "warning": "This uninstalls AutoHotkey for the current user. Do not select it if you use other AutoHotkey scripts."
+    },
+    {
+      "name": "command-palette",
+      "displayName": "PowerToys Command Palette",
+      "description": "Optional launcher bound to Win+Alt+Space. Native Start and Search remain available.",
+      "installedDisplayNames": ["Command Palette"],
+      "processes": [
+        { "name": "CmdPal", "commandLineContains": "" },
+        { "name": "CommandPalette", "commandLineContains": "" }
+      ],
+      "startupShortcutNames": [],
+      "runValuePatterns": ["Command Palette", "CmdPal"],
+      "scheduledTasks": [],
+      "services": [],
+      "uninstall": { "kind": "appx", "value": "Microsoft.CommandPalette" },
+      "warning": "Win+Alt+Space will no longer open Command Palette; Win and Win+S remain native."
+    },
+    {
+      "name": "powertoys",
+      "displayName": "Microsoft PowerToys",
+      "description": "Optional Windows utility suite. It is not required by the native workstation profile.",
+      "installedDisplayNames": ["PowerToys (Preview)", "PowerToys (Preview) x64", "Microsoft PowerToys"],
+      "processes": [
+        { "name": "PowerToys", "commandLineContains": "" },
+        { "name": "PowerToys.PowerLauncher", "commandLineContains": "" }
+      ],
+      "startupShortcutNames": [],
+      "runValuePatterns": ["PowerToys"],
+      "scheduledTasks": [
+        { "taskPath": "\\PowerToys\\", "taskName": "Autorun for *" }
+      ],
+      "services": [],
+      "uninstall": { "kind": "wingetId", "value": "Microsoft.PowerToys" },
+      "warning": "All PowerToys utilities, including FancyZones and Keyboard Manager, will be removed."
+    },
+    {
+      "name": "overwolf",
+      "displayName": "Overwolf",
+      "description": "Game overlay platform used by apps such as Mobalytics.",
+      "installedDisplayNames": ["Overwolf"],
+      "processes": [
+        { "name": "Overwolf", "commandLineContains": "" },
+        { "name": "OverwolfBrowser", "commandLineContains": "" },
+        { "name": "OverwolfHelper", "commandLineContains": "" },
+        { "name": "OverwolfLauncher", "commandLineContains": "" }
+      ],
+      "startupShortcutNames": ["Overwolf.lnk"],
+      "runValuePatterns": ["Overwolf"],
+      "scheduledTasks": [],
+      "services": ["OverwolfUpdater"],
+      "uninstall": { "kind": "wingetName", "value": "Overwolf" },
+      "warning": "Mobalytics is an Overwolf app and may stop working or be removed with the platform."
+    },
+    {
+      "name": "mobalytics",
+      "displayName": "Mobalytics",
+      "description": "Game companion installed through Overwolf.",
+      "installedDisplayNames": ["Mobalytics"],
+      "processes": [
+        { "name": "Mobalytics", "commandLineContains": "" }
+      ],
+      "startupShortcutNames": ["Mobalytics.lnk"],
+      "runValuePatterns": ["Mobalytics"],
+      "scheduledTasks": [],
+      "services": [],
+      "uninstall": { "kind": "wingetName", "value": "Mobalytics" },
+      "warning": "Game overlays, match data, and companion features provided by Mobalytics will be removed."
+    }
+  ]
+}
