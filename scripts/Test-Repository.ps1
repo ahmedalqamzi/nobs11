@@ -84,7 +84,10 @@ foreach ($file in Get-ChildItem -LiteralPath $projectRoot -Recurse -File | Where
     ($textExtensions -contains $_.Extension.ToLowerInvariant() -or $_.Name -in @('Makefile', '.gitignore', '.gitattributes', '.editorconfig'))
 }) {
     $content = [IO.File]::ReadAllText($file.FullName)
-    $containsRuntimeIdentity = [bool]($runtimeIdentityValues | Where-Object { $content -match [regex]::Escape($_) } | Select-Object -First 1)
+    $containsRuntimeIdentity = [bool]($runtimeIdentityValues | Where-Object {
+        $identityPattern = '(?i)(?<![A-Za-z0-9])' + [regex]::Escape($_) + '(?![A-Za-z0-9])'
+        $content -match $identityPattern
+    } | Select-Object -First 1)
     if ($content -match '(?i)C:\\Users\\(?!%USERNAME%|<username>)' -or $content -match $emailPattern -or $containsRuntimeIdentity) {
         $identityHits.Add([IO.Path]::GetRelativePath($projectRoot, $file.FullName))
     }

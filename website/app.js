@@ -10,7 +10,7 @@
       link.href = configuredRepository;
     });
     document.querySelectorAll("[data-download-link]").forEach((link) => {
-      link.href = `${configuredRepository}/archive/refs/heads/main.zip`;
+      link.href = `${configuredRepository}/releases/download/v0.1.0/windows-linux-workstation-v0.1.0.zip`;
     });
     document.querySelectorAll("[data-security-link]").forEach((link) => {
       link.href = `${configuredRepository}/blob/main/SECURITY.md`;

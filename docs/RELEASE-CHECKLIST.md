@@ -15,8 +15,8 @@
 - [x] Windows CI and local repository validation added
 - [x] Choose and add the root project license (MIT)
 - [x] Record exact upstream revisions reviewed for policy inspiration
-- [ ] Configure a public Git author identity and replace the unpublished local-history metadata
-- [ ] Create the public remote only after the sanitized history is ready
+- [x] Configure a public Git author identity and replace the unpublished local-history metadata
+- [x] Create the public remote only after the sanitized history is ready
 
 ## Validation
 
@@ -28,12 +28,13 @@
 - [ ] Test a clean clone in a separate Windows user or disposable Windows test machine
 - [ ] Complete the manual hardware and gaming sign-off in `TESTED-CONFIGURATION.md`
 - [x] Review `git diff --check` and the complete working-tree diff
-- [ ] Build the release archive with `git archive`, not by zipping the working directory
+- [x] Build the release archive with `git archive`, not by zipping the working directory
 
 ## Release metadata
 
 - [x] Update `CHANGELOG.md`
-- [ ] Commit the release candidate
-- [ ] Tag the first public preview as `v0.1.0`
-- [ ] Confirm that GitHub detects the chosen license and CI passes
-- [ ] Enable GitHub private vulnerability reporting and add the final public security contact link
+- [x] Commit the release candidate
+- [x] Tag the first public preview as `v0.1.0`
+- [x] Confirm that GitHub detects the chosen license and CI passes
+- [x] Enable GitHub private vulnerability reporting and add the final public security contact link
+- [x] Publish the project website with GitHub Pages

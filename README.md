@@ -2,6 +2,9 @@
 
 A transparent, reversible-by-design Windows 11 workstation profile with a Unix-like command line, native window snapping, and the native Explorer taskbar. Windows remains the only operating-system kernel: this project does not install WSL, a Linux VM, or a replacement shell.
 
+- **Website:** [Windows, on purpose](https://ahmedalqamzi.github.io/windows-linux-workstation/)
+- **Stable preview:** [Download v0.1.0](https://github.com/ahmedalqamzi/windows-linux-workstation/releases/download/v0.1.0/windows-linux-workstation-v0.1.0.zip)
+
 The public project website is in [`website/`](website/). Its performance section uses the aggregate, non-identifying observations and limitations recorded in [docs/MEASUREMENTS.md](docs/MEASUREMENTS.md); no universal battery or performance gain is claimed.
 
 The default desktop uses:
