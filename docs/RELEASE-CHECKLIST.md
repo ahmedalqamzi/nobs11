@@ -11,7 +11,7 @@
 - [x] Generated identity-bearing reports and backups remain ignored
 - [x] Verification output is redacted by default
 - [x] Public files contain no local username, hostname, email, profile path, private key, or common access-token format
-- [x] Bootstrap repository ownership is caller-supplied rather than hard-coded to a personal account
+- [x] Bootstrap accepts an explicit repository override and defaults to the official NoBS11 repository
 - [x] Windows CI and local repository validation added
 - [x] Choose and add the root project license (MIT)
 - [x] Record exact upstream revisions reviewed for policy inspiration
@@ -38,3 +38,13 @@
 - [x] Confirm that GitHub detects the chosen license and CI passes
 - [x] Enable GitHub private vulnerability reporting and add the final public security contact link
 - [x] Publish the project website with GitHub Pages
+
+## NoBS11 v0.2.0
+
+- [x] Rename the public product and rewrite the site around performance and honest measurements
+- [x] Add pinned, SHA-256-verified website installer files
+- [x] Add Standard, Lean, and Maximum profile boundaries
+- [x] Keep Maximum behind explicit warning, UAC, rollback data, and post-restart validation guidance
+- [ ] Test the release launcher from the published GitHub asset on a clean Windows user
+- [ ] Publish v0.2.0 assets and verify every public download hash
+- [ ] Verify the renamed GitHub Pages URL and direct site download

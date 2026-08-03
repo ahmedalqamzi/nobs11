@@ -83,7 +83,7 @@ Add-Type -AssemblyName WindowsBase
 $xaml = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="App Control" Width="1080" Height="720" MinWidth="900" MinHeight="600"
+        Title="NoBS11 Control" Width="1080" Height="720" MinWidth="900" MinHeight="600"
         WindowStartupLocation="CenterScreen" Background="#202020" Foreground="#F3F3F3"
         FontFamily="Segoe UI" FontSize="13">
   <Window.Resources>
@@ -215,8 +215,8 @@ $xaml = @'
     <Border Grid.Column="0" Background="{StaticResource SidebarBrush}" BorderBrush="#303030" BorderThickness="0,0,1,0">
       <DockPanel>
         <StackPanel DockPanel.Dock="Top" Margin="18,22,18,18">
-          <TextBlock Text="App Control" FontSize="20" FontWeight="SemiBold"/>
-          <TextBlock Text="Workstation" Foreground="{StaticResource SecondaryBrush}" FontSize="12" Margin="0,3,0,0"/>
+          <TextBlock Text="NoBS11 Control" FontSize="20" FontWeight="SemiBold"/>
+          <TextBlock Text="Runs on demand" Foreground="{StaticResource SecondaryBrush}" FontSize="12" Margin="0,3,0,0"/>
         </StackPanel>
         <StackPanel DockPanel.Dock="Top">
           <Button x:Name="NavApps" Style="{StaticResource NavButton}" Content="Installed apps"/>

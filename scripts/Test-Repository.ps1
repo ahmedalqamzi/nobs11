@@ -132,6 +132,8 @@ $requiredFiles = @(
     'LICENSE',
     'Install.ps1',
     'bootstrap.ps1',
+    'installer\NoBS11-Setup.cmd',
+    'installer\NoBS11-OnlineInstaller.ps1',
     'CHANGELOG.md',
     'CONTRIBUTING.md',
     'SECURITY.md',
@@ -165,6 +167,18 @@ $requiredFiles = @(
 )
 $missingFiles = @($requiredFiles | Where-Object { -not (Test-Path -LiteralPath (Join-Path $projectRoot $_) -PathType Leaf) })
 Add-Result 'Required public documentation and tooling' ($missingFiles.Count -eq 0) $(if ($missingFiles.Count) { $missingFiles -join ', ' } else { 'Required release files are present' })
+
+$bootstrapPath = Join-Path $projectRoot 'bootstrap.ps1'
+$onlineInstallerPath = Join-Path $projectRoot 'installer\NoBS11-OnlineInstaller.ps1'
+$setupLauncherPath = Join-Path $projectRoot 'installer\NoBS11-Setup.cmd'
+$bootstrapHash = (Get-FileHash -LiteralPath $bootstrapPath -Algorithm SHA256).Hash.ToUpperInvariant()
+$onlineInstallerHash = (Get-FileHash -LiteralPath $onlineInstallerPath -Algorithm SHA256).Hash.ToUpperInvariant()
+$onlineInstallerSource = [IO.File]::ReadAllText($onlineInstallerPath)
+$setupLauncherSource = [IO.File]::ReadAllText($setupLauncherPath)
+$bootstrapHashPinned = $onlineInstallerSource -match [regex]::Escape("`$bootstrapSha256 = '$bootstrapHash'")
+$onlineInstallerHashPinned = $setupLauncherSource -match [regex]::Escape("set `"NOBS11_SHA256=$onlineInstallerHash`"")
+$installerPinsValid = $bootstrapHashPinned -and $onlineInstallerHashPinned -and $onlineInstallerSource -notmatch '__[A-Z0-9_]+__' -and $setupLauncherSource -notmatch '__[A-Z0-9_]+__'
+Add-Result 'Website installer integrity pins' $installerPinsValid $(if ($installerPinsValid) { 'Launcher and online installer pin the current SHA-256 values' } else { 'Regenerate the bootstrap and online-installer SHA-256 pins' })
 
 $appControlSource = [IO.File]::ReadAllText((Join-Path $projectRoot 'scripts\Workstation-App-Control.ps1'))
 $appControlInstaller = [IO.File]::ReadAllText((Join-Path $projectRoot 'scripts\Install-AppControl.ps1'))

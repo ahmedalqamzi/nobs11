@@ -1118,6 +1118,18 @@ kbd {
   grid-row: 1 / span 2;
 }
 
+.battery-card > .warning-band {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: stretch;
+  margin: 0;
+}
+
+.battery-card > .warning-band strong,
+.battery-card > .warning-band p {
+  align-self: center;
+}
+
 .measurement-head {
   display: flex;
   align-items: baseline;
@@ -1151,7 +1163,7 @@ kbd {
 
 .bar-row {
   display: grid;
-  grid-template-columns: 48px 1fr 46px;
+  grid-template-columns: 84px 1fr minmax(72px, auto);
   gap: 13px;
   align-items: center;
   color: #848e95;
@@ -1775,6 +1787,10 @@ kbd {
   }
 
   .battery-card .calculator {
+    margin-top: 30px;
+  }
+
+  .battery-card > .warning-band {
     margin-top: 30px;
   }
 

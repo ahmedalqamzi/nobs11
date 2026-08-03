@@ -57,4 +57,4 @@ Inside UCRT64 Bash, run `ta` to attach to the persistent `main` tmux session or 
 
 ## Optional app control
 
-Open **Workstation App Control** from the Start menu for ongoing management. `make apps` remains a read-only terminal audit of optional desktop utilities. The control panel can search installed apps, run uninstallers, stop cataloged background activity and known automatic launch sources, reversibly manage startup items, and inspect current-session processes. Background control does not prevent an app from running when you or another application explicitly launches it later.
+Open **NoBS11 Control** from the Start menu for ongoing management. `make apps` remains a read-only terminal audit of optional desktop utilities. The control panel can search installed apps, run uninstallers, stop cataloged background activity and known automatic launch sources, reversibly manage startup items, and inspect current-session processes. Background control does not prevent an app from running when you or another application explicitly launches it later.

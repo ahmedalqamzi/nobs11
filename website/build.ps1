@@ -91,7 +91,8 @@ export default {
 $workerPath = Join-Path $serverRoot 'index.js'
 [IO.File]::WriteAllText($workerPath, $worker, [Text.UTF8Encoding]::new($false))
 
-Copy-Item -LiteralPath (Join-Path $siteRoot 'index.html'), (Join-Path $siteRoot 'styles.css'), (Join-Path $siteRoot 'app.js') -Destination $staticRoot
+[IO.File]::WriteAllText((Join-Path $staticRoot 'index.html'), $index, [Text.UTF8Encoding]::new($false))
+Copy-Item -LiteralPath (Join-Path $siteRoot 'styles.css'), (Join-Path $siteRoot 'app.js') -Destination $staticRoot
 if (Test-Path -LiteralPath $ogPath -PathType Leaf) {
     Copy-Item -LiteralPath $ogPath -Destination $staticRoot
 }

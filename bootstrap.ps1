@@ -2,9 +2,11 @@
 [CmdletBinding(SupportsShouldProcess)]
 param(
     [ValidatePattern('^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$')]
-    [string]$Repository,
+    [string]$Repository = 'ahmedalqamzi/nobs11',
     [string]$Ref,
     [string]$SourcePath,
+    [ValidateSet('Standard', 'Lean', 'Maximum')]
+    [string]$Profile = 'Standard',
     [switch]$SkipPackages,
     [switch]$IncludeBrowserTuning,
     [switch]$IncludeStartupGuard,
@@ -28,7 +30,7 @@ elseif (-not $Repository) {
 }
 elseif ($WhatIfPreference) {
     $targetRef = if ($Ref) { $Ref } else { 'the latest release (main as fallback)' }
-    [void]$PSCmdlet.ShouldProcess("GitHub repository $Repository at $targetRef", 'Download a persistent installer source under %LOCALAPPDATA%\WindowsLinuxWorkstation\sources')
+    [void]$PSCmdlet.ShouldProcess("GitHub repository $Repository at $targetRef", 'Download a persistent installer source under %LOCALAPPDATA%\NoBS11\sources')
     Write-Host 'Bootstrap preview complete. No files were downloaded and no settings were changed.' -ForegroundColor Yellow
     return
 }
@@ -36,7 +38,7 @@ else {
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     $headers = @{
         Accept = 'application/vnd.github+json'
-        'User-Agent' = 'WindowsLinuxWorkstation-Installer'
+        'User-Agent' = 'NoBS11-Installer'
         'X-GitHub-Api-Version' = '2022-11-28'
     }
 
@@ -63,9 +65,9 @@ else {
     $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
     $safeLabel = ($sourceLabel -replace '[^A-Za-z0-9._-]', '-').Trim('-')
     if (-not $safeLabel) { $safeLabel = 'source' }
-    $sourcesRoot = Join-Path $env:LOCALAPPDATA 'WindowsLinuxWorkstation\sources'
+    $sourcesRoot = Join-Path $env:LOCALAPPDATA 'NoBS11\sources'
     $extractRoot = Join-Path $sourcesRoot "$safeLabel-$stamp"
-    $archivePath = Join-Path $env:TEMP "windows-linux-workstation-$stamp.zip"
+    $archivePath = Join-Path $env:TEMP "nobs11-$stamp.zip"
 
     if ($PSCmdlet.ShouldProcess($downloadUri, "Download and retain source under $extractRoot")) {
         New-Item -ItemType Directory -Path $extractRoot -Force | Out-Null
@@ -98,6 +100,7 @@ $arguments = @(
     '-ExecutionPolicy', 'Bypass',
     '-File', (Join-Path $sourceRoot 'Install.ps1')
 )
+$arguments += @('-Profile', $Profile)
 if ($SkipPackages) { $arguments += '-SkipPackages' }
 if ($IncludeBrowserTuning) { $arguments += '-IncludeBrowserTuning' }
 if ($IncludeStartupGuard) { $arguments += '-IncludeStartupGuard' }
@@ -108,5 +111,5 @@ if ($WhatIfPreference) { $arguments += '-WhatIf' }
 
 & powershell.exe @arguments
 if ($LASTEXITCODE -ne 0) {
-    throw "The workstation installer exited with code $LASTEXITCODE. Retained source: $sourceRoot"
+    throw "The NoBS11 installer exited with code $LASTEXITCODE. Retained source: $sourceRoot"
 }

@@ -6,4 +6,4 @@ Use `-WhatIf` where supported and retain local rollback data until restart and h
 
 Verification reports, logs, baselines, and backups can contain local paths, package inventories, task definitions, registry data, account names, or a computer name. They are ignored by Git. Verification is redacted by default; do not attach private diagnostic files to a public issue without reviewing them.
 
-Report suspected vulnerabilities through [GitHub private vulnerability reporting](https://github.com/ahmedalqamzi/windows-linux-workstation/security/advisories/new) rather than posting secrets or sensitive logs in a public issue.
+Report suspected vulnerabilities through [GitHub private vulnerability reporting](https://github.com/ahmedalqamzi/nobs11/security/advisories/new) rather than posting secrets or sensitive logs in a public issue.
